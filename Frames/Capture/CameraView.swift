@@ -14,6 +14,7 @@ struct CameraView: View {
     @State private var mode: CaptureMode = .video
     @State private var isShowingSettings = false
     @State private var isFinishing = false
+    @State private var zoomAtGestureStart: Double?
 
     enum CaptureMode: String, CaseIterable, Identifiable {
         case photo
@@ -37,6 +38,19 @@ struct CameraView: View {
             case .ready:
                 CameraPreviewView(camera: camera)
                     .ignoresSafeArea()
+                    .gesture(
+                        MagnifyGesture(minimumScaleDelta: 0.005)
+                            .onChanged { value in
+                                if zoomAtGestureStart == nil {
+                                    zoomAtGestureStart = camera.zoom
+                                }
+                                camera.zoom(
+                                    byPinch: value.magnification,
+                                    from: zoomAtGestureStart ?? camera.zoom
+                                )
+                            }
+                            .onEnded { _ in zoomAtGestureStart = nil }
+                    )
             case .unavailable(let error):
                 unavailable(error)
             case .idle, .preparing:
@@ -118,6 +132,7 @@ struct CameraView: View {
 
     private var controls: some View {
         VStack(spacing: 16) {
+            zoomRow
             presetRow
 
             if !camera.isRecording {
@@ -203,6 +218,49 @@ struct CameraView: View {
                     ? Text("Start Recording", comment: "Capture action")
                     : Text("Take Photo", comment: "Capture action"))
         )
+    }
+
+    /// The lens stops this device actually has, plus the live factor while a
+    /// pinch is in flight. Hidden on a single-lens device, where a row with one
+    /// button in it would just be furniture.
+    @ViewBuilder
+    private var zoomRow: some View {
+        if camera.lensStops.count > 1 {
+            HStack(spacing: 6) {
+                ForEach(camera.lensStops, id: \.self) { stop in
+                    let isCurrent = abs(camera.zoom - stop) < 0.06
+                    Button {
+                        camera.setZoom(stop, animated: true)
+                        Haptics.snap()
+                    } label: {
+                        Text(label(for: stop, isCurrent: isCurrent))
+                            .font(.system(size: isCurrent ? 14 : 12, weight: .semibold))
+                            .frame(width: isCurrent ? 44 : 36, height: isCurrent ? 44 : 36)
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(isCurrent ? Color.yellow : Color.white)
+                    .background {
+                        Circle().fill(.black.opacity(isCurrent ? 0.55 : 0.35))
+                    }
+                    .accessibilityLabel(
+                        String(localized: "\(label(for: stop, isCurrent: false)) zoom",
+                               comment: "Zoom button")
+                    )
+                    .accessibilityAddTraits(isCurrent ? [.isSelected, .isButton] : .isButton)
+                }
+            }
+            .animation(.snappy(duration: 0.18), value: camera.zoom)
+        }
+    }
+
+    /// `1×` when it is the selected stop, `1` when it is not — the same way the
+    /// system camera abbreviates the ones you are not using.
+    private func label(for stop: Double, isCurrent: Bool) -> String {
+        let rounded = (stop * 10).rounded() / 10
+        let text = rounded == rounded.rounded()
+            ? "\(Int(rounded))"
+            : String(format: "%.1f", rounded)
+        return isCurrent ? "\(text)×" : text
     }
 
     private var presetRow: some View {
@@ -340,6 +398,8 @@ struct CapturePortraitSettings: View {
                                value: \.smoothing)
                         slider(String(localized: "Detail", comment: "Retouch control"),
                                value: \.detailPreservation)
+                        slider(String(localized: "Hair & Spots", comment: "Portrait control"),
+                               value: \.hairRemoval)
                         slider(String(localized: "Low Light", comment: "Portrait preset"),
                                value: \.lowLight)
                         slider(String(localized: "Color Noise", comment: "Portrait control"),

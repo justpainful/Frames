@@ -217,83 +217,78 @@ enum PortraitProcessor {
         // room is a property of the shot, not of the person in it.
         let recovered = exposureRecovered(cleaned, amounts: amounts, extent: extent)
 
-        let edges = edgeMap(of: recovered, shortEdge: shortEdge, scale: scale, extent: extent)
+        // Everything spatial happens small. A blur, a mask and a difference of
+        // blurs are all low-frequency by definition, so computing them at a
+        // fraction of the pixels and enlarging the result is visually identical
+        // and several times cheaper — which is what lets the capture path hold
+        // its frame rate instead of heating the phone.
+        let working = SkinSmoother.workingScale(for: extent)
+        let small = SkinSmoother.downscaled(recovered, scale: working)
+        let smallExtent = small.extent
+        let smallShortEdge = min(smallExtent.width, smallExtent.height)
 
-        // Stages 4 to 9 are cosmetic, and cosmetic work applied to the whole
-        // frame is the reason processed video looks processed. Smoothing the
-        // wall, the hair and the shirt alongside the face reads as a layer over
-        // the picture no matter how good the smoothing is. Everything from here
-        // is composited back through a mask of where skin actually is.
-        var treated = surfaceSmoothed(
-            recovered, edges: edges, amounts: amounts,
-            shortEdge: shortEdge, scale: scale, extent: extent)
-        treated = evened(
-            treated, amount: amounts.evenness, shortEdge: shortEdge, scale: scale, extent: extent)
-        treated = warmed(treated, amount: amounts.warmth, extent: extent)
-        treated = glowed(
-            treated, amount: amounts.glow, shortEdge: shortEdge, scale: scale, extent: extent)
+        guard smallExtent.isRenderable else { return recovered }
 
-        // A perfectly clean surface is the other half of the tell. Real skin
-        // photographed by a real camera keeps a trace of fine noise, and a
-        // surface with none of it reads as painted rather than photographed.
-        // The floor goes on before the composite so it only ever lands where
-        // the smoothing did.
-        treated = textureFloor(
-            treated, amount: amounts.smoothing, time: time, extent: extent)
+        let smoothedSmall = SkinSmoother.smoothed(
+            small,
+            smoothing: amounts.smoothing,
+            detail: amounts.detail,
+            hairRemoval: settings.hairRemoval,
+            shortEdge: smallShortEdge,
+            extent: smallExtent
+        )
 
-        var output = treated
-        if let skin = skinMask(
-            of: recovered,
-            edges: edges,
-            personMask: usesMask ? personMask : nil,
-            state: state,
-            settings: settings,
-            shortEdge: shortEdge,
-            scale: scale,
-            extent: extent
-        ) {
-            output = MaskRenderer.blend(effect: treated, over: recovered, using: skin, extent: extent)
+        // Structure is measured at a scale only structure reaches, so the lash
+        // line and the nostril are protected while a pore or a freckle is not.
+        let structure = SkinSmoother.structureMap(
+            of: small, shortEdge: smallShortEdge, extent: smallExtent)
+
+        var maskSmall = SkinToneMask.mask(for: small, softness: 1)
+        if let base = maskSmall, let structure {
+            maskSmall = SkinToneMask.restrictedToFlatAreas(
+                base, edges: structure, extent: smallExtent)
         }
-
-        // Clarity is photographic rather than cosmetic — it is what the lens
-        // and the sensor would have given you — so it applies to the whole
-        // frame, after the composite, and keeps the background crisp against
-        // the smoothed skin.
-        return clarified(
-            output, amounts: amounts, shortEdge: shortEdge, scale: scale,
-            quality: quality, extent: extent)
-    }
-
-    /// Where the cosmetic stages are allowed to land.
-    ///
-    /// Three tests, narrowing: the pixel has to be skin-coloured, it has to be
-    /// in a flat area rather than on an edge, and — when Vision has supplied a
-    /// person mask — it has to be on the person. The result is temporally
-    /// smoothed for the same reason the amounts are: a mask that changes shape
-    /// every frame is visible as a crawling outline even when each individual
-    /// frame is right.
-    private static func skinMask(
-        of image: CIImage,
-        edges: CIImage?,
-        personMask: CIImage?,
-        state: PortraitTemporalState?,
-        settings: PortraitSettings,
-        shortEdge: CGFloat,
-        scale: CGFloat,
-        extent: CGRect
-    ) -> CIImage? {
-        guard var mask = SkinToneMask.mask(for: image, softness: Double(scale)) else { return nil }
-        if let edges {
-            mask = SkinToneMask.restrictedToFlatAreas(mask, edges: edges, extent: extent)
-        }
-
-        if let personMask {
+        if usesMask, let personMask, let base = maskSmall {
             let stabilised = stabilisedMask(
                 personMask, state: state, stability: settings.temporalStability,
                 shortEdge: shortEdge, scale: scale, extent: extent)
-            mask = SkinToneMask.intersected(mask, with: stabilised, extent: extent)
+            let smallPerson = SkinSmoother.downscaled(stabilised, scale: working)
+                .cropped(to: smallExtent)
+            maskSmall = SkinToneMask.intersected(base, with: smallPerson, extent: smallExtent)
         }
-        return mask
+
+        var output = recovered
+        if let maskSmall {
+            let smoothedFull = SkinSmoother.upscaled(
+                smoothedSmall, scale: working, to: extent)
+            let maskFull = SkinToneMask.scaled(
+                SkinSmoother.upscaled(maskSmall, scale: working, to: extent),
+                by: 1,
+                extent: extent
+            )
+            output = MaskRenderer.blend(
+                effect: smoothedFull, over: recovered, using: maskFull, extent: extent)
+        }
+
+        // A perfectly clean surface is the other half of the tell: real skin
+        // keeps a faint irregularity, and a surface with none of it reads as
+        // painted. Cheap, so it stays at full resolution.
+        output = textureFloor(output, amount: amounts.smoothing, time: time, extent: extent)
+
+        // The colour stages are off by default and stay last. They were the
+        // only visible thing the previous version did, which is exactly why
+        // they are no longer load-bearing.
+        output = evened(
+            output, amount: amounts.evenness, shortEdge: shortEdge, scale: scale, extent: extent)
+        output = warmed(output, amount: amounts.warmth, extent: extent)
+        output = glowed(
+            output, amount: amounts.glow, shortEdge: shortEdge, scale: scale, extent: extent)
+
+        // Clarity is photographic rather than cosmetic, so it applies to the
+        // whole frame and keeps the background crisp against smoothed skin.
+        return clarified(
+            output, amounts: amounts, shortEdge: shortEdge, scale: scale,
+            quality: quality, extent: extent)
     }
 
     /// Puts a trace of fine grain back over the treated area.
@@ -498,127 +493,7 @@ enum PortraitProcessor {
 
     // MARK: - Stage 4: edge map
 
-    /// White where there is structure, black across uniform skin.
-    ///
-    /// Built as a difference of two gaussians rather than from a gradient
-    /// filter, partly because it is guaranteed to exist and partly because it is
-    /// the right measure here: both radii are far wider than a pore, so grain
-    /// and micro-texture are identical in the two copies and cancel out of the
-    /// subtraction. What survives is what has a real boundary — an eyelid, a
-    /// lip, a finger, the edge of a sleeve, a clump of hair.
-    private static func edgeMap(
-        of image: CIImage,
-        shortEdge: CGFloat,
-        scale: Double,
-        extent: CGRect
-    ) -> CIImage? {
-        let mono = CIFilter.colorControls()
-        mono.inputImage = image
-        mono.brightness = 0
-        mono.contrast = 1
-        mono.saturation = 0
-        guard let gray = mono.outputImage?.cropped(to: extent) else { return nil }
-
-        let inner = Float(max(Double(shortEdge) * 0.0035 * scale, 1))
-        let outer = max(Float(Double(shortEdge) * 0.014 * scale), inner * 3)
-
-        let fine = CIFilter.gaussianBlur()
-        fine.inputImage = gray.clampedToExtent()
-        fine.radius = inner
-
-        let coarse = CIFilter.gaussianBlur()
-        coarse.inputImage = gray.clampedToExtent()
-        coarse.radius = outer
-
-        guard let fineImage = fine.outputImage?.cropped(to: extent),
-              let coarseImage = coarse.outputImage?.cropped(to: extent)
-        else { return nil }
-
-        // A difference blend gives the magnitude of the band, which is what a
-        // weight needs: an edge counts the same whether it runs light-to-dark
-        // or dark-to-light.
-        let difference = CIFilter.differenceBlendMode()
-        difference.inputImage = fineImage
-        difference.backgroundImage = coarseImage
-        guard let banded = difference.outputImage?.cropped(to: extent) else { return nil }
-
-        // The band response is a few percent of full scale even at a strong
-        // edge, so it has to be amplified and then bounded before it can be
-        // used as a 0...1 weight.
-        guard let amplified = scaled(banded, by: 12, extent: extent) else { return nil }
-
-        let bounded = CIFilter.colorClamp()
-        bounded.inputImage = amplified
-        bounded.minComponents = CIVector(x: 0, y: 0, z: 0, w: 0)
-        bounded.maxComponents = CIVector(x: 1, y: 1, z: 1, w: 1)
-        guard let clamped = bounded.outputImage?.cropped(to: extent) else { return nil }
-
-        // Spreading the weight covers the whole edge rather than a one-pixel
-        // line. That is what stops a halo appearing beside structure, and it is
-        // also what stops the weight itself from crawling between frames.
-        let spread = CIFilter.gaussianBlur()
-        spread.inputImage = clamped.clampedToExtent()
-        spread.radius = max(inner * 1.5, 1)
-        return spread.outputImage?.cropped(to: extent)
-    }
-
     // MARK: - Stages 5 and 6: smoothing and detail restoration
-
-    private static func surfaceSmoothed(
-        _ image: CIImage,
-        edges: CIImage?,
-        amounts: Amounts,
-        shortEdge: CGFloat,
-        scale: Double,
-        extent: CGRect
-    ) -> CIImage {
-        guard amounts.smoothing > 0.001 else { return image }
-
-        // The heavily smoothed candidate, in two parts: an edge-preserving pass
-        // that removes speckle and roughness, then a small gaussian that takes
-        // out what is left at pore scale. The gaussian is deliberately tiny —
-        // a few pixels on a 1080-line frame — because the smoothing that
-        // matters comes from *where* this is applied, not from its radius.
-        let flatten = CIFilter.noiseReduction()
-        flatten.inputImage = image
-        flatten.noiseLevel = Float(0.02 + amounts.smoothing * 0.055)
-        flatten.sharpness = 0
-        var smooth = flatten.outputImage?.cropped(to: extent) ?? image
-
-        let radius = Double(shortEdge) * (0.0012 + amounts.smoothing * 0.0055) * scale
-        let soften = CIFilter.gaussianBlur()
-        soften.inputImage = smooth.clampedToExtent()
-        soften.radius = Float(max(radius, 0.8))
-        smooth = soften.outputImage?.cropped(to: extent) ?? smooth
-
-        guard let edges else {
-            // No edge map means no way to tell surface from structure, so the
-            // safe thing is a gentle uniform mix rather than a strong one.
-            return mix(smooth, over: image, amount: amounts.smoothing * 0.5, extent: extent)
-        }
-
-        // Protection: how strongly structure resists being smoothed. Detail
-        // preservation widens it, so raising that slider does not merely add
-        // detail back afterwards, it stops it being taken in the first place.
-        guard let protection = scaled(edges, by: 0.5 + amounts.detail * 0.5, extent: extent),
-              let openSkin = inverted(protection, extent: extent),
-              let smoothWeight = scaled(openSkin, by: amounts.smoothing, extent: extent)
-        else {
-            return mix(smooth, over: image, amount: amounts.smoothing * 0.5, extent: extent)
-        }
-        var output = MaskRenderer.blend(effect: smooth, over: image, using: smoothWeight, extent: extent)
-
-        // Detail restoration. `blendWithMask` computes
-        //     base + weight * (effect - base)
-        // so blending the unsmoothed picture back over the smoothed one through
-        // the edge weight re-adds exactly the high-frequency layer smoothing
-        // removed, scaled by that weight. The difference never has to exist as
-        // an image of its own, which means there is no signed layer to encode
-        // around a half-grey bias and nothing to clip on the way back.
-        guard let detailWeight = scaled(edges, by: amounts.detail, extent: extent) else { return output }
-        output = MaskRenderer.blend(effect: image, over: output, using: detailWeight, extent: extent)
-        return output
-    }
 
     // MARK: - Stage 7: evenness
 

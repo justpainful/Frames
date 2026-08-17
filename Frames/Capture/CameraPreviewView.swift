@@ -40,11 +40,11 @@ final class CameraMetalView: MTKView {
     init() {
         let device = MTLCreateSystemDefaultDevice()
         commandQueue = device?.makeCommandQueue()
-        if let device {
-            renderContext = CIContext(mtlDevice: device, options: [.cacheIntermediates: false])
-        } else {
-            renderContext = RenderContext.shared.preview
-        }
+        // The app's existing preview context, not a second one. Every CIContext
+        // owns a texture cache and a compiled-kernel cache, and building a
+        // parallel set of both for the viewfinder was pure duplicated memory
+        // and duplicated shader compilation on the first few frames.
+        renderContext = RenderContext.shared.preview
 
         super.init(frame: .zero, device: device)
 

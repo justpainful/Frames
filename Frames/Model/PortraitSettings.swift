@@ -23,9 +23,14 @@ struct PortraitSettings: Codable, Hashable, Sendable {
     /// gradients intact, or it stops reading as skin.
     var smoothing: Double
 
-    /// How much structural detail is put back after smoothing: body outlines,
-    /// hair, eyes, lips, brows, fabric, finger edges.
+    /// How much fine detail survives. Lower means a wider smoothing radius and
+    /// a more completely resurfaced skin, not a half-strength ghost of the
+    /// texture.
     var detailPreservation: Double
+
+    /// Removes thin dark features — stubble, stray hairs, dark specks — before
+    /// the smoothing runs, so they disappear rather than smearing into grey.
+    var hairRemoval: Double
 
     /// Shadow recovery paired with denoise, for footage shot darker than it
     /// should have been.
@@ -56,19 +61,21 @@ struct PortraitSettings: Codable, Hashable, Sendable {
 
     init(
         isEnabled: Bool = false,
-        smoothing: Double = 0.52,
-        detailPreservation: Double = 0.70,
+        smoothing: Double = 0.85,
+        detailPreservation: Double = 0.25,
+        hairRemoval: Double = 0.6,
         lowLight: Double = 0.45,
         colorNoiseReduction: Double = 0.55,
-        glow: Double = 0.08,
-        evenness: Double = 0.30,
-        warmth: Double = 0.05,
+        glow: Double = 0,
+        evenness: Double = 0,
+        warmth: Double = 0,
         temporalStability: Double = 0.75,
         restrictToPeople: Bool = true
     ) {
         self.isEnabled = isEnabled
         self.smoothing = min(max(smoothing, 0), 1)
         self.detailPreservation = min(max(detailPreservation, 0), 1)
+        self.hairRemoval = min(max(hairRemoval, 0), 1)
         self.lowLight = min(max(lowLight, 0), 1)
         self.colorNoiseReduction = min(max(colorNoiseReduction, 0), 1)
         self.glow = min(max(glow, 0), 1)
@@ -130,27 +137,27 @@ struct PortraitSettings: Codable, Hashable, Sendable {
             switch self {
             case .natural:
                 PortraitSettings(
-                    isEnabled: true, smoothing: 0.30, detailPreservation: 0.82,
-                    lowLight: 0.25, colorNoiseReduction: 0.35, glow: 0.04,
-                    evenness: 0.18, warmth: 0.03, temporalStability: 0.7
+                    isEnabled: true, smoothing: 0.65, detailPreservation: 0.45,
+                    hairRemoval: 0.35, lowLight: 0.25, colorNoiseReduction: 0.35,
+                    temporalStability: 0.7
                 )
             case .clean:
                 PortraitSettings(
-                    isEnabled: true, smoothing: 0.52, detailPreservation: 0.70,
-                    lowLight: 0.45, colorNoiseReduction: 0.55, glow: 0.08,
-                    evenness: 0.30, warmth: 0.05, temporalStability: 0.75
+                    isEnabled: true, smoothing: 0.85, detailPreservation: 0.25,
+                    hairRemoval: 0.6, lowLight: 0.45, colorNoiseReduction: 0.55,
+                    temporalStability: 0.75
                 )
             case .studio:
                 PortraitSettings(
-                    isEnabled: true, smoothing: 0.70, detailPreservation: 0.62,
-                    lowLight: 0.40, colorNoiseReduction: 0.60, glow: 0.16,
-                    evenness: 0.42, warmth: 0.08, temporalStability: 0.8
+                    isEnabled: true, smoothing: 1.0, detailPreservation: 0.10,
+                    hairRemoval: 0.85, lowLight: 0.40, colorNoiseReduction: 0.60,
+                    temporalStability: 0.8
                 )
             case .lowLight:
                 PortraitSettings(
-                    isEnabled: true, smoothing: 0.48, detailPreservation: 0.70,
-                    lowLight: 0.85, colorNoiseReduction: 0.80, glow: 0.05,
-                    evenness: 0.34, warmth: 0.06, temporalStability: 0.88
+                    isEnabled: true, smoothing: 0.85, detailPreservation: 0.25,
+                    hairRemoval: 0.6, lowLight: 0.85, colorNoiseReduction: 0.80,
+                    temporalStability: 0.88
                 )
             }
         }

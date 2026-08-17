@@ -81,6 +81,7 @@ struct PortraitInspector: View {
             VStack(spacing: 12) {
                 slider(String(localized: "Smoothing", comment: "Portrait control"), \.smoothing)
                 slider(String(localized: "Detail", comment: "Portrait control"), \.detailPreservation)
+                slider(String(localized: "Hair & Spots", comment: "Portrait control"), \.hairRemoval)
                 slider(String(localized: "Low Light", comment: "Portrait control"), \.lowLight)
                 slider(String(localized: "Color Noise", comment: "Portrait control"), \.colorNoiseReduction)
                 slider(String(localized: "Glow", comment: "Portrait control"), \.glow)
@@ -153,6 +154,7 @@ extension EditorSession {
             isEnabled: settings.isEnabled,
             smoothing: settings.smoothing,
             detailPreservation: settings.detailPreservation,
+            hairRemoval: settings.hairRemoval,
             lowLight: settings.lowLight,
             colorNoiseReduction: settings.colorNoiseReduction,
             glow: settings.glow,

@@ -1,6 +1,16 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%@ zoom": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقريب %@"
+          }
+        }
+      }
+    },
     "%lld fixes": {
       "localizations": {
         "ar": {
@@ -1887,6 +1897,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الأدلة"
+          }
+        }
+      }
+    },
+    "Hair & Spots": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشعر والبقع"
           }
         }
       }

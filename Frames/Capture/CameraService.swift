@@ -34,6 +34,15 @@ final class CameraService: NSObject {
     private(set) var recordedDuration: TimeInterval = 0
     private(set) var position: AVCaptureDevice.Position = .front
 
+    /// Current optical-equivalent zoom, in the units people read on a camera
+    /// app: 0.5×, 1×, 2×. Not the raw `videoZoomFactor`, which is relative to
+    /// the widest lens and reads as 2× when the user is at 1×.
+    private(set) var zoom: Double = 1
+    private(set) var minimumZoom: Double = 1
+    private(set) var maximumZoom: Double = 1
+    /// The lens positions this device actually has, for the row of buttons.
+    private(set) var lensStops: [Double] = [1]
+
     /// Live settings. Changing these changes the preview immediately and, if a
     /// recording is running, the rest of the recording.
     ///
@@ -138,10 +147,83 @@ final class CameraService: NSObject {
                self.session.canAddInput(input) {
                 self.session.addInput(input)
                 self.videoInput = input
+                self.lockFrameRate(on: device)
             }
             self.applyConnectionSettings()
             self.session.commitConfiguration()
+            Task { @MainActor in self.refreshZoomRange() }
         }
+    }
+
+    // MARK: - Zoom
+
+    /// Sets the zoom in the units shown on screen.
+    ///
+    /// On a multi-lens device the system switches lenses for you as the factor
+    /// crosses each threshold, which is why this drives one number rather than
+    /// picking a device: switching inputs mid-session drops frames and resets
+    /// exposure, and the virtual device does it properly.
+    func setZoom(_ value: Double, animated: Bool = false) {
+        guard let device = videoInput?.device else { return }
+        let clamped = min(max(value, minimumZoom), maximumZoom)
+        zoom = clamped
+
+        // The device's own factor is relative to its widest lens; the number
+        // the user sees is relative to the 1× lens.
+        let raw = clamped * zoomBaseline
+
+        sessionQueue.async {
+            do {
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                let bounded = min(
+                    max(CGFloat(raw), device.minAvailableVideoZoomFactor),
+                    device.maxAvailableVideoZoomFactor
+                )
+                if animated {
+                    device.ramp(toVideoZoomFactor: bounded, withRate: 8)
+                } else {
+                    device.videoZoomFactor = bounded
+                }
+            } catch {
+                self.logger.notice("Zoom refused: \(error.localizedDescription, privacy: .public)")
+            }
+        }
+    }
+
+    /// Called continuously during a pinch, so it multiplies the factor the
+    /// gesture started from rather than accumulating rounding.
+    func zoom(byPinch magnification: Double, from start: Double) {
+        setZoom(start * magnification)
+    }
+
+    /// The raw factor that corresponds to 1× on this device.
+    @ObservationIgnored private var zoomBaseline: Double = 1
+
+    private func refreshZoomRange() {
+        guard let device = videoInput?.device else { return }
+
+        // On a device with an ultra-wide, the raw factor at 1× is the first
+        // switch-over point — everything below it is the 0.5× lens.
+        let switchOvers = device.virtualDeviceSwitchOverVideoZoomFactors.map(\.doubleValue)
+        let baseline = switchOvers.first ?? 1
+        zoomBaseline = baseline
+
+        let rawMin = Double(device.minAvailableVideoZoomFactor)
+        let rawMax = Double(device.maxAvailableVideoZoomFactor)
+        minimumZoom = max(rawMin / baseline, 0.5)
+        // Past about six times the picture is mush, whatever the sensor claims.
+        maximumZoom = min(rawMax / baseline, 8)
+
+        var stops: [Double] = []
+        if minimumZoom < 0.9 { stops.append(0.5) }
+        stops.append(1)
+        for switchOver in switchOvers.dropFirst() {
+            let stop = (switchOver / baseline * 10).rounded() / 10
+            if stop > 1.05, stop <= maximumZoom { stops.append(stop) }
+        }
+        lensStops = stops
+        zoom = min(max(1, minimumZoom), maximumZoom)
     }
 
     // MARK: - Recording
@@ -235,8 +317,13 @@ final class CameraService: NSObject {
                     self.audioInput = audio
                 }
 
+                // Bi-planar YUV rather than BGRA. At 1080p30 that is roughly
+                // 90 MB/s off the sensor instead of 250, which is a large part
+                // of why the phone was getting hot; Core Image reads it
+                // natively, so nothing downstream changes.
                 self.videoOutput.videoSettings = [
-                    kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
+                    kCVPixelBufferPixelFormatTypeKey as String:
+                        kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
                 ]
                 // Dropping late frames rather than queueing them is what keeps
                 // the preview live instead of drifting behind the subject.
@@ -254,9 +341,30 @@ final class CameraService: NSObject {
                 }
 
                 self.applyConnectionSettings()
+                self.lockFrameRate(on: device)
                 self.session.commitConfiguration()
+                Task { @MainActor in self.refreshZoomRange() }
                 continuation.resume(returning: true)
             }
+        }
+    }
+
+    /// Pins the camera to 30 fps.
+    ///
+    /// Left alone, the camera picks a range and drifts inside it — including up
+    /// to 60, which doubles the work per second for a chain that is already the
+    /// expensive part. A fixed rate also stops the preview stuttering as the
+    /// camera trades frame rate for exposure in a dim room, which is exactly
+    /// the situation this mode is for.
+    private func lockFrameRate(on device: AVCaptureDevice) {
+        do {
+            try device.lockForConfiguration()
+            defer { device.unlockForConfiguration() }
+            let duration = CMTime(value: 1, timescale: 30)
+            device.activeVideoMinFrameDuration = duration
+            device.activeVideoMaxFrameDuration = duration
+        } catch {
+            logger.notice("Frame rate not locked: \(error.localizedDescription, privacy: .public)")
         }
     }
 
