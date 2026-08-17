@@ -541,6 +541,16 @@
         }
       }
     },
+    "Camera Access Off": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوصول إلى الكاميرا مُعطّل"
+          }
+        }
+      }
+    },
     "Can’t Show This Photo": {
       "localizations": {
         "ar": {
@@ -677,6 +687,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "نقي"
+          }
+        }
+      }
+    },
+    "Cleans noise before lifting the shadows, then smooths skin without softening edges, hair or clothing.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ينظّف التشويش قبل رفع الظلال، ثم ينعّم البشرة دون تليين الحواف أو الشعر أو الملابس."
           }
         }
       }
@@ -1721,6 +1741,16 @@
         }
       }
     },
+    "Frames needs camera access to record. You can turn it on in Settings.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج Frames إلى الوصول للكاميرا للتصوير. يمكنك تفعيله من الإعدادات."
+          }
+        }
+      }
+    },
     "Frames needs microphone access to record a voiceover. You can turn it on in Settings.": {
       "localizations": {
         "ar": {
@@ -2331,6 +2361,16 @@
         }
       }
     },
+    "No Camera Available": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد كاميرا متاحة"
+          }
+        }
+      }
+    },
     "No faces found in this frame.": {
       "localizations": {
         "ar": {
@@ -2407,6 +2447,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "لا شيء محدد"
+          }
+        }
+      }
+    },
+    "Off": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف"
           }
         }
       }
@@ -2711,6 +2761,16 @@
         }
       }
     },
+    "Portrait Settings": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعدادات البورتريه"
+          }
+        }
+      }
+    },
     "Position": {
       "localizations": {
         "ar": {
@@ -2887,6 +2947,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "تسجيل صوت"
+          }
+        }
+      }
+    },
+    "Record with Portrait": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التصوير بوضع البورتريه"
+          }
+        }
+      }
+    },
+    "Records video with skin smoothing and low-light cleanup applied live.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يسجّل فيديو مع تنعيم البشرة وتنظيف الإضاءة المنخفضة مباشرةً."
           }
         }
       }
@@ -3721,12 +3801,32 @@
         }
       }
     },
+    "Start Recording": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدء التسجيل"
+          }
+        }
+      }
+    },
     "Stop": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "إيقاف"
+          }
+        }
+      }
+    },
+    "Stop Recording": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف التسجيل"
           }
         }
       }
@@ -3781,12 +3881,32 @@
         }
       }
     },
+    "Switch Camera": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبديل الكاميرا"
+          }
+        }
+      }
+    },
     "System": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "النظام"
+          }
+        }
+      }
+    },
+    "Take Photo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التقاط صورة"
           }
         }
       }
@@ -3917,6 +4037,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "هذا التمويه يتبع ما يكتشفه Frames، لذا لا يوجد شكل لتحريره. عدّل التنعيم لتخفيف حافته."
+          }
+        }
+      }
+    },
+    "This device has no camera Frames can use. Choose a photo or video from your library instead.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد كاميرا يمكن لـFrames استخدامها على هذا الجهاز. اختر صورة أو فيديو من مكتبتك بدلاً من ذلك."
           }
         }
       }
@@ -4207,6 +4337,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الحيوية"
+          }
+        }
+      }
+    },
+    "Video": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فيديو"
           }
         }
       }

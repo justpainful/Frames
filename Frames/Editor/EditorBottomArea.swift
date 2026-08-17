@@ -62,9 +62,15 @@ struct EditorBottomArea: View {
         }
     }
 
+    // Portrait sits in the top-level strip rather than behind the plus menu.
+    // It is one of the reasons someone opens this app, and a headline feature
+    // three taps deep inside a grid may as well not exist.
     static let videoTools: [ToolStripItem] = [
         ToolStripItem(id: EditorDetail.cut.rawValue,
                       title: String(localized: "Cut", comment: "Tool"), symbol: "scissors"),
+        ToolStripItem(id: EditorDetail.portrait.rawValue,
+                      title: String(localized: "Portrait", comment: "Tool"),
+                      symbol: "person.crop.square.badge.camera"),
         ToolStripItem(id: EditorDetail.adjust.rawValue,
                       title: String(localized: "Adjust", comment: "Tool"), symbol: "slider.horizontal.3"),
         ToolStripItem(id: EditorDetail.filters.rawValue,
@@ -80,6 +86,9 @@ struct EditorBottomArea: View {
     static let photoTools: [ToolStripItem] = [
         ToolStripItem(id: EditorDetail.crop.rawValue,
                       title: String(localized: "Crop", comment: "Tool"), symbol: "crop"),
+        ToolStripItem(id: EditorDetail.portrait.rawValue,
+                      title: String(localized: "Portrait", comment: "Tool"),
+                      symbol: "person.crop.square.badge.camera"),
         ToolStripItem(id: EditorDetail.adjust.rawValue,
                       title: String(localized: "Adjust", comment: "Tool"), symbol: "slider.horizontal.3"),
         ToolStripItem(id: EditorDetail.filters.rawValue,

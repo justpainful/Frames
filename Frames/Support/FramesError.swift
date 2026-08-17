@@ -13,6 +13,8 @@ enum FramesError: Error, Identifiable, Equatable {
     case exportFailed(String)
     case insufficientDiskSpace
     case microphonePermissionDenied
+    case cameraPermissionDenied
+    case cameraUnavailable
     case photoLibraryAddPermissionDenied
     case saveToPhotosFailed(String)
     case visionUnavailable(String)
@@ -32,6 +34,8 @@ enum FramesError: Error, Identifiable, Equatable {
         case .exportFailed: String(localized: "Export Failed", comment: "Error title")
         case .insufficientDiskSpace: String(localized: "Not Enough Space", comment: "Error title")
         case .microphonePermissionDenied: String(localized: "Microphone Access Off", comment: "Error title")
+        case .cameraPermissionDenied: String(localized: "Camera Access Off", comment: "Error title")
+        case .cameraUnavailable: String(localized: "No Camera Available", comment: "Error title")
         case .photoLibraryAddPermissionDenied: String(localized: "Photos Access Off", comment: "Error title")
         case .saveToPhotosFailed: String(localized: "Couldn’t Save", comment: "Error title")
         case .visionUnavailable: String(localized: "Detection Unavailable", comment: "Error title")
@@ -66,6 +70,12 @@ enum FramesError: Error, Identifiable, Equatable {
         case .microphonePermissionDenied:
             String(localized: "Frames needs microphone access to record a voiceover. You can turn it on in Settings.",
                    comment: "Error message")
+        case .cameraPermissionDenied:
+            String(localized: "Frames needs camera access to record. You can turn it on in Settings.",
+                   comment: "Error message")
+        case .cameraUnavailable:
+            String(localized: "This device has no camera Frames can use. Choose a photo or video from your library instead.",
+                   comment: "Error message")
         case .photoLibraryAddPermissionDenied:
             String(localized: "Frames needs permission to add photos and videos to your library. You can turn it on in Settings.",
                    comment: "Error message")
@@ -93,6 +103,8 @@ enum FramesError: Error, Identifiable, Equatable {
         case .exportFailed(let detail): "exportFailed(\(detail))"
         case .insufficientDiskSpace: "insufficientDiskSpace"
         case .microphonePermissionDenied: "microphonePermissionDenied"
+        case .cameraPermissionDenied: "cameraPermissionDenied"
+        case .cameraUnavailable: "cameraUnavailable"
         case .photoLibraryAddPermissionDenied: "photoLibraryAddPermissionDenied"
         case .saveToPhotosFailed(let detail): "saveToPhotosFailed(\(detail))"
         case .visionUnavailable(let detail): "visionUnavailable(\(detail))"
@@ -104,7 +116,7 @@ enum FramesError: Error, Identifiable, Equatable {
     /// True when the sensible resolution is a trip to Settings.
     var suggestsSettings: Bool {
         switch self {
-        case .microphonePermissionDenied, .photoLibraryAddPermissionDenied: true
+        case .microphonePermissionDenied, .cameraPermissionDenied, .photoLibraryAddPermissionDenied: true
         default: false
         }
     }

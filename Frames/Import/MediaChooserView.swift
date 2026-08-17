@@ -11,6 +11,7 @@ struct MediaChooserView: View {
     @Environment(AppModel.self) private var app
     @State private var pickerItem: PhotosPickerItem?
     @State private var isShowingFileImporter = false
+    @State private var isShowingCamera = false
     @State private var recents = RecentMediaProvider()
 
     var body: some View {
@@ -42,6 +43,10 @@ struct MediaChooserView: View {
                     .padding(.horizontal, 32)
                     .padding(.top, 32)
 
+                recordButton
+                    .padding(.horizontal, 32)
+                    .padding(.top, 10)
+
                 secondaryActions
                     .padding(.top, 12)
 
@@ -62,6 +67,9 @@ struct MediaChooserView: View {
             allowsMultipleSelection: false
         ) { result in
             handleFileImport(result)
+        }
+        .fullScreenCover(isPresented: $isShowingCamera) {
+            CameraView()
         }
         .task {
             await recents.loadIfAuthorized()
@@ -95,6 +103,28 @@ struct MediaChooserView: View {
         .buttonStyle(.borderedProminent)
         .buttonBorderShape(.capsule)
         .accessibilityHint(Text("Opens your photo library so you can pick something to edit.",
+                                comment: "Accessibility hint"))
+    }
+
+    /// Capture is a peer of choosing, not a tool buried in the editor: the
+    /// processing this app does is most useful on footage it shot itself, in a
+    /// room that is darker than it should be.
+    private var recordButton: some View {
+        Button {
+            isShowingCamera = true
+        } label: {
+            Label {
+                Text("Record with Portrait", comment: "Primary action")
+                    .font(.headline)
+            } icon: {
+                Image(systemName: "person.crop.square.badge.camera")
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 11)
+        }
+        .buttonStyle(.bordered)
+        .buttonBorderShape(.capsule)
+        .accessibilityHint(Text("Records video with skin smoothing and low-light cleanup applied live.",
                                 comment: "Accessibility hint"))
     }
 
