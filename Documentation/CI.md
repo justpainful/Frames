@@ -30,9 +30,15 @@ The resolved destination is written to the job summary.
 2. Resolve package dependencies
 3. Show relevant build settings
 4. `build-for-testing`
-5. `test-without-building`
-6. Static validation (`Scripts/static-validation.sh`)
-7. Upload `.xcresult` bundles on failure
+5. Unit tests (`-only-testing:FramesTests`)
+6. UI tests (`-only-testing:FramesUITests`, serial)
+7. Static validation (`Scripts/static-validation.sh`)
+8. Upload `.xcresult` bundles on failure
+
+Unit and UI tests are separate steps so a failure is attributable at a glance
+and so unit results still report when the UI suite is the problem. Both run with
+`-test-timeouts-enabled` and per-test allowances, behind a step timeout: a hung
+test has to fail the job in minutes rather than sit until the job timeout.
 
 Builds run with `CODE_SIGNING_ALLOWED=NO`, so no signing identity is needed.
 `xcbeautify` is installed when available and the raw log is used otherwise —
