@@ -35,8 +35,10 @@ struct EditorView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             if session.document.kind == .video {
+                TransportControls(session: session, playback: playback)
+                    .padding(.top, 6)
                 TimelineView(session: session, playback: playback)
-                    .padding(.top, 4)
+                    .padding(.top, 2)
             }
 
             EditorBottomArea(session: session, playback: playback, detail: $detail)

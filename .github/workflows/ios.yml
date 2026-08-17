@@ -85,11 +85,12 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             | (xcbeautify --renderer github-actions || cat)
 
-      - name: Test
-        # A hung test must fail the job quickly rather than sit until the job
-        # timeout. The per-test allowances catch the individual culprit; the
-        # step timeout catches anything that gets past them.
-        timeout-minutes: 25
+      # Unit tests and UI tests run separately so a hang in one is attributable
+      # immediately and the other still reports. A hung test must fail the job
+      # quickly rather than sit until the job timeout, so both have per-test
+      # allowances and a step timeout behind them.
+      - name: Unit tests
+        timeout-minutes: 15
         run: |
           set -euo pipefail
           set -o pipefail
@@ -97,11 +98,31 @@ jobs:
             -project "$PROJECT" \
             -scheme "$SCHEME" \
             -destination "${{ steps.destination.outputs.destination }}" \
-            -resultBundlePath build/Test.xcresult \
+            -only-testing:FramesTests \
+            -resultBundlePath build/UnitTests.xcresult \
             -derivedDataPath build/DerivedData \
             -test-timeouts-enabled YES \
-            -default-test-execution-time-allowance 120 \
-            -maximum-test-execution-time-allowance 240 \
+            -default-test-execution-time-allowance 60 \
+            -maximum-test-execution-time-allowance 120 \
+            CODE_SIGNING_ALLOWED=NO \
+            | (xcbeautify --renderer github-actions || cat)
+
+      - name: UI tests
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          set -o pipefail
+          xcodebuild test-without-building \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.destination.outputs.destination }}" \
+            -only-testing:FramesUITests \
+            -resultBundlePath build/UITests.xcresult \
+            -derivedDataPath build/DerivedData \
+            -test-timeouts-enabled YES \
+            -default-test-execution-time-allowance 90 \
+            -maximum-test-execution-time-allowance 180 \
+            -parallel-testing-enabled NO \
             CODE_SIGNING_ALLOWED=NO \
             | (xcbeautify --renderer github-actions || cat)
 
@@ -116,6 +137,7 @@ jobs:
           name: xcresult-${{ github.run_id }}
           path: |
             build/Build.xcresult
-            build/Test.xcresult
+            build/UnitTests.xcresult
+            build/UITests.xcresult
           retention-days: 7
           if-no-files-found: ignore

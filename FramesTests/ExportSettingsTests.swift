@@ -151,7 +151,14 @@ struct GeometryTests {
         // Vision's origin is bottom-left, so a rect near the bottom becomes a
         // rect near the top.
         #expect(abs(converted.minY - 0.65) < 0.0001)
-        #expect(CoordinateSpaceConverter.toVision(converted) == visionRect)
+
+        // Round-tripping is `1 - (1 - y - h) - h`, which is exact in principle
+        // and not in binary floating point.
+        let back = CoordinateSpaceConverter.toVision(converted)
+        #expect(abs(back.minX - visionRect.minX) < 0.0001)
+        #expect(abs(back.minY - visionRect.minY) < 0.0001)
+        #expect(abs(back.width - visionRect.width) < 0.0001)
+        #expect(abs(back.height - visionRect.height) < 0.0001)
     }
 
     @Test("Normalized rects become pixel rects with a bottom-left origin")
