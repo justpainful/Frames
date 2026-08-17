@@ -107,6 +107,10 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             | (xcbeautify --renderer github-actions || cat)
 
+      # The screenshot tour is skipped here. It exists to produce pictures for
+      # a person to look at, it takes minutes, and it deliberately tolerates
+      # screens it cannot reach — none of which belongs in a gate on every push.
+      # It runs from its own manual workflow instead.
       - name: UI tests
         timeout-minutes: 20
         run: |
@@ -117,6 +121,7 @@ jobs:
             -scheme "$SCHEME" \
             -destination "${{ steps.destination.outputs.destination }}" \
             -only-testing:FramesUITests \
+            -skip-testing:FramesUITests/ScreenshotTour \
             -resultBundlePath build/UITests.xcresult \
             -derivedDataPath build/DerivedData \
             -test-timeouts-enabled YES \

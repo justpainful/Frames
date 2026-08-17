@@ -329,7 +329,11 @@ final class ScreenshotTour: XCTestCase {
         if tap(element(labeled: "Play", in: app)) {
             Thread.sleep(forTimeInterval: 1)
             capture("video-playing", app)
-            tap(element(labeled: "Pause", in: app))
+            // The fixture is short, so playback may have reached the end and
+            // put the button back to Play by now. Tapping whichever label is
+            // there leaves the transport stopped either way, and asking for one
+            // specific label is a race the tour loses about half the time.
+            tap(waitForElement(anyOf: ["Pause", "Play"], in: app, timeout: 2))
         } else {
             skip("The transport had no Play button.")
         }
