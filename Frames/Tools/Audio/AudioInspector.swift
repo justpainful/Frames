@@ -133,7 +133,9 @@ struct AudioInspector: View {
 
     private func levelControls(_ clip: AudioClip) -> some View {
         VStack(spacing: 10) {
-            ParameterSlider(
+            KeyframableParameterSlider(
+                session: session,
+                property: .volume,
                 title: String(localized: "Level", comment: "Audio control"),
                 value: Binding(
                     get: { clip.volume },

@@ -94,7 +94,9 @@ struct BlurInspector: View {
 
     private func strengthControls(for region: BlurRegion) -> some View {
         VStack(spacing: 10) {
-            ParameterSlider(
+            KeyframableParameterSlider(
+                session: session,
+                property: .blurStrength,
                 title: String(localized: "Strength", comment: "Blur control"),
                 value: Binding(
                     get: { region.strength },

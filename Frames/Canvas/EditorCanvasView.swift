@@ -23,6 +23,7 @@ struct EditorCanvasView: View {
     private var document: EditDocument { session.document }
     private var isCropping: Bool { detail == .crop }
     private var isDrawing: Bool { detail == .draw }
+    private var isRetouching: Bool { detail == .retouch }
 
     var body: some View {
         GeometryReader { proxy in
@@ -45,12 +46,16 @@ struct EditorCanvasView: View {
                         .allowsHitTesting(false)
                 }
 
-                if !session.isShowingOriginal {
+                if !session.isShowingOriginal, !isRetouching {
                     CanvasLayerHandles(
                         session: session,
                         mediaFrame: media,
                         isEnabled: !isCropping
                     )
+                }
+
+                if isRetouching {
+                    RetouchSpotOverlay(session: session, mediaFrame: media)
                 }
 
                 if isDrawing, case .drawing(let id) = session.selection,
@@ -106,7 +111,7 @@ struct EditorCanvasView: View {
                     .onEnded { _ in
                         session.isShowingOriginal = false
                     },
-                including: isCropping || isDrawing ? .subviews : .all
+                including: isCropping || isDrawing || isRetouching ? .subviews : .all
             )
         }
         .task(id: document.primaryAsset?.id) {

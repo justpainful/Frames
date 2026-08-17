@@ -90,6 +90,7 @@ struct EditDocument: Identifiable, Codable, Hashable, Sendable {
     var selectiveAdjustments: [SelectiveAdjustment]
     var effects: [EffectInstance]
     var trackedObjects: [TrackedObject]
+    var retouchSpots: [RetouchSpot]
 
     var grade: Grade
     var portrait: PortraitSettings
@@ -115,6 +116,7 @@ struct EditDocument: Identifiable, Codable, Hashable, Sendable {
         selectiveAdjustments: [SelectiveAdjustment] = [],
         effects: [EffectInstance] = [],
         trackedObjects: [TrackedObject] = [],
+        retouchSpots: [RetouchSpot] = [],
         grade: Grade = .identity,
         portrait: PortraitSettings = .off,
         background: BackgroundStyle = .default,
@@ -138,6 +140,7 @@ struct EditDocument: Identifiable, Codable, Hashable, Sendable {
         self.selectiveAdjustments = selectiveAdjustments
         self.effects = effects
         self.trackedObjects = trackedObjects
+        self.retouchSpots = retouchSpots
         self.grade = grade
         self.portrait = portrait
         self.background = background
@@ -330,6 +333,7 @@ struct EditDocument: Identifiable, Codable, Hashable, Sendable {
             && blurRegions.isEmpty
             && selectiveAdjustments.isEmpty
             && effects.isEmpty
+            && retouchSpots.isEmpty
             && audioClips.isEmpty
             && background == .default
             && outputAspect == .original

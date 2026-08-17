@@ -75,7 +75,11 @@ enum FrameComposer {
             )
         }
 
-        // 3. Grade
+        // 3. Retouch — local fixes, on the cleaned frame and before grading, so
+        //    a healed spot is graded along with the skin around it.
+        image = RetouchRenderer.apply(document.retouchSpots, to: image, quality: quality)
+
+        // 4. Grade
         image = FilterRenderer.apply(document.grade.filter, to: image, quality: quality)
         image = AdjustmentRenderer.apply(document.grade.adjustments, to: image, quality: quality)
 
@@ -209,6 +213,7 @@ enum FrameComposer {
         var hasher = Hasher()
         hasher.combine(document.grade)
         hasher.combine(document.portrait)
+        hasher.combine(document.retouchSpots)
         hasher.combine(document.effects)
         hasher.combine(document.blurRegions)
         hasher.combine(document.selectiveAdjustments)

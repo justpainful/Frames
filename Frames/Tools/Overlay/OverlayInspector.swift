@@ -79,7 +79,9 @@ struct OverlayInspector: View {
     }
 
     private func opacityControls(_ overlay: ImageOverlay) -> some View {
-        ParameterSlider(
+        KeyframableParameterSlider(
+            session: session,
+            property: .opacity,
             title: String(localized: "Opacity", comment: "Overlay control"),
             value: Binding(
                 get: { overlay.transform.opacity },

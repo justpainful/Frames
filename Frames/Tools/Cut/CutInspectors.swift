@@ -246,16 +246,17 @@ struct SpeedInspector: View {
                         }
                     }
 
-                    HStack {
-                        Text(
-                            String(
-                                localized: "New length \(clip.timelineDuration.framesTimecode)",
-                                comment: "Speed readout"
-                            )
+                    Text(
+                        String(
+                            localized: "New length \(clip.timelineDuration.framesTimecode)",
+                            comment: "Speed readout"
                         )
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        Spacer()
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                    HStack(spacing: 10) {
                         Button {
                             session.insertFreezeFrame()
                         } label: {
@@ -265,8 +266,12 @@ struct SpeedInspector: View {
                                 Image(systemName: "snowflake")
                             }
                             .font(.subheadline)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 6)
                         }
                         .buttonStyle(.glass)
+
+                        ReverseButton(session: session, clipID: clip.id)
                     }
                 }
             } else {

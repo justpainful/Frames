@@ -57,6 +57,13 @@ final class EditorSession {
     /// Range selection mode, used by Remove Range.
     var pendingRemovalRange: TimeRange?
 
+    /// Which retouch fix the next tap on the canvas places, and how big and
+    /// strong it will be. Not part of the document: this is which brush is in
+    /// the user's hand, not part of the edit.
+    var retouchTool: RetouchSpot.Kind = .blemish
+    var retouchRadius: Double = 0.035
+    var retouchStrength: Double = 0.75
+
     // MARK: Playback
 
     /// Current playhead position in timeline seconds.
