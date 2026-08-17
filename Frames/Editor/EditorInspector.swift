@@ -11,6 +11,19 @@ struct EditorInspector: View {
     let onDone: () -> Void
 
     var body: some View {
+        // A selective adjustment owns its own parameters and its own mask, so
+        // Adjust and Mask have to reach *it* rather than the document's grade
+        // or a blur that is not selected.
+        if case .selectiveAdjustment = session.selection,
+           detail == .adjust || detail == .blurMask {
+            SelectiveAdjustmentInspector(session: session, focus: detail, onDone: onDone)
+        } else {
+            routed
+        }
+    }
+
+    @ViewBuilder
+    private var routed: some View {
         switch detail {
         case .cut, .trim:
             TrimInspector(session: session, playback: playback, onDone: onDone)
