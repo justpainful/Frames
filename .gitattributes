@@ -1,0 +1,10 @@
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.mov binary
+*.mp4 binary
+
+*.pbxproj text eol=lf merge=union
+*.xcscheme text eol=lf
+*.sh text eol=lf
