@@ -345,7 +345,7 @@ struct EditDocument: Identifiable, Codable, Hashable, Sendable {
             && !clip.isMuted
             && clip.crop.isIdentity
             && clip.transform.isIdentity
-            && clip.freezeFrame == nil
+            && !clip.isFrozen
     }
 
     /// A short human description of the edit, used in the recovery prompt.
