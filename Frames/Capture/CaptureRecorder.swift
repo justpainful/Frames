@@ -13,14 +13,22 @@ import OSLog
 /// ever entered from the capture queue or behind its own lock.
 final class CaptureRecorder: NSObject, @unchecked Sendable {
 
-    /// Reads the live Portrait settings. A closure rather than a stored copy so
-    /// moving a slider changes the very next frame, including mid-recording.
-    var portraitProvider: (() -> PortraitSettings)?
     var onFrame: ((CIImage) -> Void)?
     var onDurationChange: ((TimeInterval) -> Void)?
 
     private let lock = NSLock()
     private var latestImage: CIImage?
+
+    /// The live Portrait settings, mirrored here rather than read back from the
+    /// main actor.
+    ///
+    /// This used to be a closure that hopped to `MainActor.assumeIsolated`, and
+    /// that crashed on the first frame: `assumeIsolated` *asserts* it is on the
+    /// main actor, and the capture queue never is. Settings are pushed in from
+    /// the main actor instead, behind the same lock as everything else here, so
+    /// a slider still changes the very next frame and nothing has to lie about
+    /// which thread it is on.
+    private var settings: PortraitSettings = .off
 
     /// Carried between frames so the processing does not flicker while the
     /// subject moves — the same state the video compositor uses.
@@ -36,6 +44,26 @@ final class CaptureRecorder: NSObject, @unchecked Sendable {
     private var wantsToWrite = false
 
     private let logger = FramesLog.render
+
+    // MARK: - Settings
+
+    func updateSettings(_ newValue: PortraitSettings) {
+        lock.lock()
+        settings = newValue
+        lock.unlock()
+    }
+
+    private func currentSettings() -> PortraitSettings {
+        lock.lock()
+        defer { lock.unlock() }
+        return settings
+    }
+
+    /// Exposed so a test can read the settings the way a frame would, from a
+    /// thread that is not the main actor.
+    func settingsForTesting() -> PortraitSettings {
+        currentSettings()
+    }
 
     // MARK: - Recording control
 
@@ -109,7 +137,7 @@ final class CaptureRecorder: NSObject, @unchecked Sendable {
 
         autoreleasepool {
             let source = CIImage(cvPixelBuffer: pixelBuffer)
-            let settings = portraitProvider?() ?? .off
+            let settings = currentSettings()
 
             var output = source
             if settings.isActive {

@@ -36,13 +36,31 @@ final class CameraService: NSObject {
 
     /// Live settings. Changing these changes the preview immediately and, if a
     /// recording is running, the rest of the recording.
-    var portrait: PortraitSettings = PortraitSettings.Preset.clean.settings
+    ///
+    /// Writing pushes a copy down to the recorder rather than leaving the
+    /// capture queue to read main-actor state, which is not something it can
+    /// safely do.
+    var portrait: PortraitSettings {
+        get { trackedPortrait }
+        set {
+            trackedPortrait = newValue
+            recorder.updateSettings(newValue)
+        }
+    }
+
+    private var trackedPortrait = PortraitSettings.Preset.clean.settings
 
     /// Called on the capture queue with each processed frame, for the preview
-    /// layer to draw. Deliberately not `@Observable` state: routing 30 frames a
-    /// second through the observation system would invalidate the whole view
-    /// tree 30 times a second.
-    @ObservationIgnored nonisolated(unsafe) var onFrame: ((CIImage) -> Void)?
+    /// layer to draw.
+    ///
+    /// Forwarded straight to the recorder so the frame path never touches this
+    /// object: routing 30 frames a second through an observable main-actor type
+    /// would invalidate the view tree 30 times a second, and reaching back into
+    /// the main actor from the capture queue is what crashed this before.
+    @ObservationIgnored var onFrame: ((CIImage) -> Void)? {
+        get { recorder.onFrame }
+        set { recorder.onFrame = newValue }
+    }
 
     @ObservationIgnored let session = AVCaptureSession()
     @ObservationIgnored private let sessionQueue = DispatchQueue(label: "com.frames.Frames.capture.session")
@@ -79,14 +97,9 @@ final class CameraService: NSObject {
             return
         }
 
-        recorder.portraitProvider = { [weak self] in
-            MainActor.assumeIsolated { self?.portrait ?? .off }
-        }
+        recorder.updateSettings(trackedPortrait)
         recorder.onDurationChange = { [weak self] duration in
             Task { @MainActor in self?.recordedDuration = duration }
-        }
-        recorder.onFrame = { [weak self] image in
-            self?.onFrame?(image)
         }
 
         status = .ready
