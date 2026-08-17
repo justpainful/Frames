@@ -80,6 +80,11 @@ struct TimelineView: View {
             }
         }
         .frame(height: totalHeight)
+        // Time runs left to right everywhere, including in right-to-left
+        // interfaces — the same choice Apple's own editors make. Mirroring the
+        // timeline would put "later" on the left while the playhead, the
+        // scrubbing direction and every video convention say otherwise.
+        .environment(\.layoutDirection, .leftToRight)
         .accessibilityElement(children: .contain)
         .accessibilityLabel(Text("Timeline", comment: "Accessibility label"))
     }

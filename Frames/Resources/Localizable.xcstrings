@@ -1,615 +1,4097 @@
 {
-  "sourceLanguage" : "en",
-  "version" : "1.0",
-  "strings" : {
-    "A photo edit from %@." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعديل صورة من %@." } } }
-    },
-    "A video edit from %@." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعديل فيديو من %@." } } }
-    },
-    "Alignment" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "المحاذاة" } } }
-    },
-    "Arrow" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "سهم" } } }
-    },
-    "Audio selected" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تم تحديد الصوت" } } }
-    },
-    "Background Blur" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تمويه الخلفية" } } }
-    },
-    "Black & White" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "أبيض وأسود" } } }
-    },
-    "Black Point" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "نقطة السواد" } } }
-    },
-    "Blemish" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الشوائب" } } }
-    },
-    "Bloom" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "توهّج" } } }
-    },
-    "Blur" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تمويه" } } }
-    },
-    "Blur selected" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تم تحديد التمويه" } } }
-    },
-    "Bold" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "عريض" } } }
-    },
-    "Box" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "مربّع" } } }
-    },
-    "Bright" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "ساطع" } } }
-    },
-    "Brightness" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "السطوع" } } }
-    },
-    "Brilliance" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "التألق" } } }
-    },
-    "Browse Files" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تصفح الملفات" } } }
-    },
-    "Can’t Show This Photo" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذّر عرض هذه الصورة" } } }
-    },
-    "Cancelled" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "أُلغيت" } } }
-    },
-    "Choose Media" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "اختر وسائط" } } }
-    },
-    "Choose a photo or video" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "اختر صورة أو فيديو" } } }
-    },
-    "Choose a photo or video stored in Files." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "اختر صورة أو فيديو من تطبيق الملفات." } } }
-    },
-    "Chrome" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "كروم" } } }
-    },
-    "Chromatic Shift" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "إزاحة لونية" } } }
-    },
-    "Circle" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "دائرة" } } }
-    },
-    "Clean" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "نقي" } } }
-    },
-    "Close" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "إغلاق" } } }
-    },
-    "Cold Cinema" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "سينما باردة" } } }
-    },
-    "Color" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "اللون" } } }
-    },
-    "Continue" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "متابعة" } } }
-    },
-    "Contrast" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "التباين" } } }
-    },
-    "Cool" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "بارد" } } }
-    },
-    "Couldn’t Save" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذّر الحفظ" } } }
-    },
-    "Couldn’t Recover Edit" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذّر استرجاع التعديل" } } }
-    },
-    "Current time" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الوقت الحالي" } } }
-    },
-    "Dark" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "داكن" } } }
-    },
-    "Definition" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الوضوح" } } }
-    },
-    "Detail" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "التفاصيل" } } }
-    },
-    "Detection Unavailable" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الاكتشاف غير متاح" } } }
-    },
-    "Disc" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "قرص" } } }
-    },
-    "Discard" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تجاهل" } } }
-    },
-    "Discard this edit?" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تجاهل هذا التعديل؟" } } }
-    },
-    "Dissolve" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تلاشٍ متداخل" } } }
-    },
-    "Download Failed" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فشل التنزيل" } } }
-    },
-    "Dramatic" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "درامي" } } }
-    },
-    "Drawing selected" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تم تحديد الرسم" } } }
-    },
-    "Dream" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "حلم" } } }
-    },
-    "Ease In" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تسارع" } } }
-    },
-    "Ease In Out" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تسارع وتباطؤ" } } }
-    },
-    "Ease Out" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تباطؤ" } } }
-    },
-    "Effect selected" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تم تحديد التأثير" } } }
-    },
-    "Ellipse" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "بيضاوي" } } }
-    },
-    "Export Failed" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فشل التصدير" } } }
-    },
-    "Exposure" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "التعريض" } } }
-    },
-    "Extracted Audio" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "صوت مستخرج" } } }
-    },
-    "Fade" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "بهتان" } } }
-    },
-    "Fade to Black" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تلاشٍ إلى الأسود" } } }
-    },
-    "Fade to White" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تلاشٍ إلى الأبيض" } } }
-    },
-    "Faded" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "باهت" } } }
-    },
-    "Faded Film" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فيلم باهت" } } }
-    },
-    "Face" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "وجه" } } }
-    },
-    "Face Blur" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تمويه الوجه" } } }
-    },
-    "Fill" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "ملء" } } }
-    },
-    "Film" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فيلم" } } }
-    },
-    "Film 01" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فيلم ٠١" } } }
-    },
-    "Film 02" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فيلم ٠٢" } } }
-    },
-    "Film 03" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فيلم ٠٣" } } }
-    },
-    "Finishing" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "اللمسات الأخيرة" } } }
-    },
-    "Fit" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "احتواء" } } }
-    },
-    "Float" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "طفو" } } }
-    },
-    "Frames" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "Frames" } } }
-    },
-    "Free" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "حر" } } }
-    },
-    "Freeform" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "حر الشكل" } } }
-    },
-    "Gaussian" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "غاوسي" } } }
-    },
-    "Glow" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "إشراق" } } }
-    },
-    "Golden" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "ذهبي" } } }
-    },
-    "Grain" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "حُبيبات" } } }
-    },
-    "Heavy" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "ثقيل" } } }
-    },
-    "Highlights" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الإضاءات" } } }
-    },
-    "Hold" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تثبيت" } } }
-    },
-    "Horizontal Position" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الموضع الأفقي" } } }
-    },
-    "Image" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "صورة" } } }
-    },
-    "Image selected" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تم تحديد الصورة" } } }
-    },
-    "Import Failed" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فشل الاستيراد" } } }
-    },
-    "Intensity" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الشدة" } } }
-    },
-    "Keep Editing" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "متابعة التعديل" } } }
-    },
-    "Light" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الإضاءة" } } }
-    },
-    "Light Leak" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تسريب ضوء" } } }
-    },
-    "Line" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "خط" } } }
-    },
-    "Linear" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "خطي" } } }
-    },
-    "Linear Gradient" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تدرّج خطي" } } }
-    },
-    "Luminosity" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الإضاءة" } } }
-    },
-    "Media Can’t Be Read" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذّرت قراءة الوسائط" } } }
-    },
-    "Medium" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "متوسط" } } }
-    },
-    "Microphone Access Off" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الوصول إلى الميكروفون مُعطّل" } } }
-    },
-    "Mono" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "أحادي" } } }
-    },
-    "Mosaic" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فسيفساء" } } }
-    },
-    "Motion" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الحركة" } } }
-    },
-    "Motion Blur" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تمويه حركي" } } }
-    },
-    "Multiply" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "ضرب" } } }
-    },
-    "Music" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "موسيقى" } } }
-    },
-    "Natural" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "طبيعي" } } }
-    },
-    "Noir" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "نوار" } } }
-    },
-    "Noise Reduction" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تقليل التشويش" } } }
-    },
-    "None" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "بلا" } } }
-    },
-    "Normal" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "عادي" } } }
-    },
-    "Not Enough Space" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "لا توجد مساحة كافية" } } }
-    },
-    "Nothing selected" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "لا شيء محدد" } } }
-    },
-    "OK" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "حسناً" } } }
-    },
-    "Opacity" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "التعتيم" } } }
-    },
-    "Open Settings" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فتح الإعدادات" } } }
-    },
-    "Opens your photo library so you can pick something to edit." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "يفتح مكتبة صورك لاختيار ما تريد تعديله." } } }
-    },
-    "Original" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الأصل" } } }
-    },
-    "Original Audio" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الصوت الأصلي" } } }
-    },
-    "Overlay" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تراكب" } } }
-    },
-    "Pastel" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "باستيل" } } }
-    },
-    "Pause" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "إيقاف مؤقت" } } }
-    },
-    "Per Line" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "لكل سطر" } } }
-    },
-    "Person" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "شخص" } } }
-    },
-    "Person Blur" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تمويه شخص" } } }
-    },
-    "Photo edit" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعديل صورة" } } }
-    },
-    "Photo preview" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "معاينة الصورة" } } }
-    },
-    "Photos Access Off" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الوصول إلى الصور مُعطّل" } } }
-    },
-    "Pixelate" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تبكسل" } } }
-    },
-    "Plate" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "خلفية" } } }
-    },
-    "Play" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تشغيل" } } }
-    },
-    "Playhead" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "مؤشر التشغيل" } } }
-    },
-    "Pop" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "نبض" } } }
-    },
-    "Preparing media" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "جارٍ تحضير الوسائط" } } }
-    },
-    "Preview Failed" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فشلت المعاينة" } } }
-    },
-    "Pulse" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "نبضة" } } }
-    },
-    "Radial Gradient" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تدرّج شعاعي" } } }
-    },
-    "Recent photo" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "صورة حديثة" } } }
-    },
-    "Recent video" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فيديو حديث" } } }
-    },
-    "Recents" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الأخيرة" } } }
-    },
-    "Rectangle" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "مستطيل" } } }
-    },
-    "Redo" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "إعادة" } } }
-    },
-    "Regular" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "عادي" } } }
-    },
-    "Retro" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "ريترو" } } }
-    },
-    "Rotation" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الدوران" } } }
-    },
-    "Rounded" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "دائري" } } }
-    },
-    "Rounded Rectangle" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "مستطيل مستدير" } } }
-    },
-    "Saturation" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "التشبّع" } } }
-    },
-    "Scale" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الحجم" } } }
-    },
-    "Scanlines" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "خطوط مسح" } } }
-    },
-    "Screen" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "شاشة" } } }
-    },
-    "Selective adjustment selected" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تم تحديد تعديل انتقائي" } } }
-    },
-    "Semibold" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "شبه عريض" } } }
-    },
-    "Serif" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "مذيّل" } } }
-    },
-    "Shadows" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الظلال" } } }
-    },
-    "Shake" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "اهتزاز" } } }
-    },
-    "Sharpen" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "زيادة الحدة" } } }
-    },
-    "Sharpness" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الحدة" } } }
-    },
-    "Show Recents" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "إظهار الأخيرة" } } }
-    },
-    "Shrink" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تصغير" } } }
-    },
-    "Silver" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "فضي" } } }
-    },
-    "Slide" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "انزلاق" } } }
-    },
-    "Smoothness" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "النعومة" } } }
-    },
-    "Soft" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "ناعم" } } }
-    },
-    "Soft Blur" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تمويه ناعم" } } }
-    },
-    "Soft Light" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "ضوء ناعم" } } }
-    },
-    "Sound" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "مؤثر صوتي" } } }
-    },
-    "Square" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "مربّع" } } }
-    },
-    "Subject" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الموضوع" } } }
-    },
-    "System" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "النظام" } } }
-    },
-    "Text selected" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تم تحديد النص" } } }
-    },
-    "That item couldn’t be brought into Frames. Try choosing it again." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذّر إدخال هذا العنصر إلى Frames. جرّب اختياره مرة أخرى." } } }
-    },
-    "That operation was stopped before it finished." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "توقفت العملية قبل أن تكتمل." } } }
-    },
-    "The export didn’t finish. Your edit is safe — try exporting again." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "لم يكتمل التصدير. تعديلك محفوظ — جرّب التصدير مرة أخرى." } } }
-    },
-    "The file couldn’t be read." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذّرت قراءة الملف." } } }
-    },
-    "The finished file couldn’t be added to your library. It’s still available to share." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذّر إضافة الملف النهائي إلى مكتبتك. لا يزال بإمكانك مشاركته." } } }
-    },
-    "The preview couldn’t be drawn. Undo the last change and try again." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذّر رسم المعاينة. تراجع عن آخر تغيير وحاول مجدداً." } } }
-    },
-    "The unsaved edit couldn’t be reopened, so it was discarded." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعذّر فتح التعديل غير المحفوظ، لذا تم تجاهله." } } }
-    },
-    "There isn’t enough free space on this iPhone to finish. Free up some space and try again." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "لا توجد مساحة كافية على هذا الـiPhone لإكمال العملية. أفرغ بعض المساحة وحاول مجدداً." } } }
-    },
-    "This file appears to be damaged and can’t be opened." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "يبدو أن هذا الملف تالف ولا يمكن فتحه." } } }
-    },
-    "This item is stored in iCloud and couldn’t be downloaded. Check your connection and try again." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "هذا العنصر مُخزّن في iCloud وتعذّر تنزيله. تحقق من اتصالك وحاول مجدداً." } } }
-    },
-    "Tint" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الصبغة" } } }
-    },
-    "Tracked Blur" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تمويه متتبَّع" } } }
-    },
-    "Track" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تتبّع" } } }
-    },
-    "Underline" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تسطير" } } }
-    },
-    "Undo" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تراجع" } } }
-    },
-    "Unsupported Media" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "وسائط غير مدعومة" } } }
-    },
-    "VHS" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "VHS" } } }
-    },
-    "Vertical Position" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الموضع الرأسي" } } }
-    },
-    "Vibrance" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الحيوية" } } }
-    },
-    "Video edit · %@" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعديل فيديو · %@" } } }
-    },
-    "Video clip selected" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تم تحديد مقطع الفيديو" } } }
-    },
-    "Video preview" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "معاينة الفيديو" } } }
-    },
-    "Vignette" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تظليل الأطراف" } } }
-    },
-    "Vintage" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "كلاسيكي" } } }
-    },
-    "Voiceover" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعليق صوتي" } } }
-    },
-    "Volume" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "مستوى الصوت" } } }
-    },
-    "Warm" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "دافئ" } } }
-    },
-    "Warm Cinema" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "سينما دافئة" } } }
-    },
-    "Warmth" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "الدفء" } } }
-    },
-    "You have an unsaved edit." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "لديك تعديل غير محفوظ." } } }
-    },
-    "Your changes haven’t been exported yet." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "لم يتم تصدير تغييراتك بعد." } } }
-    },
-    "Zoom" : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "تقريب" } } }
-    },
-    "Frames can’t edit this kind of file. Try a photo or video from your library." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "لا يستطيع Frames تعديل هذا النوع من الملفات. جرّب صورة أو فيديو من مكتبتك." } } }
-    },
-    "Frames needs microphone access to record a voiceover. You can turn it on in Settings." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "يحتاج Frames إلى الوصول للميكروفون لتسجيل تعليق صوتي. يمكنك تفعيله من الإعدادات." } } }
-    },
-    "Frames needs permission to add photos and videos to your library. You can turn it on in Settings." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "يحتاج Frames إلى إذن لإضافة الصور ومقاطع الفيديو إلى مكتبتك. يمكنك تفعيله من الإعدادات." } } }
-    },
-    "Nothing could be detected in this frame. Try a different frame, or select the area by hand." : {
-      "localizations" : { "ar" : { "stringUnit" : { "state" : "translated", "value" : "لم يتم اكتشاف أي شيء في هذا الإطار. جرّب إطاراً آخر، أو حدّد المنطقة يدوياً." } } }
+  "sourceLanguage": "en",
+  "strings": {
+    "A light pass. Keeps most texture.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لمسة خفيفة. تُبقي معظم الملمس."
+          }
+        }
+      }
+    },
+    "A photo edit from %@.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعديل صورة من %@."
+          }
+        }
+      }
+    },
+    "A photo has no timeline, so this layer is always visible.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصورة ليس لها خط زمني، لذا تظهر هذه الطبقة دائماً."
+          }
+        }
+      }
+    },
+    "A transition needs a clip before it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الانتقال يحتاج إلى مقطع قبله."
+          }
+        }
+      }
+    },
+    "A video edit from %@.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعديل فيديو من %@."
+          }
+        }
+      }
+    },
+    "About %@.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حوالي %@."
+          }
+        }
+      }
+    },
+    "Add": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة"
+          }
+        }
+      }
+    },
+    "Add Audio": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة صوت"
+          }
+        }
+      }
+    },
+    "Add Blur": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة تمويه"
+          }
+        }
+      }
+    },
+    "Add Drawing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة رسم"
+          }
+        }
+      }
+    },
+    "Add Effect": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة تأثير"
+          }
+        }
+      }
+    },
+    "Add Image": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة صورة"
+          }
+        }
+      }
+    },
+    "Add Selective Adjustment": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة تعديل انتقائي"
+          }
+        }
+      }
+    },
+    "Add Shape": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة شكل"
+          }
+        }
+      }
+    },
+    "Add Text": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة نص"
+          }
+        }
+      }
+    },
+    "Adjust": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعديل"
+          }
+        }
+      }
+    },
+    "Advanced": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خيارات متقدمة"
+          }
+        }
+      }
+    },
+    "Alignment": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المحاذاة"
+          }
+        }
+      }
+    },
+    "Animate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحريك"
+          }
+        }
+      }
+    },
+    "Area": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منطقة"
+          }
+        }
+      }
+    },
+    "Area Blur": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمويه منطقة"
+          }
+        }
+      }
+    },
+    "Arrow": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سهم"
+          }
+        }
+      }
+    },
+    "Aspect Ratio": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسبة الأبعاد"
+          }
+        }
+      }
+    },
+    "Audio": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصوت"
+          }
+        }
+      }
+    },
+    "Audio selected": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تحديد الصوت"
+          }
+        }
+      }
+    },
+    "Auto": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تلقائي"
+          }
+        }
+      }
+    },
+    "Auto Duck": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خفض تلقائي"
+          }
+        }
+      }
+    },
+    "Auto Enhance": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحسين تلقائي"
+          }
+        }
+      }
+    },
+    "Background": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الخلفية"
+          }
+        }
+      }
+    },
+    "Background Blur": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمويه الخلفية"
+          }
+        }
+      }
+    },
+    "Balanced": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوازن"
+          }
+        }
+      }
+    },
+    "Basic": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أساسي"
+          }
+        }
+      }
+    },
+    "Best": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأفضل"
+          }
+        }
+      }
+    },
+    "Black & White": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أبيض وأسود"
+          }
+        }
+      }
+    },
+    "Black Point": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقطة السواد"
+          }
+        }
+      }
+    },
+    "Blemish": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشوائب"
+          }
+        }
+      }
+    },
+    "Bloom": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توهّج"
+          }
+        }
+      }
+    },
+    "Blur": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمويه"
+          }
+        }
+      }
+    },
+    "Blur everyone else instead": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موّه الآخرين بدلاً منه"
+          }
+        }
+      }
+    },
+    "Blur selected": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تحديد التمويه"
+          }
+        }
+      }
+    },
+    "Bold": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عريض"
+          }
+        }
+      }
+    },
+    "Border": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إطار"
+          }
+        }
+      }
+    },
+    "Bottom left handle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المقبض السفلي الأيسر"
+          }
+        }
+      }
+    },
+    "Bottom right handle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المقبض السفلي الأيمن"
+          }
+        }
+      }
+    },
+    "Box": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مربّع"
+          }
+        }
+      }
+    },
+    "Bright": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ساطع"
+          }
+        }
+      }
+    },
+    "Brightness": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السطوع"
+          }
+        }
+      }
+    },
+    "Brilliance": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التألق"
+          }
+        }
+      }
+    },
+    "Browse Files": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصفح الملفات"
+          }
+        }
+      }
+    },
+    "Can’t Show This Photo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر عرض هذه الصورة"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إلغاء"
+          }
+        }
+      }
+    },
+    "Cancelled": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أُلغيت"
+          }
+        }
+      }
+    },
+    "Choose a photo or video": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر صورة أو فيديو"
+          }
+        }
+      }
+    },
+    "Choose a photo or video stored in Files.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر صورة أو فيديو من تطبيق الملفات."
+          }
+        }
+      }
+    },
+    "Choose Media": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر وسائط"
+          }
+        }
+      }
+    },
+    "Choose what to blur.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ما تريد تمويهه."
+          }
+        }
+      }
+    },
+    "Chromatic Shift": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزاحة لونية"
+          }
+        }
+      }
+    },
+    "Chrome": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كروم"
+          }
+        }
+      }
+    },
+    "Cinematic": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سينمائي"
+          }
+        }
+      }
+    },
+    "Circle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دائرة"
+          }
+        }
+      }
+    },
+    "Clean": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقي"
+          }
+        }
+      }
+    },
+    "Clear": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسح"
+          }
+        }
+      }
+    },
+    "Clear Shapes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسح الأشكال"
+          }
+        }
+      }
+    },
+    "Clear Strokes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسح الخطوط"
+          }
+        }
+      }
+    },
+    "Clear Tracking": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسح التتبّع"
+          }
+        }
+      }
+    },
+    "Close": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إغلاق"
+          }
+        }
+      }
+    },
+    "Codec": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الترميز"
+          }
+        }
+      }
+    },
+    "Cold Cinema": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سينما باردة"
+          }
+        }
+      }
+    },
+    "Color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اللون"
+          }
+        }
+      }
+    },
+    "Color Noise": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشويش اللون"
+          }
+        }
+      }
+    },
+    "Content Size": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حجم المحتوى"
+          }
+        }
+      }
+    },
+    "Continue": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متابعة"
+          }
+        }
+      }
+    },
+    "Contrast": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التباين"
+          }
+        }
+      }
+    },
+    "Cool": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بارد"
+          }
+        }
+      }
+    },
+    "Corner Radius": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استدارة الزوايا"
+          }
+        }
+      }
+    },
+    "Couldn’t Recover Edit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر استرجاع التعديل"
+          }
+        }
+      }
+    },
+    "Couldn’t Save": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر الحفظ"
+          }
+        }
+      }
+    },
+    "Creative": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إبداعي"
+          }
+        }
+      }
+    },
+    "Crop": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اقتصاص"
+          }
+        }
+      }
+    },
+    "Crop rectangle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستطيل الاقتصاص"
+          }
+        }
+      }
+    },
+    "Current time": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوقت الحالي"
+          }
+        }
+      }
+    },
+    "Cut": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قص"
+          }
+        }
+      }
+    },
+    "Cut Out": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اقتطاع"
+          }
+        }
+      }
+    },
+    "Dark": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داكن"
+          }
+        }
+      }
+    },
+    "Definition": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوضوح"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف"
+          }
+        }
+      }
+    },
+    "Delete Audio": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف الصوت"
+          }
+        }
+      }
+    },
+    "Delete Blur": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف التمويه"
+          }
+        }
+      }
+    },
+    "Delete Clip": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف المقطع"
+          }
+        }
+      }
+    },
+    "Delete Drawing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف الرسم"
+          }
+        }
+      }
+    },
+    "Delete Image": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف الصورة"
+          }
+        }
+      }
+    },
+    "Delete Selective Adjustment": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف التعديل الانتقائي"
+          }
+        }
+      }
+    },
+    "Delete Text": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف النص"
+          }
+        }
+      }
+    },
+    "Detail": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التفاصيل"
+          }
+        }
+      }
+    },
+    "Detection Unavailable": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاكتشاف غير متاح"
+          }
+        }
+      }
+    },
+    "Disc": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قرص"
+          }
+        }
+      }
+    },
+    "Discard": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تجاهل"
+          }
+        }
+      }
+    },
+    "Discard this edit?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تجاهل هذا التعديل؟"
+          }
+        }
+      }
+    },
+    "Dissolve": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تلاشٍ متداخل"
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم"
+          }
+        }
+      }
+    },
+    "Download Failed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فشل التنزيل"
+          }
+        }
+      }
+    },
+    "Drag the edges to change the crop.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسحب الحواف لتغيير الاقتصاص."
+          }
+        }
+      }
+    },
+    "Dramatic": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "درامي"
+          }
+        }
+      }
+    },
+    "Draw": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رسم"
+          }
+        }
+      }
+    },
+    "Draw directly on the media. The pen, marker and eraser are in the tool palette.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ارسم مباشرة على الوسائط. القلم والماركر والممحاة في لوحة الأدوات."
+          }
+        }
+      }
+    },
+    "Drawing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رسم"
+          }
+        }
+      }
+    },
+    "Drawing selected": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تحديد الرسم"
+          }
+        }
+      }
+    },
+    "Dream": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حلم"
+          }
+        }
+      }
+    },
+    "Duplicate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكرار"
+          }
+        }
+      }
+    },
+    "Duplicate Clip": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكرار المقطع"
+          }
+        }
+      }
+    },
+    "Duration": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المدة"
+          }
+        }
+      }
+    },
+    "Ease In": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسارع"
+          }
+        }
+      }
+    },
+    "Ease In Out": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسارع وتباطؤ"
+          }
+        }
+      }
+    },
+    "Ease Out": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تباطؤ"
+          }
+        }
+      }
+    },
+    "Edit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحرير"
+          }
+        }
+      }
+    },
+    "Effect Intensity": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شدة التأثير"
+          }
+        }
+      }
+    },
+    "Effect selected": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تحديد التأثير"
+          }
+        }
+      }
+    },
+    "Effects": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التأثيرات"
+          }
+        }
+      }
+    },
+    "Ellipse": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بيضاوي"
+          }
+        }
+      }
+    },
+    "End": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النهاية"
+          }
+        }
+      }
+    },
+    "End Here": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النهاية هنا"
+          }
+        }
+      }
+    },
+    "Even Tone": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توحيد اللون"
+          }
+        }
+      }
+    },
+    "Evenness": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التجانس"
+          }
+        }
+      }
+    },
+    "Everything after the range moves back to close the gap.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل ما بعد النطاق يتحرك للخلف لسد الفراغ."
+          }
+        }
+      }
+    },
+    "Export": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصدير"
+          }
+        }
+      }
+    },
+    "Export Failed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فشل التصدير"
+          }
+        }
+      }
+    },
+    "Exposure": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التعريض"
+          }
+        }
+      }
+    },
+    "Extract Audio": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخراج الصوت"
+          }
+        }
+      }
+    },
+    "Extracted Audio": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صوت مستخرج"
+          }
+        }
+      }
+    },
+    "Face": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وجه"
+          }
+        }
+      }
+    },
+    "Face Blur": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمويه الوجه"
+          }
+        }
+      }
+    },
+    "Fade": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بهتان"
+          }
+        }
+      }
+    },
+    "Fade In": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تلاشٍ للداخل"
+          }
+        }
+      }
+    },
+    "Fade Out": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تلاشٍ للخارج"
+          }
+        }
+      }
+    },
+    "Fade to Black": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تلاشٍ إلى الأسود"
+          }
+        }
+      }
+    },
+    "Fade to White": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تلاشٍ إلى الأبيض"
+          }
+        }
+      }
+    },
+    "Faded": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "باهت"
+          }
+        }
+      }
+    },
+    "Faded Film": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فيلم باهت"
+          }
+        }
+      }
+    },
+    "Feather": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنعيم الحواف"
+          }
+        }
+      }
+    },
+    "Fill": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملء"
+          }
+        }
+      }
+    },
+    "Filled": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معبّأ"
+          }
+        }
+      }
+    },
+    "Film": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فيلم"
+          }
+        }
+      }
+    },
+    "Film 01": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فيلم ٠١"
+          }
+        }
+      }
+    },
+    "Film 02": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فيلم ٠٢"
+          }
+        }
+      }
+    },
+    "Film 03": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فيلم ٠٣"
+          }
+        }
+      }
+    },
+    "Filter": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فلتر"
+          }
+        }
+      }
+    },
+    "Filter Intensity": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شدة الفلتر"
+          }
+        }
+      }
+    },
+    "Filters": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفلاتر"
+          }
+        }
+      }
+    },
+    "Finishing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اللمسات الأخيرة"
+          }
+        }
+      }
+    },
+    "Fit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "احتواء"
+          }
+        }
+      }
+    },
+    "Flip": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلب"
+          }
+        }
+      }
+    },
+    "Flip Horizontal": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلب أفقي"
+          }
+        }
+      }
+    },
+    "Flip Vertical": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلب رأسي"
+          }
+        }
+      }
+    },
+    "Float": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طفو"
+          }
+        }
+      }
+    },
+    "Following from %@ to %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتتبّع من %@ إلى %@"
+          }
+        }
+      }
+    },
+    "Following the region…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ تتبّع المنطقة…"
+          }
+        }
+      }
+    },
+    "Font": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الخط"
+          }
+        }
+      }
+    },
+    "For dim rooms. Cleans noise first.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "للغرف الخافتة. ينظّف التشويش أولاً."
+          }
+        }
+      }
+    },
+    "Format": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصيغة"
+          }
+        }
+      }
+    },
+    "Frame Rate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معدل الإطارات"
+          }
+        }
+      }
+    },
+    "Frames": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frames"
+          }
+        }
+      }
+    },
+    "Frames can’t edit this kind of file. Try a photo or video from your library.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يستطيع Frames تعديل هذا النوع من الملفات. جرّب صورة أو فيديو من مكتبتك."
+          }
+        }
+      }
+    },
+    "Frames finds the subject on this device and keeps the original image, so this can be turned off again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعثر Frames على الموضوع على هذا الجهاز ويحتفظ بالصورة الأصلية، لذا يمكنك التراجع عن هذا لاحقاً."
+          }
+        }
+      }
+    },
+    "Frames needs microphone access to record a voiceover. You can turn it on in Settings.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج Frames إلى الوصول للميكروفون لتسجيل تعليق صوتي. يمكنك تفعيله من الإعدادات."
+          }
+        }
+      }
+    },
+    "Frames needs permission to add photos and videos to your library. You can turn it on in Settings.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج Frames إلى إذن لإضافة الصور ومقاطع الفيديو إلى مكتبتك. يمكنك تفعيله من الإعدادات."
+          }
+        }
+      }
+    },
+    "Free": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حر"
+          }
+        }
+      }
+    },
+    "Freeform": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حر الشكل"
+          }
+        }
+      }
+    },
+    "Freeze Frame": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تجميد إطار"
+          }
+        }
+      }
+    },
+    "Full": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كامل"
+          }
+        }
+      }
+    },
+    "Full Blur": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمويه كامل"
+          }
+        }
+      }
+    },
+    "Gaussian": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غاوسي"
+          }
+        }
+      }
+    },
+    "Getting ready…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ التحضير…"
+          }
+        }
+      }
+    },
+    "Glow": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إشراق"
+          }
+        }
+      }
+    },
+    "Golden": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ذهبي"
+          }
+        }
+      }
+    },
+    "Grain": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حُبيبات"
+          }
+        }
+      }
+    },
+    "Guides": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأدلة"
+          }
+        }
+      }
+    },
+    "Heavy": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ثقيل"
+          }
+        }
+      }
+    },
+    "High": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عالية"
+          }
+        }
+      }
+    },
+    "Highlights": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإضاءات"
+          }
+        }
+      }
+    },
+    "Hold": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تثبيت"
+          }
+        }
+      }
+    },
+    "Horizontal Position": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الموضع الأفقي"
+          }
+        }
+      }
+    },
+    "Image": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صورة"
+          }
+        }
+      }
+    },
+    "Image selected": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تحديد الصورة"
+          }
+        }
+      }
+    },
+    "Import Failed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فشل الاستيراد"
+          }
+        }
+      }
+    },
+    "In": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدخول"
+          }
+        }
+      }
+    },
+    "Input level": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستوى الإدخال"
+          }
+        }
+      }
+    },
+    "Intensity": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشدة"
+          }
+        }
+      }
+    },
+    "Invert": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عكس"
+          }
+        }
+      }
+    },
+    "Keep Editing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متابعة التعديل"
+          }
+        }
+      }
+    },
+    "Keep the subject sharp": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أبقِ الموضوع حاداً"
+          }
+        }
+      }
+    },
+    "Keep Wide Color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحفاظ على اللون الواسع"
+          }
+        }
+      }
+    },
+    "Keyframe": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إطار مفتاحي"
+          }
+        }
+      }
+    },
+    "Length": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الطول"
+          }
+        }
+      }
+    },
+    "Level": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المستوى"
+          }
+        }
+      }
+    },
+    "Light": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإضاءة"
+          }
+        }
+      }
+    },
+    "Light Leak": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسريب ضوء"
+          }
+        }
+      }
+    },
+    "Line": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خط"
+          }
+        }
+      }
+    },
+    "Line Spacing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تباعد الأسطر"
+          }
+        }
+      }
+    },
+    "Line Width": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سماكة الخط"
+          }
+        }
+      }
+    },
+    "Linear": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خطي"
+          }
+        }
+      }
+    },
+    "Linear Gradient": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تدرّج خطي"
+          }
+        }
+      }
+    },
+    "Loop": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التكرار"
+          }
+        }
+      }
+    },
+    "Lost it at %@. Move the blur back onto the subject there and track again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فُقد عند %@. أعِد التمويه فوق الموضوع هناك ثم تتبّع مجدداً."
+          }
+        }
+      }
+    },
+    "Low Light": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضاءة منخفضة"
+          }
+        }
+      }
+    },
+    "Lowers music while a voiceover is playing.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يخفض الموسيقى أثناء تشغيل التعليق الصوتي."
+          }
+        }
+      }
+    },
+    "Luminosity": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإضاءة"
+          }
+        }
+      }
+    },
+    "Mask": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القناع"
+          }
+        }
+      }
+    },
+    "Media Can’t Be Read": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة الوسائط"
+          }
+        }
+      }
+    },
+    "Medium": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوسط"
+          }
+        }
+      }
+    },
+    "Microphone Access Off": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوصول إلى الميكروفون مُعطّل"
+          }
+        }
+      }
+    },
+    "Mono": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أحادي"
+          }
+        }
+      }
+    },
+    "More": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المزيد"
+          }
+        }
+      }
+    },
+    "Mosaic": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فسيفساء"
+          }
+        }
+      }
+    },
+    "Motion": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحركة"
+          }
+        }
+      }
+    },
+    "Motion Blur": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمويه حركي"
+          }
+        }
+      }
+    },
+    "Multiply": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضرب"
+          }
+        }
+      }
+    },
+    "Music": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موسيقى"
+          }
+        }
+      }
+    },
+    "Mute": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كتم"
+          }
+        }
+      }
+    },
+    "Natural": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طبيعي"
+          }
+        }
+      }
+    },
+    "New length %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الطول الجديد %@"
+          }
+        }
+      }
+    },
+    "Next Frame": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإطار التالي"
+          }
+        }
+      }
+    },
+    "Noir": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نوار"
+          }
+        }
+      }
+    },
+    "Noise Reduction": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقليل التشويش"
+          }
+        }
+      }
+    },
+    "None": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بلا"
+          }
+        }
+      }
+    },
+    "Normal": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عادي"
+          }
+        }
+      }
+    },
+    "Not Enough Space": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد مساحة كافية"
+          }
+        }
+      }
+    },
+    "Nothing could be detected in this frame. Try a different frame, or select the area by hand.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم اكتشاف أي شيء في هذا الإطار. جرّب إطاراً آخر، أو حدّد المنطقة يدوياً."
+          }
+        }
+      }
+    },
+    "Nothing selected": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا شيء محدد"
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حسناً"
+          }
+        }
+      }
+    },
+    "Opacity": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التعتيم"
+          }
+        }
+      }
+    },
+    "Open Portrait Mode": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح وضع البورتريه"
+          }
+        }
+      }
+    },
+    "Open Settings": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح الإعدادات"
+          }
+        }
+      }
+    },
+    "Opens your photo library so you can pick something to edit.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يفتح مكتبة صورك لاختيار ما تريد تعديله."
+          }
+        }
+      }
+    },
+    "Original": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأصل"
+          }
+        }
+      }
+    },
+    "Original Audio": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصوت الأصلي"
+          }
+        }
+      }
+    },
+    "Out": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الخروج"
+          }
+        }
+      }
+    },
+    "Outline": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حد خارجي"
+          }
+        }
+      }
+    },
+    "Overlay": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تراكب"
+          }
+        }
+      }
+    },
+    "Pastel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "باستيل"
+          }
+        }
+      }
+    },
+    "Pause": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف مؤقت"
+          }
+        }
+      }
+    },
+    "People Only": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأشخاص فقط"
+          }
+        }
+      }
+    },
+    "Per Line": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لكل سطر"
+          }
+        }
+      }
+    },
+    "Person": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شخص"
+          }
+        }
+      }
+    },
+    "Person Blur": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمويه شخص"
+          }
+        }
+      }
+    },
+    "Photo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صورة"
+          }
+        }
+      }
+    },
+    "Photo edit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعديل صورة"
+          }
+        }
+      }
+    },
+    "Photo preview": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معاينة الصورة"
+          }
+        }
+      }
+    },
+    "Photos Access Off": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوصول إلى الصور مُعطّل"
+          }
+        }
+      }
+    },
+    "Pixelate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبكسل"
+          }
+        }
+      }
+    },
+    "Plate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خلفية"
+          }
+        }
+      }
+    },
+    "Play": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل"
+          }
+        }
+      }
+    },
+    "Playhead": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مؤشر التشغيل"
+          }
+        }
+      }
+    },
+    "Plays everywhere": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعمل في كل مكان"
+          }
+        }
+      }
+    },
+    "Pop": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نبض"
+          }
+        }
+      }
+    },
+    "Portrait": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بورتريه"
+          }
+        }
+      }
+    },
+    "Portrait Mode": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وضع البورتريه"
+          }
+        }
+      }
+    },
+    "Portrait Preset": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعداد البورتريه"
+          }
+        }
+      }
+    },
+    "Position": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الموضع"
+          }
+        }
+      }
+    },
+    "Position the blur over what you want to follow, then track it forward from here.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضع التمويه فوق ما تريد تتبّعه، ثم تتبّعه للأمام من هنا."
+          }
+        }
+      }
+    },
+    "Preparing media": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ تحضير الوسائط"
+          }
+        }
+      }
+    },
+    "Preview Failed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فشلت المعاينة"
+          }
+        }
+      }
+    },
+    "Previous Frame": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإطار السابق"
+          }
+        }
+      }
+    },
+    "Pulse": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نبضة"
+          }
+        }
+      }
+    },
+    "Quality": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الجودة"
+          }
+        }
+      }
+    },
+    "Radial": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شعاعي"
+          }
+        }
+      }
+    },
+    "Radial Gradient": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تدرّج شعاعي"
+          }
+        }
+      }
+    },
+    "Range end": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نهاية النطاق"
+          }
+        }
+      }
+    },
+    "Range start": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بداية النطاق"
+          }
+        }
+      }
+    },
+    "Range to remove": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النطاق المراد حذفه"
+          }
+        }
+      }
+    },
+    "Rate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المعدل"
+          }
+        }
+      }
+    },
+    "Recent photo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صورة حديثة"
+          }
+        }
+      }
+    },
+    "Recent video": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فيديو حديث"
+          }
+        }
+      }
+    },
+    "Recents": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأخيرة"
+          }
+        }
+      }
+    },
+    "Record": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل"
+          }
+        }
+      }
+    },
+    "Record Voice": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل صوت"
+          }
+        }
+      }
+    },
+    "Rectangle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستطيل"
+          }
+        }
+      }
+    },
+    "Redo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة"
+          }
+        }
+      }
+    },
+    "Regular": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عادي"
+          }
+        }
+      }
+    },
+    "Remove Background": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة الخلفية"
+          }
+        }
+      }
+    },
+    "Remove Effect": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة التأثير"
+          }
+        }
+      }
+    },
+    "Remove Range": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف نطاق"
+          }
+        }
+      }
+    },
+    "Removing %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيتم حذف %@"
+          }
+        }
+      }
+    },
+    "Reorder Clips": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة ترتيب المقاطع"
+          }
+        }
+      }
+    },
+    "Reset": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تعيين"
+          }
+        }
+      }
+    },
+    "Reset All": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تعيين الكل"
+          }
+        }
+      }
+    },
+    "Reset Crop": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تعيين الاقتصاص"
+          }
+        }
+      }
+    },
+    "Resolution": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدقة"
+          }
+        }
+      }
+    },
+    "Restore Background": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استعادة الخلفية"
+          }
+        }
+      }
+    },
+    "Retouch": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنقيح"
+          }
+        }
+      }
+    },
+    "Retouch changes how light and texture read. It never changes anyone's shape.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التنقيح يغيّر طريقة ظهور الضوء والملمس فقط، ولا يغيّر شكل أي شخص إطلاقاً."
+          }
+        }
+      }
+    },
+    "Retro": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ريترو"
+          }
+        }
+      }
+    },
+    "Rotate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تدوير"
+          }
+        }
+      }
+    },
+    "Rotate Left": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تدوير لليسار"
+          }
+        }
+      }
+    },
+    "Rotate Right": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تدوير لليمين"
+          }
+        }
+      }
+    },
+    "Rotation": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدوران"
+          }
+        }
+      }
+    },
+    "Rounded": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دائري"
+          }
+        }
+      }
+    },
+    "Rounded Rectangle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستطيل مستدير"
+          }
+        }
+      }
+    },
+    "Safe Area Guides": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أدلة المنطقة الآمنة"
+          }
+        }
+      }
+    },
+    "Saturation": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التشبّع"
+          }
+        }
+      }
+    },
+    "Save": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حفظ"
+          }
+        }
+      }
+    },
+    "Saved to Photos": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم الحفظ في الصور"
+          }
+        }
+      }
+    },
+    "Saved to your photo library.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُحفظ في مكتبة صورك."
+          }
+        }
+      }
+    },
+    "Saving to Photos…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ الحفظ في الصور…"
+          }
+        }
+      }
+    },
+    "Scale": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحجم"
+          }
+        }
+      }
+    },
+    "Scanlines": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خطوط مسح"
+          }
+        }
+      }
+    },
+    "Screen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شاشة"
+          }
+        }
+      }
+    },
+    "Select a blur to make it follow something.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر تمويهاً لجعله يتتبّع شيئاً."
+          }
+        }
+      }
+    },
+    "Select a clip to change its level.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مقطعاً لتغيير مستوى صوته."
+          }
+        }
+      }
+    },
+    "Select a clip to change its speed.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مقطعاً لتغيير سرعته."
+          }
+        }
+      }
+    },
+    "Select a clip to trim it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مقطعاً لقصّه."
+          }
+        }
+      }
+    },
+    "Select an image to change it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر صورة لتغييرها."
+          }
+        }
+      }
+    },
+    "Select something on the timeline to change when it appears.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر عنصراً على الخط الزمني لتغيير وقت ظهوره."
+          }
+        }
+      }
+    },
+    "Selective": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتقائي"
+          }
+        }
+      }
+    },
+    "Selective adjustment": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعديل انتقائي"
+          }
+        }
+      }
+    },
+    "Selective adjustment selected": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تحديد تعديل انتقائي"
+          }
+        }
+      }
+    },
+    "Semibold": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شبه عريض"
+          }
+        }
+      }
+    },
+    "Serif": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مذيّل"
+          }
+        }
+      }
+    },
+    "Shadow": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ظل"
+          }
+        }
+      }
+    },
+    "Shadows": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الظلال"
+          }
+        }
+      }
+    },
+    "Shake": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اهتزاز"
+          }
+        }
+      }
+    },
+    "Shape handle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مقبض الشكل"
+          }
+        }
+      }
+    },
+    "Shapes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأشكال"
+          }
+        }
+      }
+    },
+    "Share": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مشاركة"
+          }
+        }
+      }
+    },
+    "Sharpen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زيادة الحدة"
+          }
+        }
+      }
+    },
+    "Sharpness": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحدة"
+          }
+        }
+      }
+    },
+    "Show Recents": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار الأخيرة"
+          }
+        }
+      }
+    },
+    "Shows where captions and controls usually sit.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يوضّح أين تظهر التسميات وعناصر التحكم عادةً."
+          }
+        }
+      }
+    },
+    "Shrink": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصغير"
+          }
+        }
+      }
+    },
+    "Silver": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فضي"
+          }
+        }
+      }
+    },
+    "Size": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحجم"
+          }
+        }
+      }
+    },
+    "Skin Smoothing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنعيم البشرة"
+          }
+        }
+      }
+    },
+    "Slide": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انزلاق"
+          }
+        }
+      }
+    },
+    "Smaller": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أصغر"
+          }
+        }
+      }
+    },
+    "Smaller files, modern devices": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملفات أصغر، أجهزة حديثة"
+          }
+        }
+      }
+    },
+    "Smooth, even skin with detail kept.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بشرة ناعمة ومتجانسة مع الحفاظ على التفاصيل."
+          }
+        }
+      }
+    },
+    "Smoothing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التنعيم"
+          }
+        }
+      }
+    },
+    "Smoothness": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النعومة"
+          }
+        }
+      }
+    },
+    "Soft": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ناعم"
+          }
+        }
+      }
+    },
+    "Soft Blur": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمويه ناعم"
+          }
+        }
+      }
+    },
+    "Soft Light": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضوء ناعم"
+          }
+        }
+      }
+    },
+    "Sound": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مؤثر صوتي"
+          }
+        }
+      }
+    },
+    "Speed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السرعة"
+          }
+        }
+      }
+    },
+    "Split": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقسيم"
+          }
+        }
+      }
+    },
+    "Split Audio": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقسيم الصوت"
+          }
+        }
+      }
+    },
+    "Square": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مربّع"
+          }
+        }
+      }
+    },
+    "Stability": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الثبات"
+          }
+        }
+      }
+    },
+    "Standard": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قياسية"
+          }
+        }
+      }
+    },
+    "Start": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البداية"
+          }
+        }
+      }
+    },
+    "Start Drawing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابدأ الرسم"
+          }
+        }
+      }
+    },
+    "Start Here": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البداية هنا"
+          }
+        }
+      }
+    },
+    "Start In Source": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البداية في المصدر"
+          }
+        }
+      }
+    },
+    "Stop": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف"
+          }
+        }
+      }
+    },
+    "Straighten": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسوية"
+          }
+        }
+      }
+    },
+    "Strength": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القوة"
+          }
+        }
+      }
+    },
+    "Studio": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استوديو"
+          }
+        }
+      }
+    },
+    "Style": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النمط"
+          }
+        }
+      }
+    },
+    "Subject": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الموضوع"
+          }
+        }
+      }
+    },
+    "System": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النظام"
+          }
+        }
+      }
+    },
+    "Text": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نص"
+          }
+        }
+      }
+    },
+    "Text selected": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تحديد النص"
+          }
+        }
+      }
+    },
+    "That item couldn’t be brought into Frames. Try choosing it again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر إدخال هذا العنصر إلى Frames. جرّب اختياره مرة أخرى."
+          }
+        }
+      }
+    },
+    "That operation was stopped before it finished.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توقفت العملية قبل أن تكتمل."
+          }
+        }
+      }
+    },
+    "The export didn’t finish. Your edit is safe — try exporting again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يكتمل التصدير. تعديلك محفوظ — جرّب التصدير مرة أخرى."
+          }
+        }
+      }
+    },
+    "The file couldn’t be read.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة الملف."
+          }
+        }
+      }
+    },
+    "The finished file couldn’t be added to your library. It’s still available to share.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر إضافة الملف النهائي إلى مكتبتك. لا يزال بإمكانك مشاركته."
+          }
+        }
+      }
+    },
+    "The preview couldn’t be drawn. Undo the last change and try again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر رسم المعاينة. تراجع عن آخر تغيير وحاول مجدداً."
+          }
+        }
+      }
+    },
+    "The unsaved edit couldn’t be reopened, so it was discarded.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر فتح التعديل غير المحفوظ، لذا تم تجاهله."
+          }
+        }
+      }
+    },
+    "There isn’t enough free space on this iPhone to finish. Free up some space and try again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد مساحة كافية على هذا الـiPhone لإكمال العملية. أفرغ بعض المساحة وحاول مجدداً."
+          }
+        }
+      }
+    },
+    "This blur follows what Frames detects, so there is no shape to edit. Adjust the feather to soften its edge.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا التمويه يتبع ما يكتشفه Frames، لذا لا يوجد شكل لتحريره. عدّل التنعيم لتخفيف حافته."
+          }
+        }
+      }
+    },
+    "This file appears to be damaged and can’t be opened.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يبدو أن هذا الملف تالف ولا يمكن فتحه."
+          }
+        }
+      }
+    },
+    "This item is stored in iCloud and couldn’t be downloaded. Check your connection and try again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا العنصر مُخزّن في iCloud وتعذّر تنزيله. تحقق من اتصالك وحاول مجدداً."
+          }
+        }
+      }
+    },
+    "Timeline": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الخط الزمني"
+          }
+        }
+      }
+    },
+    "Timing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التوقيت"
+          }
+        }
+      }
+    },
+    "Tint": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصبغة"
+          }
+        }
+      }
+    },
+    "Top left handle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المقبض العلوي الأيسر"
+          }
+        }
+      }
+    },
+    "Top right handle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المقبض العلوي الأيمن"
+          }
+        }
+      }
+    },
+    "Track": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تتبّع"
+          }
+        }
+      }
+    },
+    "Track Forward": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تتبّع للأمام"
+          }
+        }
+      }
+    },
+    "Tracked Blur": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمويه متتبَّع"
+          }
+        }
+      }
+    },
+    "Tracked region": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منطقة متتبَّعة"
+          }
+        }
+      }
+    },
+    "Tracking": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التتبّع"
+          }
+        }
+      }
+    },
+    "Tracking follows something through a video, so it needs a video.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التتبّع يلاحق شيئاً عبر الفيديو، لذا يحتاج إلى فيديو."
+          }
+        }
+      }
+    },
+    "Transition": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتقال"
+          }
+        }
+      }
+    },
+    "Trim": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قصّ"
+          }
+        }
+      }
+    },
+    "Type": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النوع"
+          }
+        }
+      }
+    },
+    "Type something": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اكتب شيئاً"
+          }
+        }
+      }
+    },
+    "Underline": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسطير"
+          }
+        }
+      }
+    },
+    "Undo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تراجع"
+          }
+        }
+      }
+    },
+    "Unmute": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إلغاء الكتم"
+          }
+        }
+      }
+    },
+    "Unsupported Media": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وسائط غير مدعومة"
+          }
+        }
+      }
+    },
+    "Vertical Position": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الموضع الرأسي"
+          }
+        }
+      }
+    },
+    "Very smooth, with soft highlights.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ناعم جداً، مع إضاءات لطيفة."
+          }
+        }
+      }
+    },
+    "VHS": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VHS"
+          }
+        }
+      }
+    },
+    "Vibrance": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحيوية"
+          }
+        }
+      }
+    },
+    "Video clip": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مقطع فيديو"
+          }
+        }
+      }
+    },
+    "Video clip selected": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تحديد مقطع الفيديو"
+          }
+        }
+      }
+    },
+    "Video edit · %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعديل فيديو · %@"
+          }
+        }
+      }
+    },
+    "Video preview": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معاينة الفيديو"
+          }
+        }
+      }
+    },
+    "Vignette": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تظليل الأطراف"
+          }
+        }
+      }
+    },
+    "Vintage": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كلاسيكي"
+          }
+        }
+      }
+    },
+    "Voiceover": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعليق صوتي"
+          }
+        }
+      }
+    },
+    "Volume": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستوى الصوت"
+          }
+        }
+      }
+    },
+    "Warm": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دافئ"
+          }
+        }
+      }
+    },
+    "Warm Cinema": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سينما دافئة"
+          }
+        }
+      }
+    },
+    "Warmth": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدفء"
+          }
+        }
+      }
+    },
+    "Whole Video": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفيديو كامل"
+          }
+        }
+      }
+    },
+    "You have an unsaved edit.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لديك تعديل غير محفوظ."
+          }
+        }
+      }
+    },
+    "Your changes haven’t been exported yet.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم تصدير تغييراتك بعد."
+          }
+        }
+      }
+    },
+    "Zoom": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقريب"
+          }
+        }
+      }
     }
-  }
+  },
+  "version": "1.0"
 }
+
