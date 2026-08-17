@@ -94,14 +94,14 @@ enum PortraitProcessor {
     /// exposed frame the recovery stages contribute nothing at all no matter
     /// where the slider sits.
     ///
-    /// - Parameter isWholeFrameFallback: true when the user asked for people
-    ///   only but no mask was available. The frame is still processed — doing
-    ///   nothing would be worse — but a little more gently, because the
-    ///   background is now being smoothed too.
+    /// There used to be a "whole frame fallback" here that pulled every amount
+    /// down when Vision had no person mask. The colour-derived skin mask made
+    /// it obsolete — the treatment is confined whether or not Vision ran — and
+    /// keeping it only under-applied the effect during capture, which is the
+    /// one place segmentation cannot keep up.
     static func resolveAmounts(
         for settings: PortraitSettings,
-        luminance: Double,
-        isWholeFrameFallback: Bool
+        luminance: Double
     ) -> Amounts {
         let level = clamp01(luminance)
         // Darkness rises as the average drops below a normally exposed mid
@@ -112,7 +112,6 @@ enum PortraitProcessor {
         let requestedSmoothing = clamp01(settings.smoothing)
         let requestedEvenness = clamp01(settings.evenness)
         let lowLight = clamp01(settings.lowLight)
-        let fallbackScale = isWholeFrameFallback ? 0.82 : 1.0
 
         let exposureLift = clamp01(lowLight * darkness)
         let shadowLift = clamp01(lowLight * (0.28 + 0.72 * darkness))
@@ -128,9 +127,9 @@ enum PortraitProcessor {
             // Whatever was lifted has to be paid back as contrast, or the frame
             // reads washed out rather than rescued.
             contrastRestore: clamp01(shadowLift * 0.7 + exposureLift * 0.3),
-            smoothing: clamp01(requestedSmoothing * fallbackScale),
+            smoothing: clamp01(requestedSmoothing),
             detail: clamp01(settings.detailPreservation),
-            evenness: clamp01(requestedEvenness * fallbackScale),
+            evenness: clamp01(requestedEvenness),
             // Denoising pulls warmth out of shadows first, so a darker frame
             // needs more of the warmth budget to land in the same place.
             warmth: clamp01(clamp01(settings.warmth) * (0.65 + 0.35 * darkness)),
@@ -192,11 +191,7 @@ enum PortraitProcessor {
         // is nothing to hold back from — pulling the amounts down here would
         // just under-apply the treatment during capture, which is the one place
         // Vision cannot keep up and the colour mask is doing all the work.
-        var amounts = resolveAmounts(
-            for: settings,
-            luminance: luminance,
-            isWholeFrameFallback: false
-        )
+        var amounts = resolveAmounts(for: settings, luminance: luminance)
         amounts = amounts.smoothed(towards: state?.amounts, stability: settings.temporalStability)
         state?.amounts = amounts
         state?.advance(to: time)

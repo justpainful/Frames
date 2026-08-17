@@ -169,9 +169,9 @@ struct PortraitTemporalTests {
     @Test("Smoothing a whole set of amounts holds every field")
     func amountsSmoothTogether() {
         let previous = PortraitProcessor.resolveAmounts(
-            for: PortraitSettings.Preset.natural.settings, luminance: 0.5, isWholeFrameFallback: false)
+            for: PortraitSettings.Preset.natural.settings, luminance: 0.5)
         let current = PortraitProcessor.resolveAmounts(
-            for: PortraitSettings.Preset.lowLight.settings, luminance: 0.1, isWholeFrameFallback: false)
+            for: PortraitSettings.Preset.lowLight.settings, luminance: 0.1)
 
         #expect(current.smoothed(towards: nil, stability: 1) == current)
 
@@ -222,16 +222,14 @@ struct PortraitAmountsTests {
     func amountsStayInRange() {
         for settings in Self.cases {
             for luminance in Self.luminances {
-                for fallback in [true, false] {
-                    let amounts = PortraitProcessor.resolveAmounts(
-                        for: settings, luminance: luminance, isWholeFrameFallback: fallback)
-                    for value in [
-                        amounts.lumaNoise, amounts.chromaBlur, amounts.exposureLift,
-                        amounts.shadowLift, amounts.contrastRestore, amounts.smoothing,
-                        amounts.detail, amounts.evenness, amounts.warmth, amounts.glow
-                    ] {
-                        #expect(value >= 0 && value <= 1, "\(value) escaped the range")
-                    }
+                let amounts = PortraitProcessor.resolveAmounts(
+                    for: settings, luminance: luminance)
+                for value in [
+                    amounts.lumaNoise, amounts.chromaBlur, amounts.exposureLift,
+                    amounts.shadowLift, amounts.contrastRestore, amounts.smoothing,
+                    amounts.detail, amounts.evenness, amounts.warmth, amounts.glow
+                ] {
+                    #expect(value >= 0 && value <= 1, "\(value) escaped the range")
                 }
             }
         }
@@ -245,7 +243,7 @@ struct PortraitAmountsTests {
         // Walking from bright to dark, neither recovery amount may ever fall.
         for luminance in Self.luminances.reversed() {
             let amounts = PortraitProcessor.resolveAmounts(
-                for: settings, luminance: luminance, isWholeFrameFallback: false)
+                for: settings, luminance: luminance)
             #expect(amounts.exposureLift >= previousExposure - 0.0001)
             #expect(amounts.shadowLift >= previousShadow - 0.0001)
             previousExposure = amounts.exposureLift
@@ -257,7 +255,7 @@ struct PortraitAmountsTests {
     func brightFrameIsNotLifted() {
         let settings = PortraitSettings(isEnabled: true, lowLight: 1)
         let amounts = PortraitProcessor.resolveAmounts(
-            for: settings, luminance: 0.7, isWholeFrameFallback: false)
+            for: settings, luminance: 0.7)
         #expect(amounts.exposureLift == 0)
         #expect(amounts.shadowLift > 0, "a shadow lift is still available, an exposure lift is not")
         #expect(amounts.shadowLift < 0.4)
@@ -266,12 +264,11 @@ struct PortraitAmountsTests {
     @Test("Raising low light raises every low-light amount")
     func lowLightIsMonotone() {
         var previous = PortraitProcessor.resolveAmounts(
-            for: PortraitSettings(isEnabled: true, lowLight: 0), luminance: 0.15,
-            isWholeFrameFallback: false)
+            for: PortraitSettings(isEnabled: true, lowLight: 0), luminance: 0.15)
         for step in 1...10 {
             let settings = PortraitSettings(isEnabled: true, lowLight: Double(step) / 10)
             let amounts = PortraitProcessor.resolveAmounts(
-                for: settings, luminance: 0.15, isWholeFrameFallback: false)
+                for: settings, luminance: 0.15)
             #expect(amounts.exposureLift >= previous.exposureLift - 0.0001)
             #expect(amounts.shadowLift >= previous.shadowLift - 0.0001)
             #expect(amounts.lumaNoise >= previous.lumaNoise - 0.0001)
@@ -286,7 +283,7 @@ struct PortraitAmountsTests {
         for step in 0...10 {
             let settings = PortraitSettings(isEnabled: true, colorNoiseReduction: Double(step) / 10)
             let amounts = PortraitProcessor.resolveAmounts(
-                for: settings, luminance: 0.3, isWholeFrameFallback: false)
+                for: settings, luminance: 0.3)
             #expect(amounts.chromaBlur >= previous - 0.0001)
             previous = amounts.chromaBlur
         }
@@ -298,7 +295,7 @@ struct PortraitAmountsTests {
         for step in 0...10 {
             let settings = PortraitSettings(isEnabled: true, smoothing: Double(step) / 10)
             let amounts = PortraitProcessor.resolveAmounts(
-                for: settings, luminance: 0.5, isWholeFrameFallback: false)
+                for: settings, luminance: 0.5)
             #expect(amounts.smoothing >= previous - 0.0001)
             previous = amounts.smoothing
         }
@@ -308,27 +305,52 @@ struct PortraitAmountsTests {
     func luminanceIsClamped() {
         let settings = PortraitSettings.Preset.lowLight.settings
         #expect(
-            PortraitProcessor.resolveAmounts(for: settings, luminance: -4, isWholeFrameFallback: false)
-                == PortraitProcessor.resolveAmounts(for: settings, luminance: 0, isWholeFrameFallback: false)
+            PortraitProcessor.resolveAmounts(for: settings, luminance: -4)
+                == PortraitProcessor.resolveAmounts(for: settings, luminance: 0)
         )
         #expect(
-            PortraitProcessor.resolveAmounts(for: settings, luminance: 4, isWholeFrameFallback: false)
-                == PortraitProcessor.resolveAmounts(for: settings, luminance: 1, isWholeFrameFallback: false)
+            PortraitProcessor.resolveAmounts(for: settings, luminance: 4)
+                == PortraitProcessor.resolveAmounts(for: settings, luminance: 1)
         )
     }
 
-    @Test("Falling back to the whole frame softens the skin stages only")
-    func wholeFrameFallbackIsGentler() {
-        let settings = PortraitSettings.Preset.studio.settings
-        let masked = PortraitProcessor.resolveAmounts(
-            for: settings, luminance: 0.25, isWholeFrameFallback: false)
-        let fallback = PortraitProcessor.resolveAmounts(
-            for: settings, luminance: 0.25, isWholeFrameFallback: true)
+    /// The presets exist to be visibly different from each other. A "Studio"
+    /// that resolves to nearly the same numbers as "Natural" is four buttons
+    /// doing one thing, which is how the previous version ended up feeling like
+    /// it did nothing at all.
+    @Test("The presets are meaningfully far apart")
+    func presetsAreDistinctInEffect() {
+        let natural = PortraitProcessor.resolveAmounts(
+            for: PortraitSettings.Preset.natural.settings, luminance: 0.35)
+        let studio = PortraitProcessor.resolveAmounts(
+            for: PortraitSettings.Preset.studio.settings, luminance: 0.35)
 
-        #expect(fallback.smoothing < masked.smoothing)
-        #expect(fallback.evenness < masked.evenness)
-        #expect(fallback.exposureLift == masked.exposureLift, "recovery is a property of the shot")
-        #expect(fallback.chromaBlur == masked.chromaBlur)
+        #expect(studio.smoothing > natural.smoothing + 0.2)
+        #expect(studio.detail < natural.detail)
+    }
+
+    /// The colour stages were the only visible thing the earlier version did,
+    /// and they are what made it read as a filter rather than a camera. They
+    /// stay available as sliders and contribute nothing unless asked for.
+    @Test("No preset applies a colour cast by default")
+    func presetsDoNotTintByDefault() {
+        for preset in PortraitSettings.Preset.allCases {
+            let amounts = PortraitProcessor.resolveAmounts(
+                for: preset.settings, luminance: 0.4)
+            #expect(amounts.warmth == 0, "\(preset.rawValue) warms the picture")
+            #expect(amounts.glow == 0, "\(preset.rawValue) glows")
+            #expect(amounts.evenness == 0, "\(preset.rawValue) flattens colour")
+        }
+    }
+
+    @Test("Every preset actually smooths")
+    func presetsSmooth() {
+        for preset in PortraitSettings.Preset.allCases {
+            let amounts = PortraitProcessor.resolveAmounts(
+                for: preset.settings, luminance: 0.4)
+            #expect(amounts.smoothing >= 0.6, "\(preset.rawValue) barely smooths")
+            #expect(preset.settings.hairRemoval > 0, "\(preset.rawValue) leaves stray hairs")
+        }
     }
 
     @Test("Everything off resolves to nothing to do")
@@ -338,7 +360,7 @@ struct PortraitAmountsTests {
             colorNoiseReduction: 0, glow: 0, evenness: 0, warmth: 0, temporalStability: 0
         )
         let amounts = PortraitProcessor.resolveAmounts(
-            for: settings, luminance: 0, isWholeFrameFallback: false)
+            for: settings, luminance: 0)
         #expect(amounts.smoothing == 0)
         #expect(amounts.lumaNoise == 0)
         #expect(amounts.chromaBlur == 0)
