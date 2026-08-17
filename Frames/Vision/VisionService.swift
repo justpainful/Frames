@@ -186,7 +186,9 @@ actor VisionService {
         request.trackingLevel = .accurate
         try trackingHandler.perform([request], on: image)
 
-        guard let observation = request.results?.first else { return nil }
+        guard let observation = request.results?.first as? VNDetectedObjectObservation else {
+            return nil
+        }
         trackingObservations[objectID] = observation
 
         let confidence = Double(observation.confidence)
