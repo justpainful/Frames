@@ -1,3 +1,4 @@
+import PhotosUI
 import SwiftUI
 
 /// The Background tool.
@@ -8,6 +9,10 @@ import SwiftUI
 struct BackgroundInspector: View {
     let session: EditorSession
     let onDone: () -> Void
+
+    @Environment(AppModel.self) private var app
+    @State private var backgroundItem: PhotosPickerItem?
+    @State private var isImporting = false
 
     private var background: BackgroundStyle { session.document.background }
 
@@ -55,7 +60,26 @@ struct BackgroundInspector: View {
                     ) { editing in
                         if !editing { session.endInteraction() }
                     }
-                case .fit, .fill, .image:
+                case .image:
+                    PhotosPicker(selection: $backgroundItem, matching: .images, photoLibrary: .shared()) {
+                        Label {
+                            Text(
+                                background.imageAssetID == nil
+                                    ? String(localized: "Choose Image", comment: "Background action")
+                                    : String(localized: "Change Image", comment: "Background action")
+                            )
+                        } icon: {
+                            Image(systemName: "photo")
+                        }
+                        .font(.subheadline)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 6)
+                    }
+                    .buttonStyle(background.imageAssetID == nil ? .glassProminent : .glass)
+                    .overlay {
+                        if isImporting { ProgressView().controlSize(.small) }
+                    }
+                case .fit, .fill:
                     EmptyView()
                 }
 
@@ -119,6 +143,31 @@ struct BackgroundInspector: View {
                 }
                 .toggleStyle(.switch)
             }
+        }
+        .onChange(of: backgroundItem) { _, item in
+            guard let item else { return }
+            Task { await importBackground(item) }
+        }
+    }
+
+    private func importBackground(_ item: PhotosPickerItem) async {
+        isImporting = true
+        defer {
+            isImporting = false
+            backgroundItem = nil
+        }
+        do {
+            let asset = try await app.importService.importAsset(from: item)
+            session.perform(String(localized: "Background", comment: "Undo action")) { document in
+                document.addAsset(asset)
+                document.background.fill = .image
+                document.background.imageAssetID = asset.id
+            }
+            Haptics.edit()
+        } catch let error as FramesError {
+            app.present(error)
+        } catch {
+            app.present(.importFailed(error.localizedDescription))
         }
     }
 }

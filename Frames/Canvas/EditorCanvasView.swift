@@ -58,6 +58,28 @@ struct EditorCanvasView: View {
                     RetouchSpotOverlay(session: session, mediaFrame: media)
                 }
 
+                // Face and person blur need the user to say *which* one, so the
+                // detections are shown over the picture while that blur is
+                // selected rather than guessed at.
+                if let picker = detectionPicker {
+                    switch picker.scope {
+                    case .face:
+                        FacePickerOverlay(
+                            session: session,
+                            regionID: picker.regionID,
+                            mediaFrame: media
+                        )
+                    case .person:
+                        PersonPickerOverlay(
+                            session: session,
+                            regionID: picker.regionID,
+                            mediaFrame: media
+                        )
+                    default:
+                        EmptyView()
+                    }
+                }
+
                 if isDrawing, case .drawing(let id) = session.selection,
                    let drawing = document.drawings.first(where: { $0.id == id }) {
                     DrawingCanvasView(
@@ -166,6 +188,16 @@ struct EditorCanvasView: View {
                 ProgressView()
             }
         }
+    }
+
+    /// The blur that needs a detection picked, if one is selected.
+    private var detectionPicker: (regionID: UUID, scope: BlurScope)? {
+        guard case .blur(let id) = session.selection,
+              let region = document.blurRegions.first(where: { $0.id == id }),
+              region.scope == .face || region.scope == .person,
+              detail == .blur || detail == .blurMask || detail == .blurStrength || detail == .blurType
+        else { return nil }
+        return (id, region.scope)
     }
 
     private var constrainedAspect: CGFloat? {

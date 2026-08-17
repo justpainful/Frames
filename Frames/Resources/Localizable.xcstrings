@@ -1,6 +1,16 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%lld fixes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld تصحيحات"
+          }
+        }
+      }
+    },
     "A light pass. Keeps most texture.": {
       "localizations": {
         "ar": {
@@ -117,6 +127,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إضافة صورة"
+          }
+        }
+      }
+    },
+    "Add keyframe": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة إطار مفتاحي"
           }
         }
       }
@@ -361,6 +381,16 @@
         }
       }
     },
+    "Blends a small spot into the skin around it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يدمج بقعة صغيرة مع البشرة المحيطة بها."
+          }
+        }
+      }
+    },
     "Bloom": {
       "localizations": {
         "ar": {
@@ -461,6 +491,16 @@
         }
       }
     },
+    "Brighten": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تفتيح"
+          }
+        }
+      }
+    },
     "Brightness": {
       "localizations": {
         "ar": {
@@ -521,6 +561,16 @@
         }
       }
     },
+    "Change Image": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيير الصورة"
+          }
+        }
+      }
+    },
     "Choose a photo or video": {
       "localizations": {
         "ar": {
@@ -537,6 +587,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اختر صورة أو فيديو من تطبيق الملفات."
+          }
+        }
+      }
+    },
+    "Choose Image": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار صورة"
           }
         }
       }
@@ -941,6 +1001,16 @@
         }
       }
     },
+    "Detected faces": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوجوه المكتشفة"
+          }
+        }
+      }
+    },
     "Detection Unavailable": {
       "localizations": {
         "ar": {
@@ -997,6 +1067,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تم"
+          }
+        }
+      }
+    },
+    "Double tap to remove.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انقر مرتين للحذف."
           }
         }
       }
@@ -1941,6 +2021,16 @@
         }
       }
     },
+    "Lifts a small shadow.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يرفع ظلاً صغيراً."
+          }
+        }
+      }
+    },
     "Light": {
       "localizations": {
         "ar": {
@@ -2211,6 +2301,16 @@
         }
       }
     },
+    "No faces found in this frame.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم العثور على وجوه في هذا الإطار."
+          }
+        }
+      }
+    },
     "Noir": {
       "localizations": {
         "ar": {
@@ -2427,6 +2527,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "شخص"
+          }
+        }
+      }
+    },
+    "Person %lld": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شخص %lld"
           }
         }
       }
@@ -2761,6 +2871,16 @@
         }
       }
     },
+    "Red-Eye": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "احمرار العين"
+          }
+        }
+      }
+    },
     "Redo": {
       "localizations": {
         "ar": {
@@ -2801,6 +2921,16 @@
         }
       }
     },
+    "Remove keyframe": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف الإطار المفتاحي"
+          }
+        }
+      }
+    },
     "Remove Range": {
       "localizations": {
         "ar": {
@@ -2811,12 +2941,32 @@
         }
       }
     },
+    "Remove Retouch": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف التنقيح"
+          }
+        }
+      }
+    },
     "Removing %@": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "سيتم حذف %@"
+          }
+        }
+      }
+    },
+    "Rendering %lld%": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ العرض %lld%"
           }
         }
       }
@@ -2891,6 +3041,16 @@
         }
       }
     },
+    "Retouch changes how a small area reads. It never changes anyone's shape.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التنقيح يغيّر طريقة ظهور منطقة صغيرة فقط، ولا يغيّر شكل أي شخص إطلاقاً."
+          }
+        }
+      }
+    },
     "Retouch changes how light and texture read. It never changes anyone's shape.": {
       "localizations": {
         "ar": {
@@ -2901,12 +3061,32 @@
         }
       }
     },
+    "Retouch spots": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقاط التنقيح"
+          }
+        }
+      }
+    },
     "Retro": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "ريترو"
+          }
+        }
+      }
+    },
+    "Reverse": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عكس"
           }
         }
       }
@@ -3581,6 +3761,26 @@
         }
       }
     },
+    "Takes the red out of a pupil.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يزيل الاحمرار من بؤبؤ العين."
+          }
+        }
+      }
+    },
+    "Tap the picture to place a fix.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انقر على الصورة لوضع تصحيح."
+          }
+        }
+      }
+    },
     "Text": {
       "localizations": {
         "ar": {
@@ -3877,6 +4077,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تراجع"
+          }
+        }
+      }
+    },
+    "Undo Last": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تراجع عن الأخير"
           }
         }
       }

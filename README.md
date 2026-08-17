@@ -116,8 +116,8 @@ crash recovery.
 **Timeline** — video
 Fixed centre playhead with the content moving under it, pinch zoom that holds the
 playhead fixed, cached filmstrip thumbnails, tracks that appear only when used,
-trim, split, remove range, duplicate, reorder, speed, reverse-safe freeze frames,
-and transitions.
+trim, split, remove range, duplicate, reorder, speed, freeze frames, real
+reverse rendering, and transitions.
 
 **Image processing**
 Eighteen adjustments across Light, Color, Detail and Finishing; Auto Enhance that
@@ -144,6 +144,10 @@ shapes and reorders correctly. Image overlays with on-device background removal,
 crop, corner radius, borders, shadows and blend modes. PencilKit drawing plus
 arrow, line, rectangle and circle tools.
 
+**Retouch**
+Blemish healing that keeps the skin's own shading, red-eye correction, and a
+small shadow lift. Tap to place, drag to move. No reshaping, ever.
+
 **Audio**
 Waveforms streamed off the main actor, volume, trim, split, fades, speed,
 voiceover recording, lossless audio extraction from another video, and automatic
@@ -157,10 +161,10 @@ Photos with add-only permission, and the system share sheet.
 ## Known limitations
 
 - iPhone only. The layout assumes one hand and a phone-sized canvas.
-- Reversing a clip is modelled but not yet rendered; it needs a pre-render pass
-  rather than a composition trick, and shipping a Reverse button that silently
-  played forwards would be worse than not shipping one.
-- Speed curves are a single rate per clip rather than a ramp.
+- Speed is a single rate per clip rather than a ramp. A speed curve would mean
+  splitting a clip into segments at composition time, and the timeline model is
+  clearer without that; per-clip speed plus split covers the same ground with
+  one fewer concept.
 - Filter and effect thumbnails are built from one sampled frame, so on a video
   they represent the frame at the playhead.
 
