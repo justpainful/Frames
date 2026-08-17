@@ -187,10 +187,15 @@ enum PortraitProcessor {
         let usesMask = settings.restrictToPeople && personMask != nil
         let luminance = measuredLuminance(of: image, extent: extent, state: state, time: time)
 
+        // No longer a whole-frame fallback. Without a person mask the cosmetic
+        // stages are still confined by the colour-derived skin mask, so there
+        // is nothing to hold back from — pulling the amounts down here would
+        // just under-apply the treatment during capture, which is the one place
+        // Vision cannot keep up and the colour mask is doing all the work.
         var amounts = resolveAmounts(
             for: settings,
             luminance: luminance,
-            isWholeFrameFallback: settings.restrictToPeople && personMask == nil
+            isWholeFrameFallback: false
         )
         amounts = amounts.smoothed(towards: state?.amounts, stability: settings.temporalStability)
         state?.amounts = amounts
@@ -212,27 +217,99 @@ enum PortraitProcessor {
         // room is a property of the shot, not of the person in it.
         let recovered = exposureRecovered(cleaned, amounts: amounts, extent: extent)
 
-        // Stages 4 to 10 are the skin work, and are what the person mask
-        // restricts when there is one.
         let edges = edgeMap(of: recovered, shortEdge: shortEdge, scale: scale, extent: extent)
-        var output = surfaceSmoothed(
+
+        // Stages 4 to 9 are cosmetic, and cosmetic work applied to the whole
+        // frame is the reason processed video looks processed. Smoothing the
+        // wall, the hair and the shirt alongside the face reads as a layer over
+        // the picture no matter how good the smoothing is. Everything from here
+        // is composited back through a mask of where skin actually is.
+        var treated = surfaceSmoothed(
             recovered, edges: edges, amounts: amounts,
             shortEdge: shortEdge, scale: scale, extent: extent)
-        output = evened(
-            output, amount: amounts.evenness, shortEdge: shortEdge, scale: scale, extent: extent)
-        output = warmed(output, amount: amounts.warmth, extent: extent)
-        output = glowed(
-            output, amount: amounts.glow, shortEdge: shortEdge, scale: scale, extent: extent)
-        output = clarified(
+        treated = evened(
+            treated, amount: amounts.evenness, shortEdge: shortEdge, scale: scale, extent: extent)
+        treated = warmed(treated, amount: amounts.warmth, extent: extent)
+        treated = glowed(
+            treated, amount: amounts.glow, shortEdge: shortEdge, scale: scale, extent: extent)
+
+        // A perfectly clean surface is the other half of the tell. Real skin
+        // photographed by a real camera keeps a trace of fine noise, and a
+        // surface with none of it reads as painted rather than photographed.
+        // The floor goes on before the composite so it only ever lands where
+        // the smoothing did.
+        treated = textureFloor(
+            treated, amount: amounts.smoothing, time: time, extent: extent)
+
+        var output = treated
+        if let skin = skinMask(
+            of: recovered,
+            edges: edges,
+            personMask: usesMask ? personMask : nil,
+            state: state,
+            settings: settings,
+            shortEdge: shortEdge,
+            scale: scale,
+            extent: extent
+        ) {
+            output = MaskRenderer.blend(effect: treated, over: recovered, using: skin, extent: extent)
+        }
+
+        // Clarity is photographic rather than cosmetic — it is what the lens
+        // and the sensor would have given you — so it applies to the whole
+        // frame, after the composite, and keeps the background crisp against
+        // the smoothed skin.
+        return clarified(
             output, amounts: amounts, shortEdge: shortEdge, scale: scale,
             quality: quality, extent: extent)
+    }
 
-        guard usesMask, let personMask else { return output }
+    /// Where the cosmetic stages are allowed to land.
+    ///
+    /// Three tests, narrowing: the pixel has to be skin-coloured, it has to be
+    /// in a flat area rather than on an edge, and — when Vision has supplied a
+    /// person mask — it has to be on the person. The result is temporally
+    /// smoothed for the same reason the amounts are: a mask that changes shape
+    /// every frame is visible as a crawling outline even when each individual
+    /// frame is right.
+    private static func skinMask(
+        of image: CIImage,
+        edges: CIImage,
+        personMask: CIImage?,
+        state: PortraitTemporalState?,
+        settings: PortraitSettings,
+        shortEdge: CGFloat,
+        scale: CGFloat,
+        extent: CGRect
+    ) -> CIImage? {
+        guard var mask = SkinToneMask.mask(for: image, softness: Double(scale)) else { return nil }
+        mask = SkinToneMask.restrictedToFlatAreas(mask, edges: edges, extent: extent)
 
-        let mask = stabilisedMask(
-            personMask, state: state, stability: settings.temporalStability,
-            shortEdge: shortEdge, scale: scale, extent: extent)
-        return MaskRenderer.blend(effect: output, over: recovered, using: mask, extent: extent)
+        if let personMask {
+            let stabilised = stabilisedMask(
+                personMask, state: state, stability: settings.temporalStability,
+                shortEdge: shortEdge, scale: scale, extent: extent)
+            mask = SkinToneMask.intersected(mask, with: stabilised, extent: extent)
+        }
+        return mask
+    }
+
+    /// Puts a trace of fine grain back over the treated area.
+    ///
+    /// Deliberately small and monochrome. The goal is not a film look — it is
+    /// that skin keeps the faint irregularity every real photograph has, so the
+    /// eye reads the surface as a surface rather than as fill.
+    private static func textureFloor(
+        _ image: CIImage,
+        amount: Double,
+        time: TimeInterval,
+        extent: CGRect
+    ) -> CIImage {
+        // Scales with how much was removed: light smoothing has left enough of
+        // its own texture, heavy smoothing has left none.
+        let floor = min(max(amount, 0), 1) * 0.055
+        guard floor > 0.004 else { return image }
+        return GrainRenderer.apply(amount: floor, to: image, seed: time * 24)
     }
 
     // MARK: - Measurement

@@ -56,14 +56,14 @@ struct PortraitSettings: Codable, Hashable, Sendable {
 
     init(
         isEnabled: Bool = false,
-        smoothing: Double = 0.7,
-        detailPreservation: Double = 0.6,
-        lowLight: Double = 0.5,
+        smoothing: Double = 0.52,
+        detailPreservation: Double = 0.70,
+        lowLight: Double = 0.45,
         colorNoiseReduction: Double = 0.55,
-        glow: Double = 0.28,
-        evenness: Double = 0.5,
-        warmth: Double = 0.2,
-        temporalStability: Double = 0.7,
+        glow: Double = 0.08,
+        evenness: Double = 0.30,
+        warmth: Double = 0.05,
+        temporalStability: Double = 0.75,
         restrictToPeople: Bool = true
     ) {
         self.isEnabled = isEnabled
@@ -117,31 +117,40 @@ struct PortraitSettings: Codable, Hashable, Sendable {
             }
         }
 
+        /// The numbers are lower than they look like they should be, on purpose.
+        ///
+        /// Because the cosmetic stages are now confined to skin, the same
+        /// smoothing value does much more visible work than it did when it was
+        /// spread across the whole frame — and the failure mode of this feature
+        /// is not "too subtle", it is "obviously a filter". Glow and warmth in
+        /// particular are kept near zero by default: a global colour cast and a
+        /// screened highlight bloom are the two things that read as an overlay
+        /// faster than anything else.
         var settings: PortraitSettings {
             switch self {
             case .natural:
                 PortraitSettings(
-                    isEnabled: true, smoothing: 0.42, detailPreservation: 0.75,
-                    lowLight: 0.25, colorNoiseReduction: 0.35, glow: 0.15,
-                    evenness: 0.3, warmth: 0.12, temporalStability: 0.65
+                    isEnabled: true, smoothing: 0.30, detailPreservation: 0.82,
+                    lowLight: 0.25, colorNoiseReduction: 0.35, glow: 0.04,
+                    evenness: 0.18, warmth: 0.03, temporalStability: 0.7
                 )
             case .clean:
                 PortraitSettings(
-                    isEnabled: true, smoothing: 0.72, detailPreservation: 0.6,
-                    lowLight: 0.45, colorNoiseReduction: 0.55, glow: 0.28,
-                    evenness: 0.55, warmth: 0.2, temporalStability: 0.7
+                    isEnabled: true, smoothing: 0.52, detailPreservation: 0.70,
+                    lowLight: 0.45, colorNoiseReduction: 0.55, glow: 0.08,
+                    evenness: 0.30, warmth: 0.05, temporalStability: 0.75
                 )
             case .studio:
                 PortraitSettings(
-                    isEnabled: true, smoothing: 0.88, detailPreservation: 0.52,
-                    lowLight: 0.4, colorNoiseReduction: 0.6, glow: 0.45,
-                    evenness: 0.7, warmth: 0.26, temporalStability: 0.78
+                    isEnabled: true, smoothing: 0.70, detailPreservation: 0.62,
+                    lowLight: 0.40, colorNoiseReduction: 0.60, glow: 0.16,
+                    evenness: 0.42, warmth: 0.08, temporalStability: 0.8
                 )
             case .lowLight:
                 PortraitSettings(
-                    isEnabled: true, smoothing: 0.7, detailPreservation: 0.58,
-                    lowLight: 0.85, colorNoiseReduction: 0.8, glow: 0.22,
-                    evenness: 0.6, warmth: 0.24, temporalStability: 0.85
+                    isEnabled: true, smoothing: 0.48, detailPreservation: 0.70,
+                    lowLight: 0.85, colorNoiseReduction: 0.80, glow: 0.05,
+                    evenness: 0.34, warmth: 0.06, temporalStability: 0.88
                 )
             }
         }

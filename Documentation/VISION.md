@@ -67,11 +67,33 @@ silently drawing a blur over the wrong part of the picture.
 
 ## Portrait
 
-Portrait mode uses the foreground subject mask to keep its strongest processing
-on people, and falls back to processing the whole frame at reduced strength when
-no subject is found — doing nothing would be worse than doing less. The mask is
-feathered and temporally averaged before use, because an unsteady mask edge is
+Portrait's targeting is **not** Vision, and that is the important decision.
+
+A person mask covers hair, clothing and everything else a person is wearing as
+well as their skin. Smoothing all of that is precisely what makes processed
+video look processed — the treatment reads as a layer over the picture rather
+than as a better camera. It also needs a segmentation pass per frame, which
+cannot keep up at capture rate, and its edges crawl.
+
+`SkinToneMask` answers the question from colour instead. Skin sits in a narrow,
+well-understood region: red exceeds blue by a clear margin at every skin tone,
+because melanin absorbs blue far more than red, and the luminance sits away from
+both crushed shadow and blown highlight. Three colour operations and a blur give
+a per-pixel skin likelihood at full frame rate with no model. It is then
+multiplied by an inverted edge map, so lips, nostrils, the lash line and the jaw
+edge — all skin-coloured, all structure — keep their detail.
+
+Where Vision *is* available, in the editor, the person mask is intersected with
+the colour mask so a skin-coloured wall behind someone is excluded. It is
+feathered and temporally averaged first, because an unsteady mask edge is
 visible as a crawling outline even when every individual frame looks correct.
+
+Two consequences worth stating. Only the cosmetic stages are masked; denoise,
+exposure recovery and clarity are photographic and apply to the whole frame.
+And a trace of fine grain is put back over the treated area afterwards, because
+a perfectly clean surface is the other half of the tell — real skin photographed
+by a real camera keeps a faint irregularity, and a surface with none of it reads
+as painted.
 
 ## Failure
 
