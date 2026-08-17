@@ -93,7 +93,7 @@ extension EditorSession {
     func trimClip(_ clipID: UUID, headDelta: TimeInterval, tailDelta: TimeInterval, isFinal: Bool) {
         perform(
             String(localized: "Trim", comment: "Undo action"),
-            coalescing: isFinal ? nil : "trim.\(clipID)"
+            coalescing: "trim.\(clipID)"
         ) { document in
             _ = try? document.trimClip(clipID, headDelta: headDelta, tailDelta: tailDelta)
         }
@@ -103,7 +103,7 @@ extension EditorSession {
     func setClipSource(_ clipID: UUID, start: TimeInterval, duration: TimeInterval, isFinal: Bool) {
         perform(
             String(localized: "Trim", comment: "Undo action"),
-            coalescing: isFinal ? nil : "trim.\(clipID)"
+            coalescing: "trim.\(clipID)"
         ) { document in
             _ = try? document.setClipSource(clipID, start: start, duration: duration)
         }
@@ -122,7 +122,7 @@ extension EditorSession {
     func setSpeed(_ speed: Double, forClip clipID: UUID, isFinal: Bool) {
         perform(
             String(localized: "Speed", comment: "Undo action"),
-            coalescing: isFinal ? nil : "speed.\(clipID)"
+            coalescing: "speed.\(clipID)"
         ) { document in
             _ = try? document.setSpeed(speed, forClip: clipID)
         }
@@ -146,7 +146,7 @@ extension EditorSession {
     func setClipVolume(_ volume: Double, forClip clipID: UUID, isFinal: Bool) {
         perform(
             String(localized: "Volume", comment: "Undo action"),
-            coalescing: isFinal ? nil : "volume.\(clipID)"
+            coalescing: "volume.\(clipID)"
         ) { document in
             guard let index = document.videoTrack.firstIndex(where: { $0.id == clipID }) else { return }
             document.videoTrack[index].volume = min(max(volume, 0), 2)
@@ -177,7 +177,7 @@ extension EditorSession {
     func updateCrop(_ crop: CropState, isFinal: Bool) {
         perform(
             String(localized: "Crop", comment: "Undo action"),
-            coalescing: isFinal ? nil : "crop"
+            coalescing: "crop"
         ) { document in
             document.applyCrop(crop, toClip: self.activeClipID)
         }
@@ -217,7 +217,7 @@ extension EditorSession {
     func setBackground(_ background: BackgroundStyle, isFinal: Bool = true) {
         perform(
             String(localized: "Background", comment: "Undo action"),
-            coalescing: isFinal ? nil : "background"
+            coalescing: "background"
         ) { document in
             document.background = background
         }
@@ -235,7 +235,7 @@ extension EditorSession {
     func setAdjustment(_ parameter: AdjustmentParameter, to value: Double, isFinal: Bool) {
         perform(
             parameter.displayName,
-            coalescing: isFinal ? nil : "adjust.\(parameter.rawValue)"
+            coalescing: "adjust.\(parameter.rawValue)"
         ) { document in
             document.grade.adjustments[parameter] = value
         }
@@ -278,7 +278,7 @@ extension EditorSession {
     func setFilterIntensity(_ intensity: Double, isFinal: Bool) {
         perform(
             String(localized: "Filter Intensity", comment: "Undo action"),
-            coalescing: isFinal ? nil : "filter.intensity"
+            coalescing: "filter.intensity"
         ) { document in
             guard var filter = document.grade.filter else { return }
             filter.intensity = min(max(intensity, 0), 1)
@@ -303,7 +303,7 @@ extension EditorSession {
     func updateBlur(_ id: UUID, isFinal: Bool = true, _ mutate: (inout BlurRegion) -> Void) {
         perform(
             String(localized: "Blur", comment: "Undo action"),
-            coalescing: isFinal ? nil : "blur.\(id)"
+            coalescing: "blur.\(id)"
         ) { document in
             guard let index = document.blurRegions.firstIndex(where: { $0.id == id }) else { return }
             mutate(&document.blurRegions[index])
@@ -335,7 +335,7 @@ extension EditorSession {
     func updateSelectiveAdjustment(_ id: UUID, isFinal: Bool = true, _ mutate: (inout SelectiveAdjustment) -> Void) {
         perform(
             String(localized: "Selective Adjustment", comment: "Undo action"),
-            coalescing: isFinal ? nil : "selective.\(id)"
+            coalescing: "selective.\(id)"
         ) { document in
             guard let index = document.selectiveAdjustments.firstIndex(where: { $0.id == id }) else { return }
             mutate(&document.selectiveAdjustments[index])
@@ -373,7 +373,7 @@ extension EditorSession {
     func updateText(_ id: UUID, isFinal: Bool = true, _ mutate: (inout TextOverlay) -> Void) {
         perform(
             String(localized: "Text", comment: "Undo action"),
-            coalescing: isFinal ? nil : "text.\(id)"
+            coalescing: "text.\(id)"
         ) { document in
             guard let index = document.textOverlays.firstIndex(where: { $0.id == id }) else { return }
             mutate(&document.textOverlays[index])
@@ -420,7 +420,7 @@ extension EditorSession {
     func updateImageOverlay(_ id: UUID, isFinal: Bool = true, _ mutate: (inout ImageOverlay) -> Void) {
         perform(
             String(localized: "Image", comment: "Undo action"),
-            coalescing: isFinal ? nil : "overlay.\(id)"
+            coalescing: "overlay.\(id)"
         ) { document in
             guard let index = document.imageOverlays.firstIndex(where: { $0.id == id }) else { return }
             mutate(&document.imageOverlays[index])
@@ -455,7 +455,7 @@ extension EditorSession {
     func updateDrawing(_ id: UUID, isFinal: Bool = true, _ mutate: (inout DrawingOverlay) -> Void) {
         perform(
             String(localized: "Drawing", comment: "Undo action"),
-            coalescing: isFinal ? nil : "drawing.\(id)"
+            coalescing: "drawing.\(id)"
         ) { document in
             guard let index = document.drawings.firstIndex(where: { $0.id == id }) else { return }
             mutate(&document.drawings[index])
@@ -497,7 +497,7 @@ extension EditorSession {
     func setEffectIntensity(_ id: UUID, to intensity: Double, isFinal: Bool) {
         perform(
             String(localized: "Effect Intensity", comment: "Undo action"),
-            coalescing: isFinal ? nil : "effect.\(id)"
+            coalescing: "effect.\(id)"
         ) { document in
             guard let index = document.effects.firstIndex(where: { $0.id == id }) else { return }
             document.effects[index].intensity = min(max(intensity, 0), 1)
@@ -535,7 +535,7 @@ extension EditorSession {
     func updateAudioClip(_ id: UUID, isFinal: Bool = true, _ mutate: (inout AudioClip) -> Void) {
         perform(
             String(localized: "Audio", comment: "Undo action"),
-            coalescing: isFinal ? nil : "audio.\(id)"
+            coalescing: "audio.\(id)"
         ) { document in
             guard let index = document.audioClips.firstIndex(where: { $0.id == id }) else { return }
             mutate(&document.audioClips[index])

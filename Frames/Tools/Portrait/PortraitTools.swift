@@ -171,7 +171,7 @@ extension EditorSession {
 
         perform(
             String(localized: "Portrait", comment: "Undo action"),
-            coalescing: isFinal ? nil : "portrait"
+            coalescing: "portrait"
         ) { document in
             document.portrait = normalized
         }

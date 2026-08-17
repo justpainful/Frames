@@ -36,7 +36,7 @@ struct SourceAsset: Identifiable, Codable, Hashable, Sendable {
         displaySize: CGSize = .zero,
         nominalFrameRate: Double = 0,
         hasAudioTrack: Bool = false,
-        importedAt: Date = Date()
+        importedAt: Date = .framesNow()
     ) {
         self.id = id
         self.fileName = fileName

@@ -121,8 +121,8 @@ struct EditDocument: Identifiable, Codable, Hashable, Sendable {
         outputAspect: AspectPreset = .original,
         audioMix: AudioMixSettings = .default,
         safeAreaGuides: SafeAreaGuides = .default,
-        createdAt: Date = Date(),
-        modifiedAt: Date = Date()
+        createdAt: Date = .framesNow(),
+        modifiedAt: Date = .framesNow()
     ) {
         self.schemaVersion = EditDocument.currentSchemaVersion
         self.id = id
@@ -366,6 +366,6 @@ struct EditDocument: Identifiable, Codable, Hashable, Sendable {
     }
 
     mutating func touch() {
-        modifiedAt = Date()
+        modifiedAt = .framesNow()
     }
 }
