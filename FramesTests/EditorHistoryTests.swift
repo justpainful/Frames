@@ -33,10 +33,14 @@ struct EditorHistoryTests {
         _ = try document.trimClip(document.videoTrack[0].id, headDelta: 2)
         let trimmed = document
 
-        document = try #require(history.undo(current: document)).document
+        // The macros capture their subexpressions immutably, so mutating calls
+        // are made first and the result is what gets asserted on.
+        let undone = history.undo(current: document)
+        document = try #require(undone).document
         #expect(abs(document.duration - original.duration) < 0.001)
 
-        document = try #require(history.redo(current: document)).document
+        let redone = history.redo(current: document)
+        document = try #require(redone).document
         #expect(abs(document.duration - trimmed.duration) < 0.001)
         #expect(!history.canRedo)
     }
@@ -48,7 +52,8 @@ struct EditorHistoryTests {
 
         history.record(document, label: "First")
         _ = try document.trimClip(document.videoTrack[0].id, headDelta: 1)
-        document = try #require(history.undo(current: document)).document
+        let undone = history.undo(current: document)
+        document = try #require(undone).document
         #expect(history.canRedo)
 
         history.record(document, label: "Second")
@@ -95,7 +100,8 @@ struct EditorHistoryTests {
     func undoWhenEmpty() {
         var history = EditorHistory()
         let document = TestDocuments.singleClipVideo()
-        #expect(history.undo(current: document) == nil)
+        let result = history.undo(current: document)
+        #expect(result == nil)
         #expect(!history.canUndo)
         #expect(!history.canRedo)
     }
@@ -110,7 +116,8 @@ struct EditorHistoryTests {
         _ = try document.removeRange(TimeRange(start: 3, duration: 5))
         #expect(document.videoTrack.count == 2)
 
-        document = try #require(history.undo(current: document)).document
+        let undone = history.undo(current: document)
+        document = try #require(undone).document
         #expect(document.videoTrack.count == 1)
         #expect(abs(document.duration - 15) < 0.001)
     }
