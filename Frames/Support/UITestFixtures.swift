@@ -158,7 +158,15 @@ enum UITestFixtures {
 
         let totalFrames = Int(videoDuration) * Int(videoFrameRate)
         for frame in 0..<totalFrames {
+            // Bounded: if the writer has failed it never becomes ready again,
+            // and an unbounded wait here would hang the app at launch rather
+            // than surfacing the failure.
+            var waited = 0
             while !input.isReadyForMoreMediaData {
+                guard waited < 400, writer.status == .writing else {
+                    throw FramesError.importFailed("fixture writer stalled")
+                }
+                waited += 1
                 try await Task.sleep(for: .milliseconds(5))
             }
             guard let pool = adaptor.pixelBufferPool else {

@@ -106,7 +106,63 @@ Everything happens on the device.
 - Imported media is copied into the app's own container so an edit survives the
   original being deleted, and is removed when you export or discard.
 
-## Status
+## What is implemented
+
+**Import and session**
+Photo picker and Files import with automatic photo/video detection, an opt-in
+recents strip that never asks for library access on launch, and single-session
+crash recovery.
+
+**Timeline** — video
+Fixed centre playhead with the content moving under it, pinch zoom that holds the
+playhead fixed, cached filmstrip thumbnails, tracks that appear only when used,
+trim, split, remove range, duplicate, reorder, speed, reverse-safe freeze frames,
+and transitions.
+
+**Image processing**
+Eighteen adjustments across Light, Color, Detail and Finishing; Auto Enhance that
+measures the frame and writes ordinary editable sliders; twenty-three filters
+built from primitives with real intensity interpolation; fifteen effects;
+press-and-hold before/after.
+
+**Blur and masks**
+Full, area, face, person, background and tracked blur, in Gaussian, box, disc,
+pixelate and mosaic. One mask engine shared by blur, selective adjustments and
+effects, with feathering, inversion and keyframes.
+
+**Portrait**
+A multi-stage pass for people shot in poor light: chroma and luma denoise before
+any exposure lift, gradual shadow recovery, edge-aware surface smoothing that
+suppresses pores and micro-texture while structural detail is put back through
+the same edge map, highlight-tied diffusion, and temporal stability so nothing
+flickers during motion. It never changes anyone's shape.
+
+**Overlays**
+Text with fonts, weights, colour, alignment, tracking, line spacing, plates,
+outlines, shadows and in/loop/out animations, laid out with Core Text so Arabic
+shapes and reorders correctly. Image overlays with on-device background removal,
+crop, corner radius, borders, shadows and blend modes. PencilKit drawing plus
+arrow, line, rectangle and circle tools.
+
+**Audio**
+Waveforms streamed off the main actor, volume, trim, split, fades, speed,
+voiceover recording, lossless audio extraction from another video, and automatic
+ducking implemented as editable mix automation.
+
+**Export**
+Resolution, frame rate and quality filtered against what the source can actually
+provide, with codec, audio and colour behind Advanced. Real progress, save to
+Photos with add-only permission, and the system share sheet.
+
+## Known limitations
+
+- iPhone only. The layout assumes one hand and a phone-sized canvas.
+- Reversing a clip is modelled but not yet rendered; it needs a pre-render pass
+  rather than a composition trick, and shipping a Reverse button that silently
+  played forwards would be worse than not shipping one.
+- Speed curves are a single rate per clip rather than a ramp.
+- Filter and effect thumbnails are built from one sampled frame, so on a video
+  they represent the frame at the playhead.
 
 See [Documentation/ARCHITECTURE.md](Documentation/ARCHITECTURE.md) for how the
 pieces fit together, and the commit history for what has landed.

@@ -86,6 +86,10 @@ jobs:
             | (xcbeautify --renderer github-actions || cat)
 
       - name: Test
+        # A hung test must fail the job quickly rather than sit until the job
+        # timeout. The per-test allowances catch the individual culprit; the
+        # step timeout catches anything that gets past them.
+        timeout-minutes: 25
         run: |
           set -euo pipefail
           set -o pipefail
@@ -95,6 +99,9 @@ jobs:
             -destination "${{ steps.destination.outputs.destination }}" \
             -resultBundlePath build/Test.xcresult \
             -derivedDataPath build/DerivedData \
+            -test-timeouts-enabled YES \
+            -default-test-execution-time-allowance 120 \
+            -maximum-test-execution-time-allowance 240 \
             CODE_SIGNING_ALLOWED=NO \
             | (xcbeautify --renderer github-actions || cat)
 
