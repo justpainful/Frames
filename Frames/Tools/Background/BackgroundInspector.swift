@@ -61,23 +61,15 @@ struct BackgroundInspector: View {
                         if !editing { session.endInteraction() }
                     }
                 case .image:
-                    PhotosPicker(selection: $backgroundItem, matching: .images, photoLibrary: .shared()) {
-                        Label {
-                            Text(
-                                background.imageAssetID == nil
-                                    ? String(localized: "Choose Image", comment: "Background action")
-                                    : String(localized: "Change Image", comment: "Background action")
-                            )
-                        } icon: {
-                            Image(systemName: "photo")
-                        }
-                        .font(.subheadline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 6)
-                    }
-                    .buttonStyle(background.imageAssetID == nil ? .glassProminent : .glass)
-                    .overlay {
-                        if isImporting { ProgressView().controlSize(.small) }
+                    // Two branches rather than a ternary: the glass styles are
+                    // different concrete types, so they cannot share one
+                    // expression.
+                    if background.imageAssetID == nil {
+                        imagePicker
+                            .buttonStyle(.glassProminent)
+                    } else {
+                        imagePicker
+                            .buttonStyle(.glass)
                     }
                 case .fit, .fill:
                     EmptyView()
@@ -147,6 +139,26 @@ struct BackgroundInspector: View {
         .onChange(of: backgroundItem) { _, item in
             guard let item else { return }
             Task { await importBackground(item) }
+        }
+    }
+
+    private var imagePicker: some View {
+        PhotosPicker(selection: $backgroundItem, matching: .images, photoLibrary: .shared()) {
+            Label {
+                Text(
+                    background.imageAssetID == nil
+                        ? String(localized: "Choose Image", comment: "Background action")
+                        : String(localized: "Change Image", comment: "Background action")
+                )
+            } icon: {
+                Image(systemName: "photo")
+            }
+            .font(.subheadline)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 6)
+        }
+        .overlay {
+            if isImporting { ProgressView().controlSize(.small) }
         }
     }
 
