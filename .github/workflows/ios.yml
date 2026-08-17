@@ -1,0 +1,114 @@
+name: iOS
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SCHEME: Frames
+  PROJECT: Frames.xcodeproj
+  PREFERRED_XCODE: /Applications/Xcode_26.6.app
+  PREFERRED_DEVICE: iPhone 17 Pro
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: macos-26
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          set -euo pipefail
+          if [ -d "$PREFERRED_XCODE" ]; then
+            XCODE_PATH="$PREFERRED_XCODE"
+          else
+            echo "::warning::$PREFERRED_XCODE not present on this image; falling back to the newest Xcode 26.x."
+            XCODE_PATH="$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1 || true)"
+          fi
+          if [ -z "$XCODE_PATH" ]; then
+            echo "::error::No Xcode 26.x found on the runner."
+            ls -d /Applications/Xcode*.app || true
+            exit 1
+          fi
+          sudo xcode-select -s "$XCODE_PATH"
+          echo "DEVELOPER_DIR=$XCODE_PATH/Contents/Developer" >> "$GITHUB_ENV"
+
+      - name: Environment information
+        run: |
+          set -euo pipefail
+          echo "### Toolchain" >> "$GITHUB_STEP_SUMMARY"
+          xcode-select -p
+          xcodebuild -version | tee -a "$GITHUB_STEP_SUMMARY"
+          swift --version | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "### Runtimes"
+          xcrun simctl list runtimes | grep -i ios || true
+
+      - name: Install xcbeautify
+        run: brew install xcbeautify || echo "::warning::xcbeautify unavailable; raw xcodebuild logs will be used."
+
+      - name: Resolve simulator destination
+        id: destination
+        run: bash Scripts/resolve-destination.sh
+
+      - name: Resolve package dependencies
+        run: |
+          set -euo pipefail
+          xcodebuild -resolvePackageDependencies -project "$PROJECT" -scheme "$SCHEME"
+
+      - name: Show build settings
+        run: |
+          set -euo pipefail
+          xcodebuild -project "$PROJECT" -scheme "$SCHEME" -showBuildSettings \
+            -destination "${{ steps.destination.outputs.destination }}" \
+            | grep -E "IPHONEOS_DEPLOYMENT_TARGET|SWIFT_VERSION|PRODUCT_BUNDLE_IDENTIFIER|SDKROOT" || true
+
+      - name: Build
+        run: |
+          set -euo pipefail
+          set -o pipefail
+          xcodebuild build-for-testing \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.destination.outputs.destination }}" \
+            -resultBundlePath build/Build.xcresult \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            | (xcbeautify --renderer github-actions || cat)
+
+      - name: Test
+        run: |
+          set -euo pipefail
+          set -o pipefail
+          xcodebuild test-without-building \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.destination.outputs.destination }}" \
+            -resultBundlePath build/Test.xcresult \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            | (xcbeautify --renderer github-actions || cat)
+
+      - name: Static validation
+        if: always()
+        run: bash Scripts/static-validation.sh
+
+      - name: Upload result bundles
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcresult-${{ github.run_id }}
+          path: |
+            build/Build.xcresult
+            build/Test.xcresult
+          retention-days: 7
+          if-no-files-found: ignore
