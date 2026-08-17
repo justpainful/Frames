@@ -13,18 +13,46 @@ struct DocumentCodingTests {
         )
     }
 
+    /// Compares field by field rather than with one equality check, so a
+    /// failure says *which* part of the document did not survive rather than
+    /// printing two near-identical multi-kilobyte descriptions.
+    private func expectRoundTrip(_ document: EditDocument, _ decoded: EditDocument) {
+        #expect(decoded.schemaVersion == document.schemaVersion)
+        #expect(decoded.id == document.id)
+        #expect(decoded.kind == document.kind)
+        #expect(decoded.assets == document.assets)
+        #expect(decoded.videoTrack == document.videoTrack)
+        #expect(decoded.photo == document.photo)
+        #expect(decoded.audioClips == document.audioClips)
+        #expect(decoded.textOverlays == document.textOverlays)
+        #expect(decoded.imageOverlays == document.imageOverlays)
+        #expect(decoded.drawings == document.drawings)
+        #expect(decoded.blurRegions == document.blurRegions)
+        #expect(decoded.selectiveAdjustments == document.selectiveAdjustments)
+        #expect(decoded.effects == document.effects)
+        #expect(decoded.trackedObjects == document.trackedObjects)
+        #expect(decoded.grade == document.grade)
+        #expect(decoded.portrait == document.portrait)
+        #expect(decoded.background == document.background)
+        #expect(decoded.outputAspect == document.outputAspect)
+        #expect(decoded.audioMix == document.audioMix)
+        #expect(decoded.safeAreaGuides == document.safeAreaGuides)
+        // Timestamps are metadata rather than edit content, and are compared
+        // with a tolerance well below anything a person could perceive.
+        #expect(abs(decoded.createdAt.timeIntervalSince(document.createdAt)) < 0.001)
+        #expect(abs(decoded.modifiedAt.timeIntervalSince(document.modifiedAt)) < 0.001)
+    }
+
     @Test("A plain video document survives a round trip")
     func videoRoundTrip() throws {
         let document = TestDocuments.singleClipVideo(duration: 12)
-        let decoded = try roundTrip(document)
-        #expect(decoded == document)
+        expectRoundTrip(document, try roundTrip(document))
     }
 
     @Test("A photo document survives a round trip")
     func photoRoundTrip() throws {
         let document = TestDocuments.photo()
-        let decoded = try roundTrip(document)
-        #expect(decoded == document)
+        expectRoundTrip(document, try roundTrip(document))
     }
 
     @Test("A fully loaded document survives a round trip")
@@ -80,7 +108,7 @@ struct DocumentCodingTests {
         document.videoTrack[0].keyframes = keyframes
 
         let decoded = try roundTrip(document)
-        #expect(decoded == document)
+        expectRoundTrip(document, decoded)
         #expect(decoded.textOverlays.first?.string == "مرحبا")
         #expect(decoded.videoTrack[0].keyframes.animatedProperties == [.opacity])
     }

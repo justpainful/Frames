@@ -92,6 +92,7 @@ struct EditDocument: Identifiable, Codable, Hashable, Sendable {
     var trackedObjects: [TrackedObject]
 
     var grade: Grade
+    var portrait: PortraitSettings
     var background: BackgroundStyle
     var outputAspect: AspectPreset
     var audioMix: AudioMixSettings
@@ -115,6 +116,7 @@ struct EditDocument: Identifiable, Codable, Hashable, Sendable {
         effects: [EffectInstance] = [],
         trackedObjects: [TrackedObject] = [],
         grade: Grade = .identity,
+        portrait: PortraitSettings = .off,
         background: BackgroundStyle = .default,
         outputAspect: AspectPreset = .original,
         audioMix: AudioMixSettings = .default,
@@ -137,6 +139,7 @@ struct EditDocument: Identifiable, Codable, Hashable, Sendable {
         self.effects = effects
         self.trackedObjects = trackedObjects
         self.grade = grade
+        self.portrait = portrait
         self.background = background
         self.outputAspect = outputAspect
         self.audioMix = audioMix
@@ -319,7 +322,8 @@ struct EditDocument: Identifiable, Codable, Hashable, Sendable {
     /// True when nothing has been changed since import. Drives whether closing
     /// the editor needs a confirmation.
     var isPristine: Bool {
-        grade.isIdentity
+        !portrait.isEnabled
+            && grade.isIdentity
             && textOverlays.isEmpty
             && imageOverlays.isEmpty
             && drawings.isEmpty

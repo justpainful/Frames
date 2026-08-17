@@ -10,27 +10,66 @@ struct EditorView: View {
     let session: EditorSession
 
     @State private var playback = PlaybackEngine()
+    @State private var preview = PreviewCoordinator()
+    @State private var detail: EditorDetail?
     @State private var isConfirmingClose = false
+    @State private var isShowingExport = false
 
     var body: some View {
         VStack(spacing: 0) {
             EditorTopBar(
                 session: session,
-                onClose: { requestClose() }
+                onClose: requestClose,
+                onExport: {
+                    playback.pause()
+                    isShowingExport = true
+                }
             )
 
-            EditorCanvasView(session: session, playback: playback)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            EditorCanvasView(
+                session: session,
+                playback: playback,
+                preview: preview,
+                detail: $detail
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             if session.document.kind == .video {
-                TransportBar(session: session, playback: playback)
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 8)
+                TimelineView(session: session, playback: playback)
+                    .padding(.top, 4)
             }
+
+            EditorBottomArea(session: session, playback: playback, detail: $detail)
+                .padding(.bottom, 4)
         }
         .background(Color(.systemBackground))
-        .task { await loadMedia() }
-        .onDisappear { playback.tearDown() }
+        .task { await prepare() }
+        .task(id: preview.compositionSignature) { await rebuildComposition() }
+        .onDisappear {
+            playback.tearDown()
+        }
+        .onChange(of: session.currentTime) { _, newValue in
+            // Scrubbing on the timeline drives the player; playing drives the
+            // timeline. Only follow the timeline when the user is the one
+            // moving it.
+            guard !playback.isPlaying, abs(playback.currentTime - newValue) > 0.02 else { return }
+            playback.seek(to: newValue)
+        }
+        .onChange(of: playback.currentTime) { _, newValue in
+            guard playback.isPlaying else { return }
+            session.seek(to: newValue)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .framesRequestInspector)) { notification in
+            guard let raw = notification.userInfo?[FramesInspectorRequest.key] as? String,
+                  let route = EditorDetail(rawValue: raw)
+            else { return }
+            detail = route
+        }
+        .sheet(isPresented: $isShowingExport) {
+            ExportView(session: session) {
+                app.closeEditor()
+            }
+        }
         .confirmationDialog(
             Text("Discard this edit?", comment: "Close confirmation"),
             isPresented: $isConfirmingClose,
@@ -52,7 +91,10 @@ struct EditorView: View {
         }
     }
 
+    // MARK: - Lifecycle
+
     private func requestClose() {
+        playback.pause()
         if session.document.isPristine {
             playback.tearDown()
             app.closeEditor()
@@ -61,25 +103,54 @@ struct EditorView: View {
         }
     }
 
-    private func loadMedia() async {
-        guard session.document.kind == .video,
-              let asset = session.document.primaryAsset
-        else { return }
-        playback.load(url: SessionPaths.mediaURL(for: asset.fileName))
+    private func prepare() async {
+        Haptics.prepare()
+        preview.attach(session: session)
+        if session.document.kind == .video {
+            await rebuildComposition()
+        }
+    }
+
+    /// Rebuilds the player's composition, but only when the *structure* of the
+    /// edit changed. Colour, blur and overlays are the compositor's job and
+    /// never require a new player item.
+    private func rebuildComposition() async {
+        guard session.document.kind == .video else { return }
+        do {
+            let build = try await preview.compositionEngine.build(
+                document: session.document,
+                quality: .preview
+            )
+            playback.load(
+                asset: build.composition,
+                videoComposition: build.videoComposition,
+                audioMix: build.audioMix,
+                signature: build.structureSignature
+            )
+            playback.updateVideoComposition(build.videoComposition)
+            playback.updateAudioMix(build.audioMix)
+        } catch let error as FramesError {
+            app.present(error)
+        } catch {
+            app.present(.renderFailed(error.localizedDescription))
+        }
     }
 }
 
-/// `X   Undo  Redo   Export` and nothing else.
+/// `X   Undo  Redo   Export`, and nothing else.
 private struct EditorTopBar: View {
     let session: EditorSession
     let onClose: () -> Void
+    let onExport: () -> Void
 
     var body: some View {
-        HStack(spacing: 18) {
+        HStack(spacing: 20) {
             Button(action: onClose) {
                 Image(systemName: "xmark")
                     .font(.body.weight(.medium))
+                    .frame(width: 30, height: 30)
             }
+            .buttonStyle(.plain)
             .accessibilityLabel(Text("Close", comment: "Editor action"))
 
             Spacer()
@@ -89,7 +160,9 @@ private struct EditorTopBar: View {
             } label: {
                 Image(systemName: "arrow.uturn.backward")
                     .font(.body.weight(.medium))
+                    .frame(width: 30, height: 30)
             }
+            .buttonStyle(.plain)
             .disabled(!session.canUndo)
             .accessibilityLabel(Text("Undo", comment: "Editor action"))
 
@@ -98,71 +171,24 @@ private struct EditorTopBar: View {
             } label: {
                 Image(systemName: "arrow.uturn.forward")
                     .font(.body.weight(.medium))
+                    .frame(width: 30, height: 30)
             }
+            .buttonStyle(.plain)
             .disabled(!session.canRedo)
             .accessibilityLabel(Text("Redo", comment: "Editor action"))
 
             Spacer()
+
+            Button(action: onExport) {
+                Text("Export", comment: "Editor action")
+                    .font(.subheadline.weight(.medium))
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 7)
+            }
+            .buttonStyle(.glassProminent)
         }
-        .buttonStyle(.plain)
         .foregroundStyle(.primary)
-        .padding(.horizontal, 20)
-        .padding(.vertical, 12)
-    }
-}
-
-/// Play/pause plus a scrubber, for video.
-private struct TransportBar: View {
-    let session: EditorSession
-    let playback: PlaybackEngine
-
-    var body: some View {
-        HStack(spacing: 14) {
-            Button {
-                playback.togglePlayback()
-            } label: {
-                Image(systemName: playback.isPlaying ? "pause.fill" : "play.fill")
-                    .font(.title3)
-                    .frame(width: 30, height: 30)
-                    .contentTransition(.symbolEffect(.replace))
-            }
-            .buttonStyle(.glass)
-            .accessibilityLabel(
-                playback.isPlaying
-                    ? Text("Pause", comment: "Playback action")
-                    : Text("Play", comment: "Playback action")
-            )
-
-            Text(playback.currentTime.framesTimecode)
-                .font(.caption.monospacedDigit())
-                .foregroundStyle(.secondary)
-                .frame(minWidth: 48, alignment: .leading)
-                .accessibilityLabel(Text("Current time", comment: "Accessibility label"))
-                .accessibilityValue(playback.currentTime.framesTimecode)
-
-            Slider(
-                value: Binding(
-                    get: { playback.currentTime },
-                    set: { playback.seek(to: $0) }
-                ),
-                in: 0...max(playback.duration, 0.1)
-            ) {
-                Text("Playhead", comment: "Accessibility label")
-            } onEditingChanged: { editing in
-                if editing {
-                    playback.beginScrubbing()
-                } else {
-                    playback.endScrubbing()
-                    playback.seek(to: playback.currentTime, precise: true)
-                }
-                session.seek(to: playback.currentTime)
-            }
-
-            Text(playback.duration.framesTimecode)
-                .font(.caption.monospacedDigit())
-                .foregroundStyle(.secondary)
-                .frame(minWidth: 48, alignment: .trailing)
-        }
-        .padding(.vertical, 8)
+        .padding(.horizontal, 18)
+        .padding(.vertical, 10)
     }
 }

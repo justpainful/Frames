@@ -54,8 +54,11 @@ enum UITestFixtures {
 
     private static let photoSize = CGSize(width: 1200, height: 1600)
     private static let videoSize = CGSize(width: 720, height: 1280)
-    private static let videoDuration: TimeInterval = 6
-    private static let videoFrameRate: Int32 = 30
+    // Short and low frame rate on purpose: the fixture exists to prove the
+    // editor opens on a real video, and every extra frame is CI time spent
+    // encoding something no assertion looks at.
+    private static let videoDuration: TimeInterval = 4
+    private static let videoFrameRate: Int32 = 24
 
     /// A recognisable test card: a gradient, a grid, and a large centred
     /// numeral, so a failing screenshot is readable at a glance.

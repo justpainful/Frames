@@ -12,6 +12,8 @@ struct FrameResources {
     var overlays: OverlayResources = .empty
     /// The image used when `BackgroundStyle.fill` is `.image`.
     var backgroundImage: CIImage?
+    /// Carried between frames so Portrait mode stays steady during motion.
+    var portraitState: PortraitTemporalState?
 
     static let empty = FrameResources()
 }
@@ -59,7 +61,21 @@ enum FrameComposer {
         let crop = clip?.crop ?? document.photo?.crop ?? .identity
         image = GeometryRenderer.applyCrop(crop, to: image)
 
-        // 2. Grade
+        // 2. Portrait — before the grade, because noise has to be dealt with
+        //    before the shadows are lifted or the lift amplifies it.
+        if document.portrait.isActive {
+            image = PortraitProcessor.apply(
+                document.portrait,
+                to: image,
+                personMask: resources.detections.subjectMask
+                    ?? resources.detections.personMasks.values.first,
+                state: resources.portraitState,
+                time: time,
+                quality: quality
+            )
+        }
+
+        // 3. Grade
         image = FilterRenderer.apply(document.grade.filter, to: image, quality: quality)
         image = AdjustmentRenderer.apply(document.grade.adjustments, to: image, quality: quality)
 
@@ -178,6 +194,9 @@ enum FrameComposer {
                 requirements.trackedObjectIDs.insert(id)
             }
         }
+        if document.portrait.needsPersonMask {
+            requirements.needsSubject = true
+        }
         return requirements
     }
 
@@ -189,6 +208,7 @@ enum FrameComposer {
     static func visualSignature(of document: EditDocument, at time: TimeInterval) -> Int {
         var hasher = Hasher()
         hasher.combine(document.grade)
+        hasher.combine(document.portrait)
         hasher.combine(document.effects)
         hasher.combine(document.blurRegions)
         hasher.combine(document.selectiveAdjustments)
