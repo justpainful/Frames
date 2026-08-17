@@ -8,16 +8,8 @@ import OSLog
 /// shown a list, never names anything, and never manages storage.
 actor SessionRecoveryStore {
     private let logger = FramesLog.persistence
-    private let encoder: JSONEncoder = {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        return encoder
-    }()
-    private let decoder: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        return decoder
-    }()
+    private let encoder = FramesJSON.encoder
+    private let decoder = FramesJSON.decoder
 
     /// Writes atomically so a kill mid-write cannot leave a truncated file that
     /// the next launch would fail to parse.

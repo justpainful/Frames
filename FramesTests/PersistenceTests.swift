@@ -7,11 +7,10 @@ import Testing
 struct DocumentCodingTests {
 
     private func roundTrip(_ document: EditDocument) throws -> EditDocument {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        return try decoder.decode(EditDocument.self, from: encoder.encode(document))
+        try FramesJSON.decoder.decode(
+            EditDocument.self,
+            from: FramesJSON.encoder.encode(document)
+        )
     }
 
     @Test("A plain video document survives a round trip")
@@ -90,8 +89,7 @@ struct DocumentCodingTests {
     func adjustmentSparsity() throws {
         var document = TestDocuments.photo()
         document.grade.adjustments[.exposure] = 0.5
-        let encoder = JSONEncoder()
-        let data = try encoder.encode(document.grade.adjustments)
+        let data = try FramesJSON.encoder.encode(document.grade.adjustments)
         let json = try #require(String(data: data, encoding: .utf8))
         #expect(json.contains("exposure"))
         #expect(!json.contains("vignette"), "untouched parameters are not written")
