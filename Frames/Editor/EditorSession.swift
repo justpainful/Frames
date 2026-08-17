@@ -64,6 +64,9 @@ final class EditorSession {
     var retouchRadius: Double = 0.035
     var retouchStrength: Double = 0.75
 
+    /// True while the canvas is waiting for a freeform mask to be traced.
+    var isTracingFreeformMask = false
+
     // MARK: Playback
 
     /// Current playhead position in timeline seconds.

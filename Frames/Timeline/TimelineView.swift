@@ -18,6 +18,8 @@ struct TimelineView: View {
     @State private var timeAtDragStart: TimeInterval?
     @State private var lastSnapPoint: TimeInterval?
     @State private var hasSizedToFit = false
+    @State private var draggingClipID: UUID?
+    @State private var reorderOffset: CGFloat = 0
 
     private let clipHeight: CGFloat = 52
     private let secondaryTrackHeight: CGFloat = 22
@@ -113,10 +115,18 @@ struct TimelineView: View {
                     isSelected: session.selection == .clip(clip.id),
                     height: clipHeight
                 )
+                .opacity(draggingClipID == clip.id ? 0.55 : 1)
+                .scaleEffect(draggingClipID == clip.id ? 1.04 : 1)
+                .offset(x: draggingClipID == clip.id ? reorderOffset : 0)
+                .zIndex(draggingClipID == clip.id ? 1 : 0)
                 .onTapGesture {
                     session.select(.clip(clip.id))
                     Haptics.snap()
                 }
+                // Long press then drag to reorder, so an ordinary horizontal
+                // drag still scrubs the timeline rather than picking a clip up
+                // by accident.
+                .gesture(reorderGesture(clipID: clip.id, index: index))
                 .overlay(alignment: .leading) {
                     if index > 0, clip.transitionIn.isActive {
                         TransitionBadge(kind: clip.transitionIn.kind)
@@ -125,6 +135,67 @@ struct TimelineView: View {
                 }
             }
         }
+        .animation(.snappy(duration: 0.2), value: draggingClipID)
+    }
+
+    private func reorderGesture(clipID: UUID, index: Int) -> some Gesture {
+        LongPressGesture(minimumDuration: 0.3)
+            .sequenced(before: DragGesture(minimumDistance: 0))
+            .onChanged { value in
+                switch value {
+                case .second(true, let drag):
+                    if draggingClipID != clipID {
+                        draggingClipID = clipID
+                        session.select(.clip(clipID))
+                        Haptics.edit()
+                    }
+                    reorderOffset = drag?.translation.width ?? 0
+                default:
+                    break
+                }
+            }
+            .onEnded { _ in
+                defer {
+                    draggingClipID = nil
+                    reorderOffset = 0
+                }
+                guard draggingClipID == clipID else { return }
+                let destination = destinationIndex(from: index, offset: reorderOffset)
+                guard destination != index else { return }
+                session.moveClip(from: index, to: destination)
+            }
+    }
+
+    /// Where a dragged clip lands: the first position whose accumulated width
+    /// the drag has passed. Measuring in widths rather than in a fixed step
+    /// means short clips are as easy to move as long ones.
+    private func destinationIndex(from index: Int, offset: CGFloat) -> Int {
+        guard offset != 0 else { return index }
+        var destination = index
+        var travelled: CGFloat = 0
+
+        if offset > 0 {
+            var next = index + 1
+            while next < document.videoTrack.count {
+                travelled += scale.width(for: document.videoTrack[next].timelineDuration)
+                if offset < travelled - scale.width(for: document.videoTrack[next].timelineDuration) / 2 {
+                    break
+                }
+                destination = next
+                next += 1
+            }
+        } else {
+            var previous = index - 1
+            while previous >= 0 {
+                travelled += scale.width(for: document.videoTrack[previous].timelineDuration)
+                if -offset < travelled - scale.width(for: document.videoTrack[previous].timelineDuration) / 2 {
+                    break
+                }
+                destination = previous
+                previous -= 1
+            }
+        }
+        return destination
     }
 
     private var overlayTrack: some View {

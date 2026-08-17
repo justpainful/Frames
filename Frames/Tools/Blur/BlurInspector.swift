@@ -185,16 +185,28 @@ struct BlurInspector: View {
                 }
                 .scrollIndicators(.hidden)
 
-                Toggle(isOn: Binding(
-                    get: { mask.isInverted },
-                    set: { value in
-                        session.updateBlur(region.id) { $0.mask?.isInverted = value }
+                HStack(spacing: 10) {
+                    Toggle(isOn: Binding(
+                        get: { mask.isInverted },
+                        set: { value in
+                            session.updateBlur(region.id) { $0.mask?.isInverted = value }
+                        }
+                    )) {
+                        Text("Invert", comment: "Mask option")
+                            .font(.subheadline)
                     }
-                )) {
-                    Text("Invert", comment: "Mask option")
-                        .font(.subheadline)
+                    .toggleStyle(.switch)
+
+                    Spacer(minLength: 0)
+
+                    // Two branches rather than a ternary: the glass styles are
+                    // different concrete types.
+                    if session.isTracingFreeformMask {
+                        traceButton.buttonStyle(.glassProminent)
+                    } else {
+                        traceButton.buttonStyle(.glass)
+                    }
                 }
-                .toggleStyle(.switch)
             } else {
                 Text("This blur follows what Frames detects, so there is no shape to edit. Adjust the feather to soften its edge.",
                      comment: "Detected mask explanation")
@@ -219,6 +231,20 @@ struct BlurInspector: View {
                     }
                 }
             }
+        }
+    }
+
+    private var traceButton: some View {
+        Button {
+            session.isTracingFreeformMask.toggle()
+            Haptics.snap()
+        } label: {
+            Label {
+                Text("Trace", comment: "Mask action")
+            } icon: {
+                Image(systemName: "scribble")
+            }
+            .font(.subheadline)
         }
     }
 

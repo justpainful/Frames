@@ -84,6 +84,10 @@ struct TimingInspector: View {
                         }
                         .buttonStyle(.glass)
                     }
+
+                    Divider()
+
+                    TransformKeyframeRow(session: session)
                 }
             } else {
                 Text("Select something on the timeline to change when it appears.",

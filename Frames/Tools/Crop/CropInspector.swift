@@ -8,8 +8,26 @@ struct CropInspector: View {
     let session: EditorSession
     let onDone: () -> Void
 
+    /// Cropping an image overlay has to reach the overlay, not the media
+    /// underneath it — the same control, a different target.
+    private var overlayID: UUID? {
+        guard case .imageOverlay(let id) = session.selection else { return nil }
+        return id
+    }
+
     private var crop: CropState {
-        session.document.currentCrop(forClip: session.activeClipID)
+        if let overlayID {
+            return session.document.imageOverlays.first { $0.id == overlayID }?.crop ?? .identity
+        }
+        return session.document.currentCrop(forClip: session.activeClipID)
+    }
+
+    private func commit(_ crop: CropState, isFinal: Bool) {
+        if let overlayID {
+            session.updateImageOverlay(overlayID, isFinal: isFinal) { $0.crop = crop }
+        } else {
+            session.updateCrop(crop, isFinal: isFinal)
+        }
     }
 
     var body: some View {
@@ -22,14 +40,14 @@ struct CropInspector: View {
                         set: { degrees in
                             var updated = crop
                             updated.straightenAngle = degrees * .pi / 180
-                            session.updateCrop(updated, isFinal: false)
+                            commit(updated, isFinal: false)
                         }
                     ),
                     range: -20...20,
                     neutral: 0,
                     format: { String(format: "%.0f°", $0) }
                 ) { editing in
-                    if !editing { session.updateCrop(crop, isFinal: true) }
+                    if !editing { commit(crop, isFinal: true) }
                 }
 
                 ScrollView(.horizontal) {
@@ -63,24 +81,24 @@ struct CropInspector: View {
 
                 HStack(spacing: 10) {
                     orientationButton("rotate.left", label: String(localized: "Rotate Left", comment: "Crop action")) {
-                        session.rotate(byQuarterTurns: -1)
+                        rotate(by: -1)
                     }
                     orientationButton("rotate.right", label: String(localized: "Rotate Right", comment: "Crop action")) {
-                        session.rotate(byQuarterTurns: 1)
+                        rotate(by: 1)
                     }
                     orientationButton("arrow.left.and.right.righttriangle.left.righttriangle.right",
                                       label: String(localized: "Flip Horizontal", comment: "Crop action")) {
-                        session.flip(horizontal: true)
+                        flip(horizontal: true)
                     }
                     orientationButton("arrow.up.and.down.righttriangle.up.righttriangle.down",
                                       label: String(localized: "Flip Vertical", comment: "Crop action")) {
-                        session.flip(horizontal: false)
+                        flip(horizontal: false)
                     }
 
                     Spacer(minLength: 0)
 
                     Button {
-                        session.updateCrop(.identity, isFinal: true)
+                        commit(.identity, isFinal: true)
                         Haptics.snap()
                     } label: {
                         Image(systemName: "arrow.counterclockwise")
@@ -101,6 +119,33 @@ struct CropInspector: View {
         }
         .buttonStyle(.glass)
         .accessibilityLabel(label)
+    }
+
+    private func rotate(by turns: Int) {
+        guard overlayID != nil else {
+            session.rotate(byQuarterTurns: turns)
+            return
+        }
+        var updated = crop
+        updated.quarterTurns += turns
+        updated.normalize()
+        commit(updated, isFinal: true)
+        Haptics.snap()
+    }
+
+    private func flip(horizontal: Bool) {
+        guard overlayID != nil else {
+            session.flip(horizontal: horizontal)
+            return
+        }
+        var updated = crop
+        if horizontal {
+            updated.flipHorizontal.toggle()
+        } else {
+            updated.flipVertical.toggle()
+        }
+        commit(updated, isFinal: true)
+        Haptics.snap()
     }
 
     private func applyAspect(_ preset: AspectPreset) {
@@ -129,8 +174,13 @@ struct CropInspector: View {
         }
 
         updated.normalize()
-        session.updateCrop(updated, isFinal: true)
-        session.setOutputAspect(preset == .free ? .original : preset)
+        commit(updated, isFinal: true)
+        // Choosing a ratio for the media also sets the output frame, because
+        // that is what "make this 9:16" means. Choosing one for an overlay does
+        // not — the overlay is not the frame.
+        if overlayID == nil {
+            session.setOutputAspect(preset == .free ? .original : preset)
+        }
         Haptics.snap()
     }
 }

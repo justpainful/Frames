@@ -58,6 +58,16 @@ struct EditorCanvasView: View {
                     RetouchSpotOverlay(session: session, mediaFrame: media)
                 }
 
+                if session.isTracingFreeformMask, case .blur(let blurID) = session.selection {
+                    FreeformMaskOverlay(
+                        session: session,
+                        regionID: blurID,
+                        mediaFrame: media
+                    ) {
+                        session.isTracingFreeformMask = false
+                    }
+                }
+
                 // Face and person blur need the user to say *which* one, so the
                 // detections are shown over the picture while that blur is
                 // selected rather than guessed at.
@@ -133,7 +143,9 @@ struct EditorCanvasView: View {
                     .onEnded { _ in
                         session.isShowingOriginal = false
                     },
-                including: isCropping || isDrawing || isRetouching ? .subviews : .all
+                including: isCropping || isDrawing || isRetouching || session.isTracingFreeformMask
+                    ? .subviews
+                    : .all
             )
         }
         .task(id: document.primaryAsset?.id) {

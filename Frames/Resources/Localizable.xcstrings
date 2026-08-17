@@ -1751,6 +1751,16 @@
         }
       }
     },
+    "Freeform mask": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قناع حر"
+          }
+        }
+      }
+    },
     "Freeze Frame": {
       "localizations": {
         "ar": {
@@ -1997,6 +2007,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إطار مفتاحي"
+          }
+        }
+      }
+    },
+    "Keyframes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإطارات المفتاحية"
           }
         }
       }
@@ -3961,6 +3981,26 @@
         }
       }
     },
+    "Trace": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تتبّع يدوي"
+          }
+        }
+      }
+    },
+    "Trace the area with one finger.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ارسم حول المنطقة بإصبع واحد."
+          }
+        }
+      }
+    },
     "Track": {
       "localizations": {
         "ar": {
@@ -4037,6 +4077,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "قصّ"
+          }
+        }
+      }
+    },
+    "Turn": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دوران"
           }
         }
       }
