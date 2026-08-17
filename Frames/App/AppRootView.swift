@@ -70,8 +70,3 @@ struct AppRootView: View {
         }
     }
 }
-
-#Preview("Chooser") {
-    AppRootView()
-        .environment(AppModel())
-}

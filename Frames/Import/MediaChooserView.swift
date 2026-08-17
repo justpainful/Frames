@@ -202,8 +202,3 @@ private struct RecentThumbnailButton: View {
         )
     }
 }
-
-#Preview {
-    MediaChooserView()
-        .environment(AppModel())
-}

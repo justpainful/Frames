@@ -1,5 +1,8 @@
 import AVFoundation
+import CoreGraphics
+import CoreImage
 import CoreMedia
+import CoreVideo
 import Foundation
 import OSLog
 
