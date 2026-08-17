@@ -301,6 +301,16 @@
         }
       }
     },
+    "Back to tools": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العودة إلى الأدوات"
+          }
+        }
+      }
+    },
     "Background": {
       "localizations": {
         "ar": {

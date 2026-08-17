@@ -20,10 +20,18 @@ struct EditorBottomArea: View {
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
 
-            ToolStrip(items: items, selected: detail?.rawValue) { id in
+            ToolStrip(
+                items: items,
+                selected: detail?.rawValue,
+                onBack: session.selection.isNone ? nil : {
+                    session.clearSelection()
+                    detail = nil
+                    Haptics.snap()
+                }
+            ) { id in
                 handle(id)
             }
-            .frame(height: 62)
+            .frame(height: 60)
         }
         .animation(.snappy(duration: 0.25), value: detail)
         .animation(.snappy(duration: 0.25), value: session.selection)

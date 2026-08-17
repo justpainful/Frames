@@ -25,50 +25,115 @@ struct ToolStripItem: Identifiable, Hashable {
 struct ToolStrip: View {
     let items: [ToolStripItem]
     var selected: String?
+    /// Shown at the leading edge when something is selected, so there is always
+    /// a visible way back to the app's top-level tools. Tapping the background
+    /// works too, but a strip that changed under you needs a door out of it.
+    var onBack: (() -> Void)?
     let action: (String) -> Void
 
     var body: some View {
-        ScrollView(.horizontal) {
-            HStack(spacing: 4) {
-                ForEach(items) { item in
-                    Button {
-                        action(item.id)
-                    } label: {
-                        VStack(spacing: 5) {
-                            Image(systemName: item.symbol)
-                                .font(.system(size: 19, weight: .regular))
-                                .frame(height: 22)
-                            Text(item.title)
-                                .font(.system(size: 11))
-                                .lineLimit(1)
-                        }
-                        .frame(minWidth: 62)
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 4)
+        HStack(spacing: 0) {
+            if let onBack {
+                Button(action: onBack) {
+                    Image(systemName: "chevron.backward")
+                        .font(.system(size: 15, weight: .medium))
+                        .frame(width: 34, height: 46)
                         .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.plain)
-                    .foregroundStyle(tint(for: item))
-                    .background {
-                        if selected == item.id {
-                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(Color(.tertiarySystemFill))
-                        }
-                    }
-                    .accessibilityLabel(item.title)
-                    .accessibilityAddTraits(selected == item.id ? [.isSelected, .isButton] : .isButton)
                 }
+                .buttonStyle(.plain)
+                .foregroundStyle(.secondary)
+                .accessibilityLabel(Text("Back to tools", comment: "Editor action"))
+
+                Divider()
+                    .frame(height: 26)
+                    .padding(.trailing, 2)
             }
-            .padding(.horizontal, 12)
+
+            ScrollView(.horizontal) {
+                HStack(spacing: 2) {
+                    ForEach(items) { item in
+                        Button {
+                            action(item.id)
+                        } label: {
+                            VStack(spacing: 5) {
+                                Image(systemName: item.symbol)
+                                    .font(.system(size: 18, weight: .regular))
+                                    .frame(height: 21)
+                                Text(item.title)
+                                    .font(.system(size: 10.5))
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.85)
+                            }
+                            // Sized so the six top-level tools fit a standard
+                            // iPhone without scrolling. Anything wider and the
+                            // last one hides off-screen, which reads as five
+                            // tools rather than six.
+                            .frame(minWidth: 56)
+                            .padding(.vertical, 7)
+                            .padding(.horizontal, 3)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .foregroundStyle(tint(for: item))
+                        .background {
+                            if selected == item.id {
+                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                    .fill(Color(.tertiarySystemFill))
+                            }
+                        }
+                        .accessibilityLabel(item.title)
+                        .accessibilityAddTraits(selected == item.id ? [.isSelected, .isButton] : .isButton)
+                    }
+                }
+                .padding(.horizontal, 6)
+            }
+            .scrollIndicators(.hidden)
+            .scrollBounceBehavior(.basedOnSize)
+            // Fades the cut edge so a strip that continues past the screen
+            // looks deliberate rather than clipped.
+            .mask(EdgeFade(leading: onBack != nil))
         }
-        .scrollIndicators(.hidden)
-        .scrollBounceBehavior(.basedOnSize)
+        .padding(.horizontal, 6)
     }
 
     private func tint(for item: ToolStripItem) -> Color {
         if item.isDestructive { return .red }
         if item.isProminent || selected == item.id { return .accentColor }
         return .primary
+    }
+}
+
+/// A soft edge for horizontally scrolling strips.
+///
+/// A strip that simply stops mid-item looks broken; the same strip fading out
+/// reads as "there is more this way".
+struct EdgeFade: View {
+    var leading = false
+    var width: CGFloat = 14
+
+    var body: some View {
+        GeometryReader { proxy in
+            LinearGradient(
+                stops: gradientStops(width: proxy.size.width),
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        }
+    }
+
+    private func gradientStops(width: CGFloat) -> [Gradient.Stop] {
+        guard width > width * 0 else { return [] }
+        let fade = width > 0 ? min(self.width / width, 0.2) : 0
+        var stops: [Gradient.Stop] = []
+        if leading {
+            stops.append(.init(color: .clear, location: 0))
+            stops.append(.init(color: .black, location: fade))
+        } else {
+            stops.append(.init(color: .black, location: 0))
+        }
+        stops.append(.init(color: .black, location: 1 - fade))
+        stops.append(.init(color: .clear, location: 1))
+        return stops
     }
 }
 

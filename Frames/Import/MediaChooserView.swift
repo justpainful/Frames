@@ -17,13 +17,17 @@ struct MediaChooserView: View {
         ZStack {
             Color(.systemBackground).ignoresSafeArea()
 
+            // The mark, the sentence and the button are one block, sitting a
+            // little above centre. The earlier layout pushed them to opposite
+            // ends of the screen with the recents strip stranded at the bottom,
+            // which read as three unrelated things rather than one choice.
             VStack(spacing: 0) {
-                Spacer(minLength: 0)
+                Spacer(minLength: 12)
 
-                VStack(spacing: 14) {
+                VStack(spacing: 12) {
                     FramesMark()
-                        .frame(width: 76, height: 76)
-                        .padding(.bottom, 4)
+                        .frame(width: 72, height: 72)
+                        .padding(.bottom, 2)
 
                     Text("Frames", comment: "App name")
                         .font(.system(.largeTitle, design: .default, weight: .semibold))
@@ -34,19 +38,19 @@ struct MediaChooserView: View {
                 }
                 .accessibilityElement(children: .combine)
 
-                Spacer(minLength: 24)
-
                 chooseButton
                     .padding(.horizontal, 32)
+                    .padding(.top, 32)
 
                 secondaryActions
-                    .padding(.top, 14)
+                    .padding(.top, 12)
 
-                Spacer(minLength: 0)
+                Spacer(minLength: 12)
 
                 recentsStrip
+                    .padding(.bottom, 4)
             }
-            .padding(.vertical, 24)
+            .padding(.vertical, 20)
 
             if app.isImporting {
                 importingOverlay
@@ -86,9 +90,10 @@ struct MediaChooserView: View {
                 Image(systemName: "photo.on.rectangle.angled")
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 14)
+            .padding(.vertical, 11)
         }
-        .buttonStyle(.glassProminent)
+        .buttonStyle(.borderedProminent)
+        .buttonBorderShape(.capsule)
         .accessibilityHint(Text("Opens your photo library so you can pick something to edit.",
                                 comment: "Accessibility hint"))
     }

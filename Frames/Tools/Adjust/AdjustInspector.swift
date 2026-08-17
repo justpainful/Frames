@@ -130,6 +130,7 @@ struct AdjustInspector: View {
             .padding(.horizontal, 2)
         }
         .scrollIndicators(.hidden)
+        .mask(EdgeFade())
     }
 
     private func runAutoEnhance() async {

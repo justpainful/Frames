@@ -10,7 +10,10 @@ struct TransportControls: View {
     let playback: PlaybackEngine
 
     var body: some View {
-        HStack(spacing: 14) {
+        // Transport on the left, timecode on the right, and nothing stretched
+        // across the gap between them: the two halves are read separately, so a
+        // single spacer is the whole layout.
+        HStack(spacing: 12) {
             Button {
                 playback.step(byFrames: -1)
                 session.seek(to: playback.currentTime)
@@ -53,24 +56,29 @@ struct TransportControls: View {
 
             Spacer(minLength: 8)
 
-            Text(session.currentTime.framesTimecode)
-                .font(.caption.monospacedDigit())
-                .foregroundStyle(.primary)
-                .accessibilityLabel(Text("Current time", comment: "Accessibility label"))
-                .accessibilityValue(session.currentTime.framesTimecode)
+            HStack(spacing: 4) {
+                Text(session.currentTime.framesTimecode)
+                    .font(.footnote.monospacedDigit().weight(.medium))
+                    .foregroundStyle(.primary)
+                    .accessibilityLabel(Text("Current time", comment: "Accessibility label"))
+                    .accessibilityValue(session.currentTime.framesTimecode)
 
-            Text("/")
-                .font(.caption)
-                .foregroundStyle(.tertiary)
-                .accessibilityHidden(true)
+                Text(verbatim: "/")
+                    .font(.footnote)
+                    .foregroundStyle(.tertiary)
+                    .accessibilityHidden(true)
 
-            Text(session.document.duration.framesTimecode)
-                .font(.caption.monospacedDigit())
-                .foregroundStyle(.secondary)
-                .accessibilityLabel(Text("Duration", comment: "Accessibility label"))
-                .accessibilityValue(session.document.duration.framesTimecode)
+                Text(session.document.duration.framesTimecode)
+                    .font(.footnote.monospacedDigit())
+                    .foregroundStyle(.secondary)
+                    .accessibilityLabel(Text("Duration", comment: "Accessibility label"))
+                    .accessibilityValue(session.document.duration.framesTimecode)
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(Color(.tertiarySystemFill), in: Capsule())
         }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 4)
+        .padding(.horizontal, 18)
+        .padding(.vertical, 2)
     }
 }

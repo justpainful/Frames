@@ -146,51 +146,56 @@ private struct EditorTopBar: View {
     let onExport: () -> Void
 
     var body: some View {
-        HStack(spacing: 20) {
-            Button(action: onClose) {
-                Image(systemName: "xmark")
-                    .font(.body.weight(.medium))
-                    .frame(width: 30, height: 30)
+        // A three-part layout rather than spacers, so undo and redo sit on the
+        // screen's centre line no matter how wide the export button gets in
+        // another language.
+        ZStack {
+            HStack(spacing: 18) {
+                Button {
+                    session.undo()
+                } label: {
+                    Image(systemName: "arrow.uturn.backward")
+                        .font(.body.weight(.medium))
+                        .frame(width: 30, height: 30)
+                }
+                .buttonStyle(.plain)
+                .disabled(!session.canUndo)
+                .accessibilityLabel(Text("Undo", comment: "Editor action"))
+
+                Button {
+                    session.redo()
+                } label: {
+                    Image(systemName: "arrow.uturn.forward")
+                        .font(.body.weight(.medium))
+                        .frame(width: 30, height: 30)
+                }
+                .buttonStyle(.plain)
+                .disabled(!session.canRedo)
+                .accessibilityLabel(Text("Redo", comment: "Editor action"))
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel(Text("Close", comment: "Editor action"))
 
-            Spacer()
+            HStack {
+                Button(action: onClose) {
+                    Image(systemName: "xmark")
+                        .font(.body.weight(.medium))
+                        .frame(width: 30, height: 30)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text("Close", comment: "Editor action"))
 
-            Button {
-                session.undo()
-            } label: {
-                Image(systemName: "arrow.uturn.backward")
-                    .font(.body.weight(.medium))
-                    .frame(width: 30, height: 30)
+                Spacer()
+
+                Button(action: onExport) {
+                    Text("Export", comment: "Editor action")
+                        .font(.subheadline.weight(.semibold))
+                }
+                .buttonStyle(.borderedProminent)
+                .buttonBorderShape(.capsule)
+                .controlSize(.regular)
             }
-            .buttonStyle(.plain)
-            .disabled(!session.canUndo)
-            .accessibilityLabel(Text("Undo", comment: "Editor action"))
-
-            Button {
-                session.redo()
-            } label: {
-                Image(systemName: "arrow.uturn.forward")
-                    .font(.body.weight(.medium))
-                    .frame(width: 30, height: 30)
-            }
-            .buttonStyle(.plain)
-            .disabled(!session.canRedo)
-            .accessibilityLabel(Text("Redo", comment: "Editor action"))
-
-            Spacer()
-
-            Button(action: onExport) {
-                Text("Export", comment: "Editor action")
-                    .font(.subheadline.weight(.medium))
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 7)
-            }
-            .buttonStyle(.glassProminent)
         }
         .foregroundStyle(.primary)
         .padding(.horizontal, 18)
-        .padding(.vertical, 10)
+        .padding(.vertical, 8)
     }
 }

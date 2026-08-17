@@ -164,5 +164,7 @@ struct SegmentedChoice<Value: Hashable & Identifiable>: View {
             .padding(.horizontal, 2)
         }
         .scrollIndicators(.hidden)
+        .scrollBounceBehavior(.basedOnSize)
+        .mask(EdgeFade())
     }
 }

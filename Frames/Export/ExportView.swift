@@ -58,6 +58,9 @@ struct ExportView: View {
             }
         }
         .presentationDetents(finishedURL == nil ? [.medium, .large] : [.medium])
+        // Without this the sheet is translucent over live video, and every
+        // material in it samples moving frames.
+        .presentationBackground(Color(.systemGroupedBackground))
         .sheet(isPresented: $isShowingShareSheet) {
             if let finishedURL {
                 ShareSheet(items: [finishedURL])
@@ -147,18 +150,25 @@ struct ExportView: View {
                 }
             }
 
-            Section {
-                Button {
-                    startExport()
-                } label: {
-                    Text("Save", comment: "Export action")
-                        .frame(maxWidth: .infinity)
-                        .fontWeight(.semibold)
-                }
-                .buttonStyle(.glassProminent)
-                .listRowInsets(EdgeInsets())
-                .listRowBackground(Color.clear)
+        }
+        .safeAreaInset(edge: .bottom) {
+            // Save lives in a bar of its own rather than as a list row. A glass
+            // button on a clear row samples whatever is behind the *sheet*,
+            // which over live video reads as a smear rather than a button.
+            Button {
+                startExport()
+            } label: {
+                Text("Save", comment: "Export action")
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 4)
+                    .fontWeight(.semibold)
             }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            .padding(.horizontal, 20)
+            .padding(.top, 10)
+            .padding(.bottom, 12)
+            .background(.bar)
         }
     }
 
@@ -229,7 +239,8 @@ struct ExportView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 6)
                 }
-                .buttonStyle(.glass)
+                .buttonStyle(.bordered)
+                .controlSize(.large)
 
                 Button {
                     finish(url: url)
@@ -239,7 +250,8 @@ struct ExportView: View {
                         .padding(.vertical, 6)
                         .fontWeight(.semibold)
                 }
-                .buttonStyle(.glassProminent)
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 20)

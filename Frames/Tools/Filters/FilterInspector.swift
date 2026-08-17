@@ -65,6 +65,7 @@ struct FilterInspector: View {
             .padding(.horizontal, 2)
         }
         .scrollIndicators(.hidden)
+        .mask(EdgeFade())
     }
 
     private func thumbnail(for preset: FilterPreset) -> some View {
