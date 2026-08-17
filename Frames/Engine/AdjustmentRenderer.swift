@@ -224,7 +224,7 @@ enum GrainRenderer {
         guard amount > 0.001 else { return image }
 
         let extent = image.extent
-        guard extent.isFinite, !extent.isEmpty else { return image }
+        guard extent.isRenderable else { return image }
 
         // Offsetting the noise per frame keeps video grain alive rather than
         // looking like dirt on the lens.

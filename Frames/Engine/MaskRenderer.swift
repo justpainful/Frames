@@ -38,6 +38,7 @@ enum MaskRenderer {
         detections: DetectionContext,
         quality: RenderQuality
     ) -> CIImage? {
+        guard extent.isRenderable else { return nil }
         var mask: CIImage?
 
         switch definition.shape {
