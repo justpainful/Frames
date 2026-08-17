@@ -1,0 +1,201 @@
+name: Screenshots
+
+# Manual only. The tour drives the whole app in a simulator and its output is a
+# folder of pictures for a person to look through, so running it on every push
+# would cost minutes for something nobody reads.
+on:
+  workflow_dispatch:
+
+env:
+  SCHEME: Frames
+  PROJECT: Frames.xcodeproj
+  PREFERRED_XCODE: /Applications/Xcode_26.6.app
+  PREFERRED_DEVICE: iPhone 17 Pro
+
+jobs:
+  tour:
+    name: Screenshot tour
+    runs-on: macos-26
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          set -euo pipefail
+          if [ -d "$PREFERRED_XCODE" ]; then
+            XCODE_PATH="$PREFERRED_XCODE"
+          else
+            echo "::warning::$PREFERRED_XCODE not present on this image; falling back to the newest Xcode 26.x."
+            XCODE_PATH="$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1 || true)"
+          fi
+          if [ -z "$XCODE_PATH" ]; then
+            echo "::error::No Xcode 26.x found on the runner."
+            ls -d /Applications/Xcode*.app || true
+            exit 1
+          fi
+          sudo xcode-select -s "$XCODE_PATH"
+          echo "DEVELOPER_DIR=$XCODE_PATH/Contents/Developer" >> "$GITHUB_ENV"
+
+      - name: Install xcbeautify
+        run: brew install xcbeautify || echo "::warning::xcbeautify unavailable; raw xcodebuild logs will be used."
+
+      - name: Resolve simulator destination
+        id: destination
+        run: bash Scripts/resolve-destination.sh
+
+      # A failing step here must not skip the export: a tour that fell over
+      # halfway still took every screenshot up to that point.
+      - name: Run the screenshot tour
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          set -o pipefail
+          xcodebuild test \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -destination "${{ steps.destination.outputs.destination }}" \
+            -only-testing:FramesUITests/ScreenshotTour \
+            -resultBundlePath build/Screenshots.xcresult \
+            -derivedDataPath build/DerivedData \
+            -parallel-testing-enabled NO \
+            -test-timeouts-enabled YES \
+            -default-test-execution-time-allowance 300 \
+            -maximum-test-execution-time-allowance 600 \
+            CODE_SIGNING_ALLOWED=NO \
+            | (xcbeautify --renderer github-actions || cat)
+
+      - name: Export attachments
+        if: always()
+        run: |
+          set -euo pipefail
+          if [ ! -d "build/Screenshots.xcresult" ]; then
+            echo "::warning::No result bundle was produced, so there is nothing to export."
+            mkdir -p build/screenshots
+            exit 0
+          fi
+          if xcrun xcresulttool export attachments \
+              --path build/Screenshots.xcresult \
+              --output-path build/screenshots; then
+            ls -l build/screenshots || true
+          else
+            echo "::warning::Attachments could not be exported from the result bundle; writing the raw result JSON instead."
+            ls -l build || true
+            xcrun xcresulttool get --legacy --format json \
+              --path build/Screenshots.xcresult > build/result.json || true
+          fi
+          mkdir -p build/screenshots
+
+      # The exporter names files by UUID. The manifest carries the name the test
+      # gave each attachment, which is what makes the artifact readable.
+      - name: Give the files their names back
+        if: always()
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+          import sys
+
+          root = "build/screenshots"
+          manifest = os.path.join(root, "manifest.json")
+
+          if not os.path.isdir(root):
+              print("No export directory, so there is nothing to rename.")
+              sys.exit(0)
+          if not os.path.exists(manifest):
+              print("No manifest.json in the export; leaving the files as they are.")
+              sys.exit(0)
+
+          try:
+              with open(manifest) as handle:
+                  data = json.load(handle)
+          except Exception as error:
+              print("manifest.json could not be read (%s); leaving the files as they are." % error)
+              sys.exit(0)
+
+          # The manifest has been a list of per-test objects and a flat list of
+          # attachments in different Xcode versions, so walk it for anything
+          # that carries both fields rather than assuming a shape.
+          entries = []
+
+          def collect(node):
+              if isinstance(node, dict):
+                  if "exportedFileName" in node and "suggestedHumanReadableName" in node:
+                      entries.append(node)
+                  for value in node.values():
+                      collect(value)
+              elif isinstance(node, list):
+                  for value in node:
+                      collect(value)
+
+          collect(data)
+
+          if not entries:
+              print("manifest.json held no attachment entries; leaving the files as they are.")
+              sys.exit(0)
+
+          renamed = 0
+          for entry in entries:
+              source = os.path.join(root, str(entry["exportedFileName"]))
+              if not os.path.isfile(source):
+                  continue
+              name = re.sub(r"[^A-Za-z0-9._-]", "-", str(entry["suggestedHumanReadableName"])).strip("-")
+              if not name:
+                  continue
+              base, extension = os.path.splitext(name)
+              if not extension:
+                  extension = os.path.splitext(str(entry["exportedFileName"]))[1]
+              target = os.path.join(root, base + extension)
+              suffix = 2
+              while os.path.exists(target) and os.path.abspath(target) != os.path.abspath(source):
+                  target = os.path.join(root, "%s-%d%s" % (base, suffix, extension))
+                  suffix += 1
+              if os.path.abspath(target) == os.path.abspath(source):
+                  continue
+              os.rename(source, target)
+              renamed += 1
+
+          print("Renamed %d of %d attachments." % (renamed, len(entries)))
+          PY
+
+      - name: Summarise
+        if: always()
+        run: |
+          set -euo pipefail
+          count=0
+          if [ -d "build/screenshots" ]; then
+            count="$(find build/screenshots -type f -name '*.png' | wc -l | tr -d ' ')"
+          fi
+          {
+            echo "### Screenshots"
+            echo ""
+            echo "Produced **$count** PNG files."
+            echo ""
+            if [ "$count" -gt 0 ]; then
+              echo '```'
+              find build/screenshots -type f -name '*.png' -exec basename {} \; | sort
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: build/screenshots
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Upload result bundle
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-xcresult
+          path: build/Screenshots.xcresult
+          retention-days: 7
+          if-no-files-found: ignore
