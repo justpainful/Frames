@@ -274,7 +274,7 @@ enum PortraitProcessor {
     /// frame is right.
     private static func skinMask(
         of image: CIImage,
-        edges: CIImage,
+        edges: CIImage?,
         personMask: CIImage?,
         state: PortraitTemporalState?,
         settings: PortraitSettings,
@@ -283,7 +283,9 @@ enum PortraitProcessor {
         extent: CGRect
     ) -> CIImage? {
         guard var mask = SkinToneMask.mask(for: image, softness: Double(scale)) else { return nil }
-        mask = SkinToneMask.restrictedToFlatAreas(mask, edges: edges, extent: extent)
+        if let edges {
+            mask = SkinToneMask.restrictedToFlatAreas(mask, edges: edges, extent: extent)
+        }
 
         if let personMask {
             let stabilised = stabilisedMask(
