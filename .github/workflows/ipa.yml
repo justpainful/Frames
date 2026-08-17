@@ -1,0 +1,208 @@
+name: IPA
+
+# Packaging is deliberate, not continuous: it archives for a real device, which
+# is slower than the simulator build in ios.yml and produces an artifact that a
+# person has to download and re-sign. Run it by hand, or on a release tag.
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  SCHEME: Frames
+  PROJECT: Frames.xcodeproj
+  PREFERRED_XCODE: /Applications/Xcode_26.6.app
+
+jobs:
+  package:
+    name: Unsigned IPA
+    runs-on: macos-26
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          set -euo pipefail
+          if [ -d "$PREFERRED_XCODE" ]; then
+            XCODE_PATH="$PREFERRED_XCODE"
+          else
+            echo "::warning::$PREFERRED_XCODE not present on this image; falling back to the newest Xcode 26.x."
+            XCODE_PATH="$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1 || true)"
+          fi
+          if [ -z "$XCODE_PATH" ]; then
+            echo "::error::No Xcode 26.x found on the runner."
+            ls -d /Applications/Xcode*.app || true
+            exit 1
+          fi
+          sudo xcode-select -s "$XCODE_PATH"
+          echo "DEVELOPER_DIR=$XCODE_PATH/Contents/Developer" >> "$GITHUB_ENV"
+
+      - name: Environment information
+        run: |
+          set -euo pipefail
+          xcodebuild -version
+          swift --version
+
+      - name: Install xcbeautify
+        run: brew install xcbeautify || echo "::warning::xcbeautify unavailable; raw xcodebuild logs will be used."
+
+      # generic/platform=iOS, not the simulator destination used elsewhere in CI:
+      # a simulator slice cannot be installed on a phone. There is no certificate
+      # on this runner, so signing is switched off in every form xcodebuild
+      # recognises -- CODE_SIGNING_ALLOWED alone still leaves the archive step
+      # looking for an identity on some project configurations.
+      - name: Archive for device (unsigned)
+        run: |
+          set -euo pipefail
+          set -o pipefail
+          xcodebuild archive \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath build/Frames.xcarchive \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_ENTITLEMENTS="" \
+            ENABLE_BITCODE=NO \
+            | (xcbeautify --renderer github-actions || cat)
+
+      # xcodebuild -exportArchive insists on a signing identity and an export
+      # options plist naming a team, so the .ipa is assembled by hand instead.
+      # An .ipa is a zip whose root entry is Payload/, and getting that root
+      # wrong is the usual reason a hand-made .ipa is rejected by installers --
+      # hence the cd into build/ before zipping rather than zipping a path.
+      - name: Package the archive into an .ipa
+        run: |
+          set -euo pipefail
+          APP_PATH="build/Frames.xcarchive/Products/Applications/Frames.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "::error::Expected the built app at $APP_PATH but it is not there. The archive contents are listed below."
+            find build/Frames.xcarchive -maxdepth 4 -print || true
+            exit 1
+          fi
+
+          rm -rf "build/Payload"
+          mkdir -p "build/Payload"
+          cp -R "$APP_PATH" "build/Payload/"
+
+          rm -f "build/Frames-unsigned.ipa"
+          (cd "build" && zip -qry "Frames-unsigned.ipa" "Payload")
+
+          # The staging copy would otherwise be picked up by the upload step as
+          # a second, unzipped copy of the whole app.
+          rm -rf "build/Payload"
+
+          ls -l "build/Frames-unsigned.ipa"
+          echo "APP_PATH=$APP_PATH" >> "$GITHUB_ENV"
+
+      # Reported rather than asserted: this is the only place a person can check
+      # that the artifact is the version and architecture they expected before
+      # spending time signing and installing it.
+      - name: Report what was produced
+        run: |
+          set -euo pipefail
+          IPA="build/Frames-unsigned.ipa"
+          INFO_PLIST="$APP_PATH/Info.plist"
+
+          # PlistBuddy exits non-zero on a missing key, which under set -e would
+          # end the job over a cosmetic gap in the summary.
+          PLIST_VALUE=""
+          read_plist() {
+            if ! PLIST_VALUE="$(/usr/libexec/PlistBuddy -c "Print :$1" "$INFO_PLIST" 2>/dev/null)"; then
+              PLIST_VALUE=""
+            fi
+            if [ -z "$PLIST_VALUE" ]; then
+              echo "::warning::Info.plist has no $1; the summary reports it as unknown."
+              PLIST_VALUE="unknown"
+            fi
+          }
+
+          SIZE_BYTES="$(stat -f%z "$IPA")"
+          SIZE_MB="$(awk -v bytes="$SIZE_BYTES" 'BEGIN { printf "%.1f", bytes / 1048576 }')"
+
+          read_plist "CFBundleShortVersionString"; SHORT_VERSION="$PLIST_VALUE"
+          read_plist "CFBundleVersion";            BUILD_NUMBER="$PLIST_VALUE"
+          read_plist "MinimumOSVersion";           MINIMUM_OS="$PLIST_VALUE"
+          read_plist "CFBundleIdentifier";         BUNDLE_ID="$PLIST_VALUE"
+          read_plist "CFBundleExecutable";         EXECUTABLE="$PLIST_VALUE"
+
+          ARCHS="unknown"
+          if [ "$EXECUTABLE" != "unknown" ] && [ -f "$APP_PATH/$EXECUTABLE" ]; then
+            ARCHS="$(lipo -archs "$APP_PATH/$EXECUTABLE" 2>/dev/null || echo "unknown")"
+          else
+            echo "::warning::The app binary could not be located inside the bundle, so architectures are unknown."
+          fi
+
+          SHA256="$(shasum -a 256 "$IPA" | awk '{ print $1 }')"
+
+          {
+            echo "### Unsigned IPA"
+            echo ""
+            echo "| Field | Value |"
+            echo "| --- | --- |"
+            echo "| File | \`Frames-unsigned.ipa\` |"
+            echo "| Size | ${SIZE_MB} MB |"
+            echo "| Bundle identifier | \`${BUNDLE_ID}\` |"
+            echo "| Version | ${SHORT_VERSION} (${BUILD_NUMBER}) |"
+            echo "| Minimum iOS | ${MINIMUM_OS} |"
+            echo "| Architectures | ${ARCHS} |"
+            echo "| SHA-256 | \`${SHA256}\` |"
+            echo ""
+            echo "This build carries no signature and must be re-signed before it will install. See INSTALL.txt in the artifact."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # Ships beside the .ipa because the artifact is downloaded and opened long
+      # after the run summary has been forgotten.
+      - name: Write install notes
+        run: |
+          set -euo pipefail
+          cat > "build/INSTALL.txt" <<'TEXT'
+          Frames - unsigned build
+
+          This .ipa has no code signature. There is nothing to double-click: iOS
+          will not install it until it has been signed with your own Apple ID,
+          and that signature is tied to the device you install it on.
+
+          With a free Apple ID:
+            Use AltStore, SideStore or Sideloadly on a computer. Point the tool
+            at this .ipa, sign in with your Apple ID, and install to your device.
+            The signature lasts 7 days. After that the app stops opening until
+            you refresh it with the same tool, so leave the tool installed.
+
+          With a paid Apple Developer account:
+            In Xcode, open Window > Devices and Simulators, select your device
+            and add the .ipa under Installed Apps. The ios-deploy command line
+            tool does the same job. These signatures last a year.
+
+          The version, minimum iOS and SHA-256 of this build are in the workflow
+          run summary that produced it.
+          TEXT
+          cat "build/INSTALL.txt"
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: frames-ipa
+          path: |
+            build/Frames-unsigned.ipa
+            build/INSTALL.txt
+          retention-days: 14
+          if-no-files-found: error
+
+      # Packaging failures are almost always something unexpected in the archive
+      # layout, which cannot be diagnosed from the log alone.
+      - name: Upload archive for diagnosis
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frames-xcarchive
+          path: build/Frames.xcarchive
+          retention-days: 7
+          if-no-files-found: ignore
